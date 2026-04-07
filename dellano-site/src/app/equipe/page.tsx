@@ -47,7 +47,10 @@ export default function EquipePage() {
                 <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-2">
                   {principal.name}
                 </h2>
-                <p className="font-sans font-medium text-accent text-sm mb-6">{principal.role}</p>
+                <p className="font-sans font-medium text-accent text-sm mb-1">{principal.role}</p>
+                {principal.oab && (
+                  <p className="font-sans text-xs text-muted mb-6">{principal.oab}</p>
+                )}
                 <p className="text-muted text-sm leading-relaxed mb-6">{principal.bio}</p>
                 {principal.expertise && (
                   <div className="flex flex-wrap gap-2 mb-6">
@@ -83,20 +86,30 @@ export default function EquipePage() {
               {apoio.map((member, i) => (
                 <AnimatedSection key={member.id} delay={i * 0.1}>
                   <div className="flex flex-col bg-white border border-primary/10 rounded-lg p-6 shadow-sm">
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-secondary to-primary mb-4">
+                    <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-secondary to-primary mb-4">
                       <Image
                         src={member.photo}
                         alt={member.name}
                         fill
-                        className="object-cover"
-                        sizes="64px"
+                        className="object-cover object-top"
+                        sizes="80px"
                       />
                     </div>
                     <h3 className="font-serif font-semibold text-primary text-lg mb-1">
                       {member.name}
                     </h3>
-                    <p className="font-sans text-xs font-medium text-accent mb-3">{member.role}</p>
-                    <p className="text-muted text-sm leading-relaxed">{member.bio}</p>
+                    <p className="font-sans text-xs font-medium text-accent mb-1">{member.role}</p>
+                    {member.oab && (
+                      <p className="font-sans text-xs text-muted mb-3">{member.oab}</p>
+                    )}
+                    <p className="text-muted text-sm leading-relaxed mb-3">{member.bio}</p>
+                    {member.expertise && member.expertise.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-auto">
+                        {member.expertise.map((e) => (
+                          <Badge key={e} variant="default">{e}</Badge>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </AnimatedSection>
               ))}

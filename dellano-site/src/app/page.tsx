@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Dellano Sousa Advocacia — Defesa Criminal e Provas Digitais',
     description:
       'Escritório jurídico especializado em evidências digitais, investigação defensiva e construção de teses técnicas. Plantão 24h.',
-    images: [{ url: '/images/brand/og-image.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/images/brand/topo-insta.jpg', width: 1080, height: 1080 }],
   },
 }
 

@@ -34,7 +34,7 @@ export default function ProvasDigitaisPage() {
       <section className="py-20 md:py-28 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <Badge variant="gold" className="mb-6">Especialidade Principal</Badge>
+            <Badge variant="light" className="mb-6">Especialidade Principal</Badge>
             <h1 className="font-serif font-semibold text-white text-3xl md:text-5xl lg:text-6xl leading-tight mb-6">
               Provas Digitais
             </h1>

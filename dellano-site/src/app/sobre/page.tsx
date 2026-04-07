@@ -44,7 +44,7 @@ export default function SobrePage() {
             <AnimatedSection direction="left">
               <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden border border-primary/10 shadow-xl bg-gradient-to-br from-secondary to-primary sticky top-28">
                 <Image
-                  src="/images/dellano/dellano-sobre.jpg"
+                  src="/images/dellano/dellano-sobre.png"
                   alt="Dellano Sousa — Advogado Criminal e Especialista em Provas Digitais"
                   fill
                   className="object-cover object-top"
