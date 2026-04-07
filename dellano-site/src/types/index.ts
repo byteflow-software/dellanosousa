@@ -21,6 +21,7 @@ export type TeamMember = {
   role: string
   bio: string
   photo: string
+  oab?: string
   linkedin?: string
   hierarchy: 'principal' | 'apoio'
   expertise?: string[]
@@ -40,7 +41,7 @@ export type ArticleFrontmatter = {
   author: string
   category: ArticleCategory
   excerpt: string
-  coverImage: string
+  coverImage?: string
   featured: boolean
 }
 
