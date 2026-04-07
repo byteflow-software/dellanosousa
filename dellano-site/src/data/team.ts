@@ -42,4 +42,14 @@ export const team: TeamMember[] = [
     photo: '/images/team/maria-eduarda.jpeg',
     hierarchy: 'apoio',
   },
+  {
+    id: '4',
+    name: 'Joel Filho',
+    role: 'Estagiário Jurídico',
+    bio: 'Estagiário jurídico, 19 anos, estudante do 3º período de Direito e do 2º período de Engenharia de Inteligência. Foco em advocacia criminal e soluções tecnológicas para o setor jurídico.',
+    photo: '/images/team/joel-filho.jpg',
+    linkedin: 'https://www.linkedin.com/in/1JoelFilho',
+    hierarchy: 'apoio',
+    expertise: ['Advocacia Criminal', 'Tecnologia Jurídica', 'Comissão OAB na Universidade'],
+  },
 ]
