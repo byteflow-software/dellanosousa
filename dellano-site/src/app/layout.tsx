@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFloat } from '@/components/layout/WhatsAppFloat'
+import { CookieBanner } from '@/components/layout/CookieBanner'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_BR',
     siteName: 'Dellano Sousa Advocacia',
-    images: [{ url: '/images/brand/og-image.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/images/brand/topo-insta.jpg', width: 1080, height: 1080 }],
   },
   robots: { index: true, follow: true },
 }
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <Footer />
         <WhatsAppFloat />
+        <CookieBanner />
       </body>
     </html>
   )

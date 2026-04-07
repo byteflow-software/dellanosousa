@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu } from 'lucide-react'
 import { navigation } from '@/data/navigation'
@@ -26,21 +27,23 @@ export function Header() {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-30 transition-all duration-300',
+          'fixed top-0 left-0 right-0 z-30 transition-all duration-300 bg-white',
           scrolled
-            ? 'backdrop-blur-md bg-white/90 border-b border-primary/10 shadow-sm'
-            : 'bg-transparent'
+            ? 'border-b border-primary/10 shadow-sm'
+            : 'border-b border-transparent'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="font-serif font-semibold text-primary text-xl md:text-2xl">
-                Dellano Sousa
-              </span>
-              <span className="hidden sm:block text-muted text-xs font-sans tracking-widest uppercase">
-                Advocacia
-              </span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/brand/logo-header.png"
+                alt="Dellano Sousa — Advogado Perito Digital"
+                width={220}
+                height={64}
+                className="h-9 md:h-11 w-auto object-contain"
+                priority
+              />
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">

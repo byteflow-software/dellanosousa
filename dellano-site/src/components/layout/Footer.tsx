@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { navigation } from '@/data/navigation'
 import { cities } from '@/data/cities'
 import { Separator } from '@/components/ui/Separator'
@@ -20,8 +21,13 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div className="lg:col-span-1">
-            <p className="font-serif font-semibold text-2xl mb-2">Dellano Sousa</p>
-            <p className="text-white/50 text-xs tracking-widest uppercase mb-4">Advocacia</p>
+            <Image
+              src="/images/brand/logo-white.png"
+              alt="Dellano Sousa — Advogado Perito Digital"
+              width={200}
+              height={60}
+              className="h-12 w-auto object-contain mb-4"
+            />
             <p className="text-white/70 text-sm leading-relaxed max-w-xs">
               Defesa criminal estratégica com especialização em provas digitais e investigação defensiva.
             </p>
