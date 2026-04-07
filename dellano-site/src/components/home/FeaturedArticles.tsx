@@ -1,9 +1,9 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { getFeaturedArticles } from '@/lib/mdx'
 import { Badge } from '@/components/ui/Badge'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { ArticleCover } from '@/components/artigos/ArticleCover'
 import { formatDate } from '@/lib/utils'
 
 export function FeaturedArticles() {
@@ -38,11 +38,10 @@ export function FeaturedArticles() {
                 className="group flex flex-col h-full bg-white border border-primary/10 rounded-lg overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
               >
                 <div className="relative w-full aspect-video bg-gradient-to-br from-secondary to-primary">
-                  <Image
+                  <ArticleCover
                     src={article.coverImage}
                     alt={article.title}
-                    fill
-                    className="object-cover"
+                    category={article.category}
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>

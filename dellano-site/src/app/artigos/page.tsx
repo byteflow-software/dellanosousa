@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { getArticles } from '@/lib/mdx'
 import { ArticleCard } from '@/components/artigos/ArticleCard'
+import { ArticleCover } from '@/components/artigos/ArticleCover'
 import { Badge } from '@/components/ui/Badge'
 import { formatDate } from '@/lib/utils'
 
@@ -39,11 +39,10 @@ export default function ArtigosPage() {
             className="group grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-primary/10 shadow-sm hover:shadow-md transition-all duration-300 mb-12 bg-white"
           >
             <div className="relative w-full aspect-video lg:aspect-auto min-h-[200px] bg-gradient-to-br from-secondary to-primary">
-              <Image
+              <ArticleCover
                 src={featured.coverImage}
                 alt={featured.title}
-                fill
-                className="object-cover"
+                category={featured.category}
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />

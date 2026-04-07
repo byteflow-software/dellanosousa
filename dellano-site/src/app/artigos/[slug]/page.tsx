@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      images: [{ url: article.coverImage, width: 1200, height: 630 }],
+      ...(article.coverImage ? { images: [{ url: article.coverImage, width: 1200, height: 630 }] } : {}),
       type: 'article',
       publishedTime: article.date,
       authors: [article.author],
@@ -67,16 +67,18 @@ export default async function ArtigoPage({ params }: Props) {
               </div>
             </header>
 
-            <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-secondary to-primary mb-10">
-              <Image
-                src={article.coverImage}
-                alt={article.title}
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 1024px) 100vw, 75vw"
-              />
-            </div>
+            {article.coverImage && (
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-10">
+                <Image
+                  src={article.coverImage}
+                  alt={article.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 75vw"
+                />
+              </div>
+            )}
 
             <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-primary prose-p:text-muted prose-p:leading-relaxed prose-a:text-accent prose-strong:text-primary">
               <MDXRemote source={article.content} />
@@ -86,7 +88,7 @@ export default async function ArtigoPage({ params }: Props) {
               <div className="flex items-start gap-4">
                 <div className="relative w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-secondary to-primary flex-shrink-0">
                   <Image
-                    src="/images/dellano/dellano-principal.jpg"
+                    src="/images/dellano/dellano-principal.png"
                     alt={article.author}
                     fill
                     className="object-cover object-top"

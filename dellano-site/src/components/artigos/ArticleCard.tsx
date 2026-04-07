@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/Badge'
+import { ArticleCover } from './ArticleCover'
 import { formatDate } from '@/lib/utils'
 import type { Article } from '@/types'
 
@@ -15,11 +15,10 @@ export function ArticleCard({ article }: ArticleCardProps) {
       className="group flex flex-col h-full bg-white border border-primary/10 rounded-lg overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
     >
       <div className="relative w-full aspect-video bg-gradient-to-br from-secondary to-primary">
-        <Image
+        <ArticleCover
           src={article.coverImage}
           alt={article.title}
-          fill
-          className="object-cover"
+          category={article.category}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
