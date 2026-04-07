@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-type BadgeVariant = 'default' | 'gold' | 'accent'
+type BadgeVariant = 'default' | 'gold' | 'accent' | 'light'
 
 type BadgeProps = {
   children: React.ReactNode
@@ -12,6 +12,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   default: 'bg-primary/10 text-primary',
   gold: 'bg-gold/20 text-primary border border-gold/40',
   accent: 'bg-accent/10 text-accent',
+  light: 'bg-white/15 text-white border border-white/30',
 }
 
 export function Badge({ children, variant = 'default', className }: BadgeProps) {

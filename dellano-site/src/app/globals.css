@@ -2,12 +2,13 @@
 @plugin "@tailwindcss/typography";
 
 @theme inline {
-  --color-primary: #0D1B2A;
-  --color-secondary: #1B263B;
-  --color-accent: #415A77;
+  --color-primary: #1B3A6B;
+  --color-secondary: #0F2347;
+  --color-accent: #2A5298;
   --color-background: #F8FAFC;
   --color-muted: #6B7280;
-  --color-gold: #C6B38E;
+  --color-gold: #C6A96A;
+  --color-brand-light: #8AA8C8;
 
   --font-serif: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
