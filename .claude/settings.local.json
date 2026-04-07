@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /c/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa log --oneline -10)",
+      "Bash(git -C /c/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa remote -v)",
+      "Read(//c/Users/ryanm/.claude/commands/**)",
+      "Read(//c/Users/ryanm/.claude/**)",
+      "Bash(npm list:*)",
+      "Bash(npm search:*)",
+      "Bash(npm info:*)",
+      "WebFetch(domain:speckit.org)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
