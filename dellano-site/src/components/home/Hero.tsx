@@ -69,7 +69,7 @@ export function Hero() {
             <div className="relative w-72 h-80 md:w-96 md:h-[480px] lg:w-[420px] lg:h-[520px]">
               <div className="absolute inset-0 rounded-2xl overflow-hidden border border-primary/10 shadow-2xl bg-gradient-to-br from-secondary to-primary">
                 <Image
-                  src="/images/dellano/dellano-home.jpg"
+                  src="/images/dellano/dellano-hero.jpeg"
                   alt="Dellano Sousa — Advogado Criminal e Especialista em Provas Digitais"
                   fill
                   className="object-cover object-top"

@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/Badge'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Button } from '@/components/ui/Button'
-import { methodSteps } from '@/data/method'
 
 export const metadata: Metadata = {
   title: 'Sobre Dellano Sousa',
@@ -17,15 +16,6 @@ const credentials = [
   'Especialista em Computação Forense',
   'Atuação Nacional',
   'Membro do IAB',
-]
-
-const timeline = [
-  { year: '2010', event: 'Graduação em Direito' },
-  { year: '2013', event: 'Especialização em Direito Penal e Processo Penal' },
-  { year: '2016', event: 'Início da especialização em provas digitais e forense computacional' },
-  { year: '2019', event: 'Fundação do escritório especializado em defesa criminal e provas digitais' },
-  { year: '2021', event: 'Eleito Presidente da Comissão de Investigação Defensiva da OAB/CE' },
-  { year: '2023', event: 'Reconhecimento nacional como referência em provas digitais e investigação defensiva' },
 ]
 
 const lectures = [
@@ -44,7 +34,7 @@ export default function SobrePage() {
             <AnimatedSection direction="left">
               <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden border border-primary/10 shadow-xl bg-gradient-to-br from-secondary to-primary sticky top-28">
                 <Image
-                  src="/images/dellano/dellano-sobre.png"
+                  src="/images/dellano/dellano-sobre.jpeg"
                   alt="Dellano Sousa — Advogado Criminal e Especialista em Provas Digitais"
                   fill
                   className="object-cover object-top"
@@ -96,34 +86,6 @@ export default function SobrePage() {
                 Agendar consulta
               </Button>
             </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection>
-            <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-12">
-              Trajetória Profissional
-            </h2>
-          </AnimatedSection>
-          <div className="relative max-w-2xl">
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-primary/10 hidden md:block" aria-hidden="true" />
-            <div className="space-y-6">
-              {timeline.map((item, i) => (
-                <AnimatedSection key={item.year} delay={i * 0.08}>
-                  <div className="flex gap-6 items-start">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gold flex items-center justify-center z-10">
-                      <span className="sr-only">{item.year}</span>
-                    </div>
-                    <div className="pb-4">
-                      <p className="font-sans font-semibold text-gold text-sm mb-1">{item.year}</p>
-                      <p className="text-primary text-sm leading-relaxed">{item.event}</p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
           </div>
         </div>
       </section>

@@ -23,9 +23,8 @@ export const team: TeamMember[] = [
     id: '2',
     name: 'Daniel Araujo do Nascimento',
     role: 'Advogado Criminal',
-    bio: 'Advogado com atuação majoritária na área Penal, com experiência em processos de conhecimento, flagrantes, audiências de custódia e acordos de não persecução penal. Pós-graduando em Direito Penal Econômico e Advocacia Criminal.',
+    bio: 'Advogado com atuação majoritária na área Penal, com experiência em processos de conhecimento, flagrantes, audiências de custódia, acordos de não persecução penal e execução penal. Pós-graduado em Assessoria de Juiz e pós-graduando em Direito Penal Econômico, Direito Público e Advocacia Criminal.',
     photo: '/images/team/daniel-araujo.jpeg',
-    oab: 'OAB/PI 22.498',
     hierarchy: 'apoio',
     expertise: [
       'Direito Penal',
@@ -36,9 +35,9 @@ export const team: TeamMember[] = [
   },
   {
     id: '3',
-    name: 'Maria Eduarda',
-    role: 'Assessora Jurídica',
-    bio: 'Integrante da equipe de assessoria jurídica do escritório, com atuação no acompanhamento processual e suporte técnico-jurídico nos casos conduzidos por Dellano Sousa.',
+    name: 'Maria Eduarda Leite Silva',
+    role: 'Advogada Criminal',
+    bio: 'Advogada criminalista com atuação técnica em Direito Penal e Processual Penal, com ênfase em crimes de alta complexidade, incluindo organizações criminosas, tráfico de entorpecentes, crimes contra a vida e delitos patrimoniais. Vice-Presidente do CEJA/OAB-PI e Coordenadora da Residência Jurídica da ESA/OAB-PI.',
     photo: '/images/team/maria-eduarda.jpeg',
     hierarchy: 'apoio',
   },

@@ -18,7 +18,7 @@ export function AboutPreview() {
           <AnimatedSection direction="left" className="relative">
             <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden border border-primary/10 shadow-xl bg-gradient-to-br from-secondary to-primary">
               <Image
-                src="/images/dellano/dellano-principal.png"
+                src="/images/dellano/dellano-about-preview.jpeg"
                 alt="Dellano Sousa"
                 fill
                 className="object-cover object-top"
