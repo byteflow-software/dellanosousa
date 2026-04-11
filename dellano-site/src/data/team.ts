@@ -6,7 +6,7 @@ export const team: TeamMember[] = [
     name: 'Dellano Sousa',
     role: 'Advogado Criminal | Especialista em Provas Digitais',
     bio: 'Advogado criminalista com atuação nacional, especializado em provas digitais, investigação defensiva e defesa criminal estratégica. Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM.',
-    photo: '/images/dellano/dellano-principal.png',
+    photo: '/images/dellano/dellano-about-preview.jpeg',
     oab: 'OAB/CE 53322',
     linkedin: 'https://linkedin.com/in/dellanosousa',
     hierarchy: 'principal',
@@ -40,6 +40,14 @@ export const team: TeamMember[] = [
     bio: 'Advogada criminalista com atuação técnica em Direito Penal e Processual Penal, com ênfase em crimes de alta complexidade, incluindo organizações criminosas, tráfico de entorpecentes, crimes contra a vida e delitos patrimoniais. Vice-Presidente do CEJA/OAB-PI e Coordenadora da Residência Jurídica da ESA/OAB-PI.',
     photo: '/images/team/maria-eduarda.jpeg',
     hierarchy: 'apoio',
+    expertise: [
+      'Organizações Criminosas',
+      'Tráfico de Entorpecentes',
+      'Crimes contra a Vida',
+      'Tribunal do Júri',
+      'Crimes Cibernéticos',
+      'Habeas Corpus',
+    ],
   },
   {
     id: '4',
