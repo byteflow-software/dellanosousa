@@ -123,7 +123,7 @@ export default async function ArtigoPage({ params }: Props) {
                   <p className="font-sans font-semibold text-primary text-sm mb-0.5">{article.author}</p>
                   <p className="text-muted text-xs leading-relaxed">
                     Advogado criminal especializado em provas digitais e investigação defensiva.
-                    Presidente da Comissão de Investigação Defensiva da OAB/CE.
+                    Presidente da Comissão de Investigação Defensiva — ABRACRIM.
                   </p>
                 </div>
               </div>

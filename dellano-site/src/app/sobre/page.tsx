@@ -15,7 +15,7 @@ const credentials = [
   'Membro da ABRACRIM',
   'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
   'Vice-Presidente da Comissão de Direito Digital — ABRACRIM',
-  'Presidente — Comissão de Investigação Defensiva OAB/CE',
+  'Presidente da Comissão de Investigação Defensiva — ABRACRIM',
   'Autor — ConJur e Migalhas',
   'Atuação especializada em Computação Forense',
   'Atuação Nacional',
@@ -64,7 +64,7 @@ export default function SobrePage() {
                   Dellano Sousa é advogado criminalista, com atuação nacional e dedicação ao estudo de provas digitais e da investigação defensiva. Atua em casos de alta complexidade que envolvem evidências tecnológicas, interceptações, extrações forenses e análise de dados digitais.
                 </p>
                 <p>
-                  Coordenador Nacional das Prerrogativas Digitais da ABRACRIM, Vice-Presidente da Comissão de Direito Digital da ABRACRIM, Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM, Dellano une o rigor do processo penal brasileiro ao conhecimento técnico em computação forense. Essa combinação permite a construção de teses defensivas sólidas, a identificação de fragilidades probatórias que poderiam passar despercebidas e a elaboração de pareceres técnicos de relevância nos tribunais.
+                  Coordenador Nacional das Prerrogativas Digitais da ABRACRIM, Vice-Presidente da Comissão de Direito Digital da ABRACRIM, Presidente da Comissão de Investigação Defensiva — ABRACRIM e membro da ABRACRIM, Dellano une o rigor do processo penal brasileiro ao conhecimento técnico em computação forense. Essa combinação permite a construção de teses defensivas sólidas, a identificação de fragilidades probatórias que poderiam passar despercebidas e a elaboração de pareceres técnicos de relevância nos tribunais.
                 </p>
                 <p>
                   Autor de artigos jurídicos publicados no ConJur e no Migalhas, Dellano também se destaca pela produção de conteúdo técnico voltado à advocacia criminal, com enfoque em cadeia de custódia, admissibilidade da prova digital, contraditório técnico e garantias processuais.
