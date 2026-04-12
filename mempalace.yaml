@@ -1,0 +1,25 @@
+wing: dellanosousa
+rooms:
+- name: arquivos_de_apoio
+  description: Files from arquivos de apoio/
+  keywords:
+  - arquivos_de_apoio
+  - arquivos de apoio
+- name: dellano_site
+  description: Files from dellano-site/
+  keywords:
+  - dellano_site
+  - dellano-site
+- name: planning
+  description: Files from specs/
+  keywords:
+  - planning
+  - specs
+- name: scripts
+  description: Files from scripts/
+  keywords:
+  - scripts
+  - scripts
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []
