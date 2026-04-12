@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/Button'
 const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL || 'https://wa.me/message/PWFG7DRODCD6I1'
 
 export const metadata: Metadata = {
-  title: 'Contato — Plantão 24h',
+  title: 'Contato',
   description:
-    'Entre em contato com o escritório Dellano Sousa Advocacia. Plantão 24h para casos urgentes via WhatsApp.',
+    'Entre em contato com o escritório Dellano Sousa Advocacia. Atendimento em casos urgentes via WhatsApp.',
 }
 
 export default function ContatoPage() {
@@ -21,11 +21,11 @@ export default function ContatoPage() {
             Fale com o escritório
           </p>
           <h1 className="font-serif font-semibold text-primary text-3xl md:text-5xl leading-tight mb-4">
-            Contato e Plantão 24h
+            Contato
           </h1>
           <p className="text-muted text-base md:text-lg leading-relaxed">
-            Para casos urgentes, use o botão de WhatsApp abaixo. Para consultas e
-            agendamentos, preencha o formulário e retornaremos em até 24 horas.
+            Em situações urgentes, utilize o WhatsApp abaixo. Para consultas e
+            agendamentos, preencha o formulário — retornaremos em até 24 horas úteis.
           </p>
         </div>
 
@@ -41,14 +41,14 @@ export default function ContatoPage() {
             <div className="p-6 rounded-lg bg-primary text-white">
               <div className="flex items-center gap-3 mb-4">
                 <Clock size={20} className="text-gold" aria-hidden="true" />
-                <h3 className="font-sans font-semibold text-white">Casos Urgentes — Plantão 24h</h3>
+                <h3 className="font-sans font-semibold text-white">Atendimento em casos urgentes</h3>
               </div>
               <p className="text-white/70 text-sm leading-relaxed mb-6">
-                Prisão em flagrante, busca e apreensão, condução coercitiva ou qualquer
-                emergência jurídica? Entre em contato imediatamente via WhatsApp.
+                Para situações como prisão em flagrante, busca e apreensão ou
+                condução coercitiva, entre em contato pelo WhatsApp.
               </p>
               <Button href={WHATSAPP_URL} external variant="gold" className="w-full justify-center">
-                Falar no WhatsApp agora
+                Falar via WhatsApp
               </Button>
             </div>
 
@@ -77,8 +77,8 @@ export default function ContatoPage() {
                   Expectativa de retorno
                 </p>
                 <p className="text-muted text-sm leading-relaxed">
-                  Mensagens de WhatsApp são respondidas em minutos para casos urgentes.
-                  Formulários são respondidos em até 24 horas úteis.
+                  Mensagens via formulário têm retorno em até 24 horas úteis.
+                  Para casos urgentes, o WhatsApp recebe prioridade.
                 </p>
               </div>
             </div>

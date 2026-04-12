@@ -15,14 +15,14 @@ export function FinalCTA() {
             Entre em Contato
           </p>
           <h2 className="font-serif font-semibold text-white text-2xl md:text-4xl lg:text-5xl leading-tight mb-6 max-w-2xl mx-auto">
-            Casos sensíveis exigem estratégia, técnica e rapidez
+            Casos sensíveis exigem estratégia e rigor técnico
           </h2>
           <p className="text-white/60 text-base md:text-lg max-w-lg mx-auto mb-10">
-            Cada hora conta. Entre em contato agora e receba orientação imediata de um especialista.
+            Entre em contato para orientação jurídica estruturada e análise técnica do seu caso.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button href={WHATSAPP_URL} external variant="gold" size="lg">
-              Plantão 24h
+              Falar via WhatsApp
             </Button>
             <Button href="/contato" variant="outline" size="lg" className="border-white/30 text-white hover:bg-white hover:text-primary">
               Agendar reunião

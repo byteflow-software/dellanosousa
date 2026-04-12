@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { services } from '@/data/services'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
-import { Button } from '@/components/ui/Button'
 
 export const metadata: Metadata = {
   title: 'Áreas de Atuação',
   description:
-    'Conheça os núcleos de atuação do escritório Dellano Sousa: defesa criminal, provas digitais, investigação defensiva e muito mais.',
+    'Núcleos de atuação do escritório Dellano Sousa: provas digitais, defesa criminal, investigação defensiva, assistência técnica, cadeia de custódia e casos urgentes.',
 }
 
 export default function AreasDeAtuacaoPage() {
@@ -21,33 +21,29 @@ export default function AreasDeAtuacaoPage() {
             Áreas de Atuação
           </h1>
           <p className="text-muted text-base md:text-lg leading-relaxed">
-            O escritório atua em frentes específicas do direito penal e da prova digital, com
-            profundidade técnica e estratégia jurídica para cada tipo de caso.
+            O escritório atua em frentes específicas do direito penal e da prova digital.
+            Cada núcleo possui página dedicada com contexto técnico, base legal e perguntas frequentes.
           </p>
         </div>
 
-        <div className="space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, i) => (
-            <div key={service.id} id={service.slug}>
-            <AnimatedSection delay={i * 0.05}>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-8 rounded-2xl bg-white border border-primary/10 shadow-sm">
-                <div>
-                  <h2 className="font-serif font-semibold text-primary text-xl md:text-2xl mb-3">
-                    {service.title}
-                  </h2>
-                  <p className="text-muted text-sm leading-relaxed">{service.description}</p>
-                </div>
-                <div className="lg:col-span-2 space-y-4">
-                  <p className="text-primary text-sm leading-relaxed">{service.longDescription}</p>
-                  <div className="pt-2">
-                    <Button href="/contato" variant="outline" size="sm">
-                      Solicitar informações
-                    </Button>
-                  </div>
-                </div>
-              </div>
+            <AnimatedSection key={service.id} delay={i * 0.05}>
+              <Link
+                href={`/areas-de-atuacao/${service.slug}`}
+                className="group flex flex-col h-full p-6 bg-white border border-primary/10 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <h2 className="font-serif font-semibold text-primary text-lg md:text-xl mb-3 group-hover:text-accent transition-colors">
+                  {service.title}
+                </h2>
+                <p className="text-muted text-sm leading-relaxed mb-5 flex-1">
+                  {service.description}
+                </p>
+                <span className="text-sm font-sans font-medium text-gold">
+                  Ver detalhes →
+                </span>
+              </Link>
             </AnimatedSection>
-            </div>
           ))}
         </div>
       </div>

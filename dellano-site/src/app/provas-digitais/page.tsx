@@ -28,6 +28,106 @@ const deliverables = [
   'Apoio técnico em audiências e sustentações',
 ]
 
+const forensicTools = [
+  {
+    name: 'Cellebrite UFED',
+    category: 'Extração mobile',
+    description: 'Padrão de mercado para extração física e lógica de smartphones, usado por autoridades em todo o mundo.',
+  },
+  {
+    name: 'Magnet AXIOM',
+    category: 'Análise integrada',
+    description: 'Suíte forense para análise combinada de mídias, nuvem e dispositivos móveis com correlação de artefatos.',
+  },
+  {
+    name: 'Oxygen Forensic Detective',
+    category: 'Dispositivos móveis',
+    description: 'Ferramenta especializada em extração e decodificação de aplicativos, incluindo mensageiros criptografados.',
+  },
+  {
+    name: 'X-Ways Forensics',
+    category: 'Análise de disco',
+    description: 'Solução avançada de computação forense para análise profunda de sistemas de arquivos e recuperação de dados.',
+  },
+  {
+    name: 'Autopsy / Sleuth Kit',
+    category: 'Análise open source',
+    description: 'Plataforma forense de código aberto, reconhecida pela auditabilidade do processo investigativo.',
+  },
+  {
+    name: 'Wireshark',
+    category: 'Tráfego de rede',
+    description: 'Análise de captura de pacotes para investigação de comunicações em rede e interceptações telemáticas.',
+  },
+]
+
+const custodySteps = [
+  {
+    step: '1',
+    title: 'Reconhecimento',
+    article: 'Art. 158-B, I, CPP',
+    description: 'Identificação e classificação da evidência digital com descrição precisa do dispositivo ou dado.',
+  },
+  {
+    step: '2',
+    title: 'Isolamento',
+    article: 'Art. 158-B, II, CPP',
+    description: 'Preservação do estado original por meio de técnicas antiescrita e bloqueio de conexões externas.',
+  },
+  {
+    step: '3',
+    title: 'Fixação',
+    article: 'Art. 158-B, III, CPP',
+    description: 'Registro fotográfico, descritivo e por hash criptográfico (MD5, SHA-256) do material apreendido.',
+  },
+  {
+    step: '4',
+    title: 'Coleta',
+    article: 'Art. 158-B, IV, CPP',
+    description: 'Aquisição forense bit a bit por profissional habilitado, com documentação de ferramenta e metodologia.',
+  },
+  {
+    step: '5',
+    title: 'Acondicionamento e transporte',
+    article: 'Art. 158-B, V e VI, CPP',
+    description: 'Embalagem adequada com lacre numerado e cadeia documental de transferência entre custodiantes.',
+  },
+  {
+    step: '6',
+    title: 'Recebimento e processamento',
+    article: 'Art. 158-B, VII e VIII, CPP',
+    description: 'Conferência de lacres, nova verificação de hash e início do processamento pericial com registro em livro próprio.',
+  },
+  {
+    step: '7',
+    title: 'Armazenamento e descarte',
+    article: 'Arts. 158-B, IX, X e 158-F, CPP',
+    description: 'Guarda em ambiente controlado até decisão judicial definitiva sobre descarte, devolução ou destruição.',
+  },
+]
+
+const norms = [
+  {
+    title: 'Código de Processo Penal',
+    refs: [
+      'Art. 158-A — definição de cadeia de custódia',
+      'Art. 158-B — 10 etapas da cadeia de custódia',
+      'Art. 158-C — responsável pela coleta',
+      'Arts. 158-D a 158-F — acondicionamento, custódia e descarte',
+    ],
+  },
+  {
+    title: 'Normas técnicas internacionais',
+    refs: [
+      'ISO/IEC 27037:2012 — identificação, coleta e preservação',
+      'ISO/IEC 27041:2015 — garantia de adequação do método investigativo',
+      'ISO/IEC 27042:2015 — análise e interpretação de evidências digitais',
+      'ISO/IEC 27043:2015 — princípios e processos de investigação',
+      'NIST SP 800-86 — Guia de Integração de Forense em Resposta a Incidentes',
+    ],
+  },
+]
+
 export default function ProvasDigitaisPage() {
   return (
     <div className="bg-background">
@@ -90,6 +190,106 @@ export default function ProvasDigitaisPage() {
                 <div key={risk.id} className="p-5 rounded-lg bg-white/5 border border-white/10">
                   <h3 className="font-sans font-semibold text-gold text-sm mb-1">{risk.title}</h3>
                   <p className="text-white/60 text-xs leading-relaxed">{risk.description}</p>
+                </div>
+              ))}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="max-w-3xl mb-12">
+              <Badge variant="accent" className="mb-4">Arts. 158-A a 158-F do CPP</Badge>
+              <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
+                Cadeia de custódia da prova digital
+              </h2>
+              <p className="text-muted text-base leading-relaxed">
+                A Lei nº 13.964/2019 (Pacote Anticrime) instituiu no Código de Processo Penal as dez etapas
+                obrigatórias da cadeia de custódia. Qualquer ruptura documental pode comprometer a
+                confiabilidade da prova e ser objeto de impugnação técnica pela defesa.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.1}>
+            <ol className="relative border-l-2 border-gold/30 ml-3 space-y-6">
+              {custodySteps.map((s) => (
+                <li key={s.step} className="pl-8 relative">
+                  <span
+                    className="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-gold text-primary font-sans font-bold text-xs flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    {s.step}
+                  </span>
+                  <div className="flex flex-wrap items-baseline gap-3 mb-1">
+                    <h3 className="font-serif font-semibold text-primary text-lg">{s.title}</h3>
+                    <span className="text-xs font-sans text-gold">{s.article}</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">{s.description}</p>
+                </li>
+              ))}
+            </ol>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="max-w-3xl mb-10">
+              <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
+                Ferramentas forenses de referência
+              </h2>
+              <p className="text-muted text-base leading-relaxed">
+                Trabalhamos com ferramentas padrão de mercado e analisamos laudos produzidos com estas
+                soluções, identificando limitações conhecidas e eventuais desvios metodológicos.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.1}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {forensicTools.map((t) => (
+                <div key={t.name} className="p-5 rounded-lg border border-primary/10 bg-white">
+                  <Badge variant="accent" className="mb-3">{t.category}</Badge>
+                  <h3 className="font-serif font-semibold text-primary text-base mb-2">{t.name}</h3>
+                  <p className="text-muted text-xs leading-relaxed">{t.description}</p>
+                </div>
+              ))}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="max-w-3xl mb-10">
+              <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
+                Base normativa aplicável
+              </h2>
+              <p className="text-muted text-base leading-relaxed">
+                A análise técnica observa tanto a legislação processual brasileira quanto as normas
+                técnicas internacionais reconhecidas para perícia forense digital.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.1}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {norms.map((n) => (
+                <div key={n.title} className="p-6 rounded-lg border border-primary/10 bg-background">
+                  <h3 className="font-sans font-semibold text-primary text-sm mb-3">{n.title}</h3>
+                  <ul className="space-y-2">
+                    {n.refs.map((r) => (
+                      <li key={r} className="text-muted text-xs leading-relaxed flex items-start gap-2">
+                        <span className="w-1 h-1 rounded-full bg-gold mt-1.5 flex-shrink-0" aria-hidden="true" />
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>

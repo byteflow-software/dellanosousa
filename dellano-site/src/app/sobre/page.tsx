@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/Badge'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Button } from '@/components/ui/Button'
-import { methodSteps } from '@/data/method'
 
 export const metadata: Metadata = {
   title: 'Sobre Dellano Sousa',
@@ -12,20 +11,12 @@ export const metadata: Metadata = {
 }
 
 const credentials = [
+  'OAB/CE 53.322',
   'Membro da ABRACRIM',
   'Presidente — Comissão de Investigação Defensiva OAB/CE',
-  'Especialista em Computação Forense',
+  'Atuação especializada em Computação Forense',
   'Atuação Nacional',
   'Membro do IAB',
-]
-
-const timeline = [
-  { year: '2010', event: 'Graduação em Direito' },
-  { year: '2013', event: 'Especialização em Direito Penal e Processo Penal' },
-  { year: '2016', event: 'Início da especialização em provas digitais e forense computacional' },
-  { year: '2019', event: 'Fundação do escritório especializado em defesa criminal e provas digitais' },
-  { year: '2021', event: 'Eleito Presidente da Comissão de Investigação Defensiva da OAB/CE' },
-  { year: '2023', event: 'Reconhecimento nacional como referência em provas digitais e investigação defensiva' },
 ]
 
 const lectures = [
@@ -44,7 +35,7 @@ export default function SobrePage() {
             <AnimatedSection direction="left">
               <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden border border-primary/10 shadow-xl bg-gradient-to-br from-secondary to-primary sticky top-28">
                 <Image
-                  src="/images/dellano/dellano-sobre.png"
+                  src="/images/dellano/dellano-sobre.jpeg"
                   alt="Dellano Sousa — Advogado Criminal e Especialista em Provas Digitais"
                   fill
                   className="object-cover object-top"
@@ -62,27 +53,27 @@ export default function SobrePage() {
                 Dellano Sousa
               </h1>
               <p className="font-sans font-medium text-accent text-base mb-8">
-                Advogado Criminal · Especialista em Provas Digitais · Investigação Defensiva
+                Advogado Criminal — OAB/CE 53.322 · Atuação especializada em Provas Digitais · Investigação Defensiva
               </p>
 
               <div className="space-y-4 text-muted text-base leading-relaxed mb-8">
                 <p>
                   Dellano Sousa é advogado criminalista com mais de uma década de atuação na defesa
-                  penal. Reconhecido nacionalmente pela especialização em provas digitais e
+                  penal. Com atuação nacional e dedicação ao estudo de provas digitais e
                   investigação defensiva, atua em casos de alta complexidade que envolvem evidências
                   tecnológicas, interceptações, extrações forenses e análise de dados digitais.
                 </p>
                 <p>
                   Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM,
-                  Dellano combina o rigor jurídico do processo penal brasileiro com profundo
-                  conhecimento técnico em computação forense. Essa combinação rara permite construir
-                  defesas sólidas, identificar irregularidades probatórias que passariam despercebidas
-                  e produzir pareceres técnicos de alto impacto nos tribunais.
+                  Dellano une o rigor do processo penal brasileiro ao conhecimento técnico
+                  em computação forense. Essa combinação permite construir
+                  teses defensivas sólidas, identificar fragilidades probatórias que passariam despercebidas
+                  e produzir pareceres técnicos de relevância nos tribunais.
                 </p>
                 <p>
                   Com escritório-sede em Fortaleza e atuação em Teresina, Brasília e Ribeirão Preto,
-                  o escritório atende casos em todo o território nacional, com plantão 24 horas para
-                  situações de urgência.
+                  o escritório atende casos em todo o território nacional, com atendimento reservado
+                  a situações urgentes.
                 </p>
               </div>
 
@@ -96,34 +87,6 @@ export default function SobrePage() {
                 Agendar consulta
               </Button>
             </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection>
-            <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-12">
-              Trajetória Profissional
-            </h2>
-          </AnimatedSection>
-          <div className="relative max-w-2xl">
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-primary/10 hidden md:block" aria-hidden="true" />
-            <div className="space-y-6">
-              {timeline.map((item, i) => (
-                <AnimatedSection key={item.year} delay={i * 0.08}>
-                  <div className="flex gap-6 items-start">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gold flex items-center justify-center z-10">
-                      <span className="sr-only">{item.year}</span>
-                    </div>
-                    <div className="pb-4">
-                      <p className="font-sans font-semibold text-gold text-sm mb-1">{item.year}</p>
-                      <p className="text-primary text-sm leading-relaxed">{item.event}</p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
           </div>
         </div>
       </section>

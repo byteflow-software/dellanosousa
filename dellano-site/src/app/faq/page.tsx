@@ -1,0 +1,86 @@
+import type { Metadata } from 'next'
+import { faqs, faqCategories } from '@/data/faq'
+import { JsonLd } from '@/components/layout/JsonLd'
+import { Button } from '@/components/ui/Button'
+
+export const metadata: Metadata = {
+  title: 'Perguntas Frequentes',
+  description:
+    'Dúvidas recorrentes sobre defesa criminal, provas digitais, investigação defensiva e honorários no escritório Dellano Sousa Advocacia.',
+}
+
+export default function FAQPage() {
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  }
+
+  return (
+    <div className="bg-background">
+      <JsonLd data={faqJsonLd} />
+
+      <section className="py-16 md:py-24 bg-primary">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4">
+            Dúvidas Recorrentes
+          </p>
+          <h1 className="font-serif font-semibold text-white text-3xl md:text-5xl leading-tight mb-4">
+            Perguntas Frequentes
+          </h1>
+          <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-3xl">
+            Respostas técnicas às perguntas mais comuns sobre nossa atuação. Para análise do seu caso específico, entre em contato.
+          </p>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          {faqCategories.map((cat) => {
+            const items = faqs.filter((f) => f.category === cat.value)
+            if (items.length === 0) return null
+            return (
+              <div key={cat.value}>
+                <h2 className="font-serif font-semibold text-primary text-2xl md:text-3xl mb-6">
+                  {cat.label}
+                </h2>
+                <div className="space-y-4">
+                  {items.map((f, i) => (
+                    <details
+                      key={i}
+                      className="group p-5 rounded-lg border border-primary/10 bg-white"
+                    >
+                      <summary className="font-sans font-semibold text-primary text-sm cursor-pointer list-none flex items-start justify-between gap-4">
+                        <span>{f.question}</span>
+                        <span className="text-gold text-lg leading-none group-open:rotate-45 transition-transform" aria-hidden="true">+</span>
+                      </summary>
+                      <p className="text-muted text-sm leading-relaxed mt-3">{f.answer}</p>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      <section className="py-16 bg-primary">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif font-semibold text-white text-2xl md:text-3xl mb-4">
+            Sua dúvida não está aqui?
+          </h2>
+          <p className="text-white/70 text-sm md:text-base mb-8 max-w-xl mx-auto">
+            Envie os elementos do seu caso e receba avaliação técnico-jurídica estruturada.
+          </p>
+          <Button href="/contato" variant="gold" size="lg">
+            Entrar em contato
+          </Button>
+        </div>
+      </section>
+    </div>
+  )
+}
