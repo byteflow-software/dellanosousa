@@ -8,7 +8,6 @@ const credentials = [
   'Membro da ABRACRIM',
   'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
   'Vice-Presidente da Comissão de Direito Digital — ABRACRIM',
-  'Presidente da Comissão de Investigação Defensiva — ABRACRIM',
   'Autor — ConJur e Migalhas',
   'Atuação especializada em Computação Forense',
   'Atuação Nacional',
@@ -42,7 +41,7 @@ export function AboutPreview() {
             <p className="text-muted text-base leading-relaxed mb-4">
               Dellano Sousa é advogado criminalista com atuação nacional, dedicado à análise
               técnica e contestação de provas digitais em processos penais.
-              Presidente da Comissão de Investigação Defensiva — ABRACRIM e membro da ABRACRIM.
+              Coordenador Nacional das Prerrogativas Digitais — ABRACRIM e Vice-Presidente da Comissão de Direito Digital — ABRACRIM.
             </p>
             <p className="text-muted text-base leading-relaxed mb-8">
               Combina o rigor jurídico do processo penal com o conhecimento técnico em computação
