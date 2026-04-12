@@ -8,6 +8,7 @@ import { MethodSection } from '@/components/home/MethodSection'
 import { InstitutionalRecognition } from '@/components/home/InstitutionalRecognition'
 import { FeaturedArticles } from '@/components/home/FeaturedArticles'
 import { GeographicPresence } from '@/components/home/GeographicPresence'
+import { NewsletterSignup } from '@/components/layout/NewsletterSignup'
 import { FinalCTA } from '@/components/home/FinalCTA'
 
 export const metadata: Metadata = {
@@ -34,6 +35,11 @@ export default function HomePage() {
       <InstitutionalRecognition />
       <FeaturedArticles />
       <GeographicPresence />
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <NewsletterSignup />
+        </div>
+      </section>
       <FinalCTA />
     </>
   )
