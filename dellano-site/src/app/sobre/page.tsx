@@ -7,15 +7,16 @@ import { Button } from '@/components/ui/Button'
 export const metadata: Metadata = {
   title: 'Sobre Dellano Sousa',
   description:
-    'Conheça Dellano Sousa, advogado criminalista especializado em provas digitais e investigação defensiva, com atuação nacional.',
+    'Advogado criminalista OAB/CE 53.322 | OAB/PI 25.100. Coordenador Nacional das Prerrogativas Digitais da ABRACRIM. Especializado em provas digitais, investigação defensiva e grandes operações. Autor no ConJur e Migalhas.',
 }
 
 const credentials = [
-  'OAB/CE 53.322',
+  'OAB/CE 53.322 | OAB/PI 25.100',
   'Membro da ABRACRIM',
   'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
   'Vice-Presidente da Comissão de Direito Digital — ABRACRIM',
   'Presidente — Comissão de Investigação Defensiva OAB/CE',
+  'Autor — ConJur e Migalhas',
   'Atuação especializada em Computação Forense',
   'Atuação Nacional',
   'Membro do IAB',
@@ -55,27 +56,21 @@ export default function SobrePage() {
                 Dellano Sousa
               </h1>
               <p className="font-sans font-medium text-accent text-base mb-8">
-                Advogado Criminal — OAB/CE 53.322 · Atuação especializada em Provas Digitais · Investigação Defensiva
+                Advogado Criminal — OAB/CE 53.322 | OAB/PI 25.100 · Atuação especializada em provas digitais, investigação defensiva e grandes operações
               </p>
 
               <div className="space-y-4 text-muted text-base leading-relaxed mb-8">
                 <p>
-                  Dellano Sousa é advogado criminalista com mais de uma década de atuação na defesa
-                  penal. Com atuação nacional e dedicação ao estudo de provas digitais e
-                  investigação defensiva, atua em casos de alta complexidade que envolvem evidências
-                  tecnológicas, interceptações, extrações forenses e análise de dados digitais.
+                  Dellano Sousa é advogado criminalista, com atuação nacional e dedicação ao estudo de provas digitais e da investigação defensiva. Atua em casos de alta complexidade que envolvem evidências tecnológicas, interceptações, extrações forenses e análise de dados digitais.
                 </p>
                 <p>
-                  Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM,
-                  Dellano une o rigor do processo penal brasileiro ao conhecimento técnico
-                  em computação forense. Essa combinação permite construir
-                  teses defensivas sólidas, identificar fragilidades probatórias que passariam despercebidas
-                  e produzir pareceres técnicos de relevância nos tribunais.
+                  Coordenador Nacional das Prerrogativas Digitais da ABRACRIM, Vice-Presidente da Comissão de Direito Digital da ABRACRIM, Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM, Dellano une o rigor do processo penal brasileiro ao conhecimento técnico em computação forense. Essa combinação permite a construção de teses defensivas sólidas, a identificação de fragilidades probatórias que poderiam passar despercebidas e a elaboração de pareceres técnicos de relevância nos tribunais.
                 </p>
                 <p>
-                  Com escritório-sede em Fortaleza e atuação em Teresina, Brasília e Ribeirão Preto,
-                  o escritório atende casos em todo o território nacional, com atendimento reservado
-                  a situações urgentes.
+                  Autor de artigos jurídicos publicados no ConJur e no Migalhas, Dellano também se destaca pela produção de conteúdo técnico voltado à advocacia criminal, com enfoque em cadeia de custódia, admissibilidade da prova digital, contraditório técnico e garantias processuais.
+                </p>
+                <p>
+                  Com escritório-sede em Fortaleza e atuação em todo o Brasil, o escritório atende casos em todo o território nacional, com atendimento reservado para situações urgentes.
                 </p>
               </div>
 
