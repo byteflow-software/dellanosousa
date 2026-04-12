@@ -30,14 +30,14 @@ export function Hero() {
               {...fadeUp(0.1)}
               className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4"
             >
-              Escritório Especializado
+              Escritório de Advocacia Criminal
             </motion.p>
 
             <motion.h1
               {...fadeUp(0.2)}
               className="font-serif font-semibold text-primary text-3xl md:text-5xl lg:text-6xl leading-tight mb-6"
             >
-              Defesa criminal estratégica com especialização em{' '}
+              Defesa criminal estratégica com atuação especializada em{' '}
               <em className="not-italic text-accent">provas digitais</em>
             </motion.h1>
 
@@ -55,7 +55,7 @@ export function Hero() {
                 Agendar consulta
               </Button>
               <Button href={WHATSAPP_URL} external variant="primary" size="lg">
-                Plantão 24h
+                Atendimento urgente
               </Button>
             </motion.div>
           </div>
