@@ -1,3 +1,13 @@
+export type LegalBasis = {
+  title: string
+  articles: string[]
+}
+
+export type ServiceFAQ = {
+  question: string
+  answer: string
+}
+
 export type Service = {
   id: string
   title: string
@@ -5,14 +15,10 @@ export type Service = {
   longDescription: string
   icon: string
   slug: string
-}
-
-export type Testimonial = {
-  id: string
-  name: string
-  role: string
-  text: string
-  photo: string
+  metaDescription?: string
+  expandedContent?: string[]
+  legalBasis?: LegalBasis[]
+  faq?: ServiceFAQ[]
 }
 
 export type TeamMember = {
