@@ -11,9 +11,10 @@ export const metadata: Metadata = {
 }
 
 const credentials = [
+  'OAB/CE 53.322',
   'Membro da ABRACRIM',
   'Presidente — Comissão de Investigação Defensiva OAB/CE',
-  'Especialista em Computação Forense',
+  'Atuação especializada em Computação Forense',
   'Atuação Nacional',
   'Membro do IAB',
 ]
@@ -52,27 +53,27 @@ export default function SobrePage() {
                 Dellano Sousa
               </h1>
               <p className="font-sans font-medium text-accent text-base mb-8">
-                Advogado Criminal · Especialista em Provas Digitais · Investigação Defensiva
+                Advogado Criminal — OAB/CE 53.322 · Atuação especializada em Provas Digitais · Investigação Defensiva
               </p>
 
               <div className="space-y-4 text-muted text-base leading-relaxed mb-8">
                 <p>
                   Dellano Sousa é advogado criminalista com mais de uma década de atuação na defesa
-                  penal. Reconhecido nacionalmente pela especialização em provas digitais e
+                  penal. Com atuação nacional e dedicação ao estudo de provas digitais e
                   investigação defensiva, atua em casos de alta complexidade que envolvem evidências
                   tecnológicas, interceptações, extrações forenses e análise de dados digitais.
                 </p>
                 <p>
                   Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM,
-                  Dellano combina o rigor jurídico do processo penal brasileiro com profundo
-                  conhecimento técnico em computação forense. Essa combinação rara permite construir
-                  defesas sólidas, identificar irregularidades probatórias que passariam despercebidas
-                  e produzir pareceres técnicos de alto impacto nos tribunais.
+                  Dellano une o rigor do processo penal brasileiro ao conhecimento técnico
+                  em computação forense. Essa combinação permite construir
+                  teses defensivas sólidas, identificar fragilidades probatórias que passariam despercebidas
+                  e produzir pareceres técnicos de relevância nos tribunais.
                 </p>
                 <p>
                   Com escritório-sede em Fortaleza e atuação em Teresina, Brasília e Ribeirão Preto,
-                  o escritório atende casos em todo o território nacional, com plantão 24 horas para
-                  situações de urgência.
+                  o escritório atende casos em todo o território nacional, com atendimento reservado
+                  a situações urgentes.
                 </p>
               </div>
 

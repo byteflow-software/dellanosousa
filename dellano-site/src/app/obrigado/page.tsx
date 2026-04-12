@@ -26,7 +26,7 @@ export default function ObrigadoPage() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Button href={WHATSAPP_URL} external variant="primary">
-            Plantão 24h no WhatsApp
+            Falar via WhatsApp
           </Button>
           <Button href="/" variant="outline">
             Voltar ao início
