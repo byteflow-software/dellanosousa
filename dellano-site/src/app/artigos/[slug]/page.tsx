@@ -6,7 +6,11 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getArticles, getArticleBySlug } from '@/lib/mdx'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { JsonLd } from '@/components/layout/JsonLd'
+import { ShareButtons } from '@/components/artigos/ShareButtons'
 import { formatDate } from '@/lib/utils'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dellanosousa.com.br'
 
 const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL || 'https://wa.me/message/PWFG7DRODCD6I1'
 
@@ -47,8 +51,26 @@ export default async function ArtigoPage({ params }: Props) {
     .filter((a) => a.slug !== slug && a.category === article.category)
     .slice(0, 3)
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.excerpt,
+    author: { '@type': 'Person', name: article.author },
+    datePublished: article.date,
+    image: article.coverImage ? `${SITE_URL}${article.coverImage}` : undefined,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Dellano Sousa Advocacia',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/brand/logo-header.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/artigos/${slug}` },
+    articleSection: article.category,
+  }
+
   return (
     <div className="bg-background">
+      <JsonLd data={articleJsonLd} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12">
           <article>
@@ -83,6 +105,8 @@ export default async function ArtigoPage({ params }: Props) {
             <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-primary prose-p:text-muted prose-p:leading-relaxed prose-a:text-accent prose-strong:text-primary">
               <MDXRemote source={article.content} />
             </div>
+
+            <ShareButtons url={`${SITE_URL}/artigos/${slug}`} title={article.title} />
 
             <div className="mt-12 p-6 rounded-xl bg-white border border-primary/10">
               <div className="flex items-start gap-4">
@@ -136,7 +160,7 @@ export default async function ArtigoPage({ params }: Props) {
                   Nosso escritório atua com especialização em provas digitais e defesa criminal.
                 </p>
                 <Button href={WHATSAPP_URL} external variant="gold" size="sm" className="w-full justify-center">
-                  Plantão 24h
+                  Falar via WhatsApp
                 </Button>
               </div>
               <div className="p-5 rounded-xl bg-white border border-primary/10">

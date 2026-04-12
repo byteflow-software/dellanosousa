@@ -28,10 +28,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
           {article.title}
         </h3>
         <p className="text-muted text-sm leading-relaxed mb-4 line-clamp-2">{article.excerpt}</p>
-        <div className="flex items-center justify-between text-xs text-muted/70 font-sans">
+        <div className="flex items-center justify-between text-xs text-muted/70 font-sans mb-1">
           <time>{formatDate(article.date)}</time>
           <span>{article.readingTime} min de leitura</span>
         </div>
+        <p className="text-xs text-muted/70 font-sans">Por {article.author}</p>
       </div>
     </Link>
   )
