@@ -29,7 +29,10 @@ export function Footer() {
               className="h-12 w-auto object-contain mb-4"
             />
             <p className="text-white/70 text-sm leading-relaxed max-w-xs">
-              Defesa criminal estratégica com especialização em provas digitais e investigação defensiva.
+              Defesa criminal estratégica com atuação especializada em provas digitais e investigação defensiva.
+            </p>
+            <p className="text-white/50 text-xs mt-3 font-sans">
+              Dellano Sousa · OAB/CE 53.322
             </p>
             <div className="flex items-center gap-4 mt-6">
               {[
@@ -124,13 +127,28 @@ export function Footer() {
                 </li>
               ))}
               <li>
+                <Link href="/faq" className="text-white/70 text-sm hover:text-gold transition-colors">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link href="/imprensa" className="text-white/70 text-sm hover:text-gold transition-colors">
+                  Imprensa
+                </Link>
+              </li>
+              <li>
+                <Link href="/eventos" className="text-white/70 text-sm hover:text-gold transition-colors">
+                  Eventos
+                </Link>
+              </li>
+              <li>
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/70 text-sm hover:text-gold transition-colors"
                 >
-                  Plantão 24h (WhatsApp)
+                  Atendimento urgente (WhatsApp)
                 </a>
               </li>
             </ul>

@@ -10,7 +10,7 @@ export function WhatsAppFloat() {
       href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Falar no WhatsApp — Plantão 24h"
+      aria-label="Falar via WhatsApp"
       className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
       style={{ backgroundColor: '#25D366' }}
       initial={{ scale: 0, opacity: 0 }}
