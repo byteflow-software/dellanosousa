@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import { risks } from '@/data/risks'
+import { forensicTools } from '@/data/forensic-tools'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { ComparisonTable } from '@/components/provas-digitais/ComparisonTable'
+import { CustodyFlowchart } from '@/components/provas-digitais/CustodyFlowchart'
 
 export const metadata: Metadata = {
   title: 'Provas Digitais',
@@ -26,39 +29,6 @@ const deliverables = [
   'Relatório de investigação defensiva digital',
   'Documentação de cadeia de custódia',
   'Apoio técnico em audiências e sustentações',
-]
-
-const forensicTools = [
-  {
-    name: 'Cellebrite UFED',
-    category: 'Extração mobile',
-    description: 'Padrão de mercado para extração física e lógica de smartphones, usado por autoridades em todo o mundo.',
-  },
-  {
-    name: 'Magnet AXIOM',
-    category: 'Análise integrada',
-    description: 'Suíte forense para análise combinada de mídias, nuvem e dispositivos móveis com correlação de artefatos.',
-  },
-  {
-    name: 'Oxygen Forensic Detective',
-    category: 'Dispositivos móveis',
-    description: 'Ferramenta especializada em extração e decodificação de aplicativos, incluindo mensageiros criptografados.',
-  },
-  {
-    name: 'X-Ways Forensics',
-    category: 'Análise de disco',
-    description: 'Solução avançada de computação forense para análise profunda de sistemas de arquivos e recuperação de dados.',
-  },
-  {
-    name: 'Autopsy / Sleuth Kit',
-    category: 'Análise open source',
-    description: 'Plataforma forense de código aberto, reconhecida pela auditabilidade do processo investigativo.',
-  },
-  {
-    name: 'Wireshark',
-    category: 'Tráfego de rede',
-    description: 'Análise de captura de pacotes para investigação de comunicações em rede e interceptações telemáticas.',
-  },
 ]
 
 const custodySteps = [
@@ -179,6 +149,24 @@ export default function ProvasDigitaisPage() {
         </div>
       </section>
 
+      <section className="py-20 bg-white border-t border-primary/8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="max-w-3xl mb-8">
+              <Badge variant="accent" className="mb-4">Comparativo</Badge>
+              <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
+                Tipos de evidência digital e sua força probatória
+              </h2>
+              <p className="text-muted text-base leading-relaxed">
+                Nem toda evidência digital tem o mesmo peso jurídico. A validade de cada tipo depende
+                diretamente dos procedimentos de coleta, preservação e apresentação.
+              </p>
+            </div>
+            <ComparisonTable />
+          </AnimatedSection>
+        </div>
+      </section>
+
       <section className="py-20 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
@@ -214,23 +202,7 @@ export default function ProvasDigitaisPage() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
-            <ol className="relative border-l-2 border-gold/30 ml-3 space-y-6">
-              {custodySteps.map((s) => (
-                <li key={s.step} className="pl-8 relative">
-                  <span
-                    className="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-gold text-primary font-sans font-bold text-xs flex items-center justify-center"
-                    aria-hidden="true"
-                  >
-                    {s.step}
-                  </span>
-                  <div className="flex flex-wrap items-baseline gap-3 mb-1">
-                    <h3 className="font-serif font-semibold text-primary text-lg">{s.title}</h3>
-                    <span className="text-xs font-sans text-gold">{s.article}</span>
-                  </div>
-                  <p className="text-muted text-sm leading-relaxed">{s.description}</p>
-                </li>
-              ))}
-            </ol>
+            <CustodyFlowchart steps={custodySteps} />
           </AnimatedSection>
         </div>
       </section>
