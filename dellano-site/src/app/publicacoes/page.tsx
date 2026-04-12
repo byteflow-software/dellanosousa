@@ -12,22 +12,22 @@ const palestras = [
   {
     title: 'Provas Digitais e Cadeia de Custódia no Processo Penal',
     event: 'OAB/CE — Ciclo de Palestras em Direito Penal',
-    date: '2024',
+    date: '2025',
   },
   {
     title: 'Investigação Defensiva na Era Digital',
     event: 'ABRACRIM Nacional — Mesa-redonda',
-    date: '2023',
+    date: '2025',
   },
   {
     title: 'Computação Forense para Advogados',
     event: 'ESA/CE — Curso de Extensão (instrutor)',
-    date: '2023',
+    date: '2024',
   },
   {
     title: 'Cibercrimes e Defesa Criminal',
     event: 'OAB/PI — Semana Jurídica',
-    date: '2022',
+    date: '2024',
   },
 ]
 
@@ -35,19 +35,19 @@ const midia = [
   {
     title: 'Especialista explica como provas digitais podem ser contestadas na Justiça',
     vehicle: 'O Povo',
-    date: '2024',
+    date: '2025',
     url: '#',
   },
   {
     title: 'Investigação defensiva: o advogado como investigador',
     vehicle: 'Conjur',
-    date: '2023',
+    date: '2025',
     url: '#',
   },
   {
     title: 'A importância da cadeia de custódia digital no processo penal moderno',
     vehicle: 'JOTA',
-    date: '2023',
+    date: '2024',
     url: '#',
   },
 ]
@@ -56,13 +56,13 @@ const publicacoes = [
   {
     title: 'A Cadeia de Custódia das Provas Digitais no CPP pós-Pacote Anticrime',
     venue: 'Revista Brasileira de Ciências Criminais',
-    date: '2022',
+    date: '2024',
     url: '#',
   },
   {
     title: 'Investigação Defensiva Digital: perspectivas após a Resolução OAB 564/2023',
     venue: 'Boletim IBCCRIM',
-    date: '2023',
+    date: '2025',
     url: '#',
   },
 ]

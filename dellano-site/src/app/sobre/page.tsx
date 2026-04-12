@@ -22,10 +22,10 @@ const credentials = [
 ]
 
 const lectures = [
-  'Palestra — Provas Digitais e Cadeia de Custódia — OAB/CE, 2024',
-  'Mesa-redonda — Investigação Defensiva na Era Digital — ABRACRIM Nacional, 2023',
-  'Curso de extensão — Computação Forense para Advogados — ESA/CE, 2023',
-  'Palestra — Cibercrimes e Defesa Criminal — OAB/PI, 2022',
+  'Palestra — Provas Digitais e Cadeia de Custódia — OAB/CE, 2025',
+  'Mesa-redonda — Investigação Defensiva na Era Digital — ABRACRIM Nacional, 2025',
+  'Curso de extensão — Computação Forense para Advogados — ESA/CE, 2024',
+  'Palestra — Cibercrimes e Defesa Criminal — OAB/PI, 2024',
 ]
 
 export default function SobrePage() {
