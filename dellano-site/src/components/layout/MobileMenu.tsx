@@ -71,7 +71,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </nav>
             <div className="p-6 border-t border-primary/10">
               <Button href={WHATSAPP_URL} external variant="primary" className="w-full justify-center">
-                Plantão 24h
+                Atendimento urgente
               </Button>
             </div>
           </motion.div>

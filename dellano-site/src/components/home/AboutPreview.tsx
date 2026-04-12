@@ -4,9 +4,10 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 
 const credentials = [
+  'OAB/CE 53.322',
   'Membro da ABRACRIM',
   'Presidente — Comissão de Investigação Defensiva OAB/CE',
-  'Especialista em Computação Forense',
+  'Atuação especializada em Computação Forense',
   'Atuação Nacional',
 ]
 
@@ -36,8 +37,8 @@ export function AboutPreview() {
               Técnica, estratégia e comprometimento na defesa que você merece
             </h2>
             <p className="text-muted text-base leading-relaxed mb-4">
-              Dellano Sousa é advogado criminalista com atuação nacional, reconhecido pela
-              capacidade técnica na análise e contestação de provas digitais em processos penais.
+              Dellano Sousa é advogado criminalista com atuação nacional, dedicado à análise
+              técnica e contestação de provas digitais em processos penais.
               Presidente da Comissão de Investigação Defensiva da OAB/CE e membro da ABRACRIM.
             </p>
             <p className="text-muted text-base leading-relaxed mb-8">

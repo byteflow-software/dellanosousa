@@ -7,5 +7,6 @@ export const navigation: NavigationItem[] = [
   { label: 'Provas Digitais', href: '/provas-digitais' },
   { label: 'Equipe', href: '/equipe' },
   { label: 'Artigos', href: '/artigos' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'Contato', href: '/contato' },
 ]

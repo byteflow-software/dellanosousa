@@ -35,15 +35,20 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center gap-3">
               <Image
                 src="/images/brand/logo-header.png"
-                alt="Dellano Sousa — Advogado Perito Digital"
+                alt="Dellano Sousa Advocacia"
                 width={220}
                 height={64}
                 className="h-9 md:h-11 w-auto object-contain"
                 priority
               />
+              <span className="hidden sm:inline-block text-[11px] font-sans font-medium text-muted border-l border-primary/15 pl-3 leading-tight">
+                OAB/CE
+                <br />
+                53.322
+              </span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">
@@ -71,7 +76,7 @@ export function Header() {
                 size="sm"
                 className="hidden md:inline-flex"
               >
-                Plantão 24h
+                Atendimento urgente
               </Button>
               <button
                 onClick={() => setMobileOpen(true)}

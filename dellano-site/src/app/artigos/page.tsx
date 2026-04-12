@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getArticles } from '@/lib/mdx'
-import { ArticleCard } from '@/components/artigos/ArticleCard'
 import { ArticleCover } from '@/components/artigos/ArticleCover'
+import { ArticleSearch } from '@/components/artigos/ArticleSearch'
+import { NewsletterSignup } from '@/components/layout/NewsletterSignup'
 import { Badge } from '@/components/ui/Badge'
 import { formatDate } from '@/lib/utils'
 
@@ -61,17 +62,15 @@ export default function ArtigosPage() {
           </Link>
         )}
 
-        {others.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {others.map((article) => (
-              <ArticleCard key={article.slug} article={article} />
-            ))}
-          </div>
-        )}
+        {others.length > 0 && <ArticleSearch articles={others} />}
 
         {articles.length === 0 && (
           <p className="text-muted text-center py-20">Nenhum artigo publicado ainda.</p>
         )}
+
+        <div className="mt-20">
+          <NewsletterSignup />
+        </div>
       </div>
     </div>
   )
