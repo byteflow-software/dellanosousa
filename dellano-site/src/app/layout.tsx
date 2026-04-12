@@ -42,6 +42,7 @@ const attorneyJsonLd = {
     { '@type': 'Organization', name: 'OAB/CE' },
     { '@type': 'Organization', name: 'ABRACRIM' },
     { '@type': 'Organization', name: 'IAB' },
+    { '@type': 'Organization', name: 'Comissão de Direito Digital — ABRACRIM' },
   ],
   sameAs: [
     'https://instagram.com/dellanosousa.adv',

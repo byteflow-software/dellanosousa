@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 const credentials = [
   'OAB/CE 53.322',
   'Membro da ABRACRIM',
+  'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
+  'Vice-Presidente da Comissão de Direito Digital — ABRACRIM',
   'Presidente — Comissão de Investigação Defensiva OAB/CE',
   'Atuação especializada em Computação Forense',
   'Atuação Nacional',
