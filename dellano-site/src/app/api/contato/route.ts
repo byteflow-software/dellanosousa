@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Dados inválidos', fields }, { status: 400 })
     }
 
-    const { name, email, phone, subject, message } = result.data
+    const { name, email, phone, state, subject, message } = result.data
 
     await resend.emails.send({
       from: 'Site Dellano Sousa <noreply@dellanosousa.com.br>',
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Nome:</strong> ${name}</p>
         <p><strong>E-mail:</strong> ${email}</p>
         <p><strong>Telefone:</strong> ${phone}</p>
+        <p><strong>Estado:</strong> ${state}</p>
         <p><strong>Assunto:</strong> ${subject}</p>
         <hr />
         <p><strong>Mensagem:</strong></p>
