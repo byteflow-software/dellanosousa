@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, AlertCircle, CheckCircle } from 'lucide-react'
 import type { PageSeo } from '@prisma/client'
+import { saveSeo } from '@/lib/actions/seo'
 
 const schema = z.object({
   pageKey: z.string(),
@@ -21,10 +22,9 @@ type FormData = z.infer<typeof schema>
 interface Props {
   page: PageSeo
   pageLabel: string
-  onSave: (data: FormData) => Promise<{ success: boolean; error?: string }>
 }
 
-export function SeoForm({ page, pageLabel, onSave }: Props) {
+export function SeoForm({ page, pageLabel }: Props) {
   const [serverError, setServerError] = useState('')
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -45,7 +45,7 @@ export function SeoForm({ page, pageLabel, onSave }: Props) {
     setSaving(true)
     setServerError('')
     setSaved(false)
-    const res = await onSave(data)
+    const res = await saveSeo(data)
     setSaving(false)
     if (!res.success) { setServerError(res.error ?? 'Erro'); return }
     setSaved(true)

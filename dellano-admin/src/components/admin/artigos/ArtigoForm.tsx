@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import { slugify } from '@/lib/utils'
 import type { Artigo } from '@prisma/client'
+import { createArtigo, updateArtigo, deleteArtigo } from '@/lib/actions/artigos'
 
 const schema = z.object({
   title: z.string().min(3, 'Título muito curto'),
@@ -36,15 +37,14 @@ const CATEGORIES = [
 
 interface Props {
   artigo?: Artigo
-  onSave: (data: FormData) => Promise<{ success: boolean; error?: string }>
-  onDelete?: () => Promise<void>
+  id?: string
+  isEdit?: boolean
 }
 
-export function ArtigoForm({ artigo, onSave, onDelete }: Props) {
+export function ArtigoForm({ artigo, id, isEdit }: Props) {
   const router = useRouter()
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
-  const [deleting, setDeleting] = useState(false)
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -69,13 +69,15 @@ export function ArtigoForm({ artigo, onSave, onDelete }: Props) {
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value
     setValue('title', val)
-    if (!artigo) setValue('slug', slugify(val))
+    if (!isEdit) setValue('slug', slugify(val))
   }
 
   async function onSubmit(data: FormData) {
     setSaving(true)
     setServerError('')
-    const res = await onSave(data)
+    const res = isEdit && id
+      ? await updateArtigo(id, data)
+      : await createArtigo(data)
     setSaving(false)
     if (!res.success) { setServerError(res.error ?? 'Erro ao salvar'); return }
     router.push('/artigos')
@@ -83,9 +85,8 @@ export function ArtigoForm({ artigo, onSave, onDelete }: Props) {
   }
 
   async function handleDelete() {
-    if (!confirm('Excluir este artigo? Esta ação não pode ser desfeita.')) return
-    setDeleting(true)
-    await onDelete?.()
+    if (!id || !confirm('Excluir este artigo? Esta ação não pode ser desfeita.')) return
+    await deleteArtigo(id)
   }
 
   const seoTitleVal = watch('seoTitle') ?? ''
@@ -212,16 +213,15 @@ export function ArtigoForm({ artigo, onSave, onDelete }: Props) {
         <button type="button" onClick={() => router.push('/artigos')} className="admin-btn admin-btn-secondary">
           Cancelar
         </button>
-        {onDelete && (
+        {isEdit && (
           <button
             type="button"
             onClick={handleDelete}
-            disabled={deleting}
             className="admin-btn admin-btn-danger"
             style={{ marginLeft: 'auto' }}
           >
             <Trash2 size={14} />
-            {deleting ? 'Excluindo…' : 'Excluir'}
+            Excluir
           </button>
         )}
       </div>

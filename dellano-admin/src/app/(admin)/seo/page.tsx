@@ -1,4 +1,4 @@
-import { listSeo, saveSeo } from '@/lib/actions/seo'
+import { listSeo } from '@/lib/actions/seo'
 import { SeoForm } from '@/components/admin/seo/SeoForm'
 import { SEO_PAGE_LABELS } from '@/types'
 
@@ -34,7 +34,6 @@ export default async function SeoPage() {
             <SeoForm
               page={page}
               pageLabel={SEO_PAGE_LABELS[page.pageKey] ?? page.pageKey}
-              onSave={(data) => saveSeo(data)}
             />
           </div>
         ))}

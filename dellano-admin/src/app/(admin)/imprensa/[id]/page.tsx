@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { ImprensaForm } from '@/components/admin/imprensa/ImprensaForm'
-import { getImprensa, updateImprensa, deleteImprensa } from '@/lib/actions/imprensa'
+import { getImprensa } from '@/lib/actions/imprensa'
 
 export const metadata = { title: 'Editar Imprensa' }
 
@@ -17,8 +17,8 @@ export default async function EditImprensaPage({ params }: { params: Promise<{ i
       <div className="admin-card">
         <ImprensaForm
           item={item}
-          onSave={(data) => updateImprensa(id, data)}
-          onDelete={async () => { 'use server'; await deleteImprensa(id) }}
+          id={id}
+          isEdit
         />
       </div>
     </div>

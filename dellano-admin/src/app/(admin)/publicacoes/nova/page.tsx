@@ -1,5 +1,4 @@
 import { PublicacaoForm } from '@/components/admin/publicacoes/PublicacaoForm'
-import { createPublicacao } from '@/lib/actions/publicacoes'
 
 export const metadata = { title: 'Nova Publicação' }
 
@@ -13,7 +12,7 @@ export default function NovaPublicacaoPage() {
         </div>
       </div>
       <div className="admin-card">
-        <PublicacaoForm onSave={(data) => createPublicacao(data)} />
+        <PublicacaoForm />
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { FaqForm } from '@/components/admin/faq/FaqForm'
-import { getFaq, updateFaq, deleteFaq } from '@/lib/actions/faq'
+import { getFaq } from '@/lib/actions/faq'
 
 export const metadata = { title: 'Editar FAQ' }
 
@@ -17,8 +17,8 @@ export default async function EditFaqPage({ params }: { params: Promise<{ id: st
       <div className="admin-card">
         <FaqForm
           item={item}
-          onSave={(data) => updateFaq(id, data)}
-          onDelete={async () => { 'use server'; await deleteFaq(id) }}
+          id={id}
+          isEdit
         />
       </div>
     </div>

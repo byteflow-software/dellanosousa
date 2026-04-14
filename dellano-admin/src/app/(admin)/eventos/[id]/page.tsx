@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { EventoForm } from '@/components/admin/eventos/EventoForm'
-import { getEvento, updateEvento, deleteEvento } from '@/lib/actions/eventos'
+import { getEvento } from '@/lib/actions/eventos'
 
 export const metadata = { title: 'Editar Evento' }
 
@@ -17,8 +17,8 @@ export default async function EditEventoPage({ params }: { params: Promise<{ id:
       <div className="admin-card">
         <EventoForm
           evento={evento}
-          onSave={(data) => updateEvento(id, data)}
-          onDelete={async () => { 'use server'; await deleteEvento(id) }}
+          id={id}
+          isEdit
         />
       </div>
     </div>

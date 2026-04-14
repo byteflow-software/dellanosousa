@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, AlertCircle, CheckCircle } from 'lucide-react'
+import { saveSobre } from '@/lib/actions/sobre'
 
 const schema = z.object({
   bioText: z.string().min(20, 'Biografia obrigatória'),
@@ -16,10 +17,9 @@ type FormData = z.infer<typeof schema>
 
 interface Props {
   initial?: { bioText: string; credentials: string[]; lectures: string[] }
-  onSave: (data: FormData) => Promise<{ success: boolean; error?: string }>
 }
 
-export function SobreForm({ initial, onSave }: Props) {
+export function SobreForm({ initial }: Props) {
   const [serverError, setServerError] = useState('')
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -37,7 +37,7 @@ export function SobreForm({ initial, onSave }: Props) {
     setSaving(true)
     setServerError('')
     setSaved(false)
-    const res = await onSave(data)
+    const res = await saveSobre(data)
     setSaving(false)
     if (!res.success) { setServerError(res.error ?? 'Erro'); return }
     setSaved(true)

@@ -1,5 +1,4 @@
 import { ArtigoForm } from '@/components/admin/artigos/ArtigoForm'
-import { createArtigo } from '@/lib/actions/artigos'
 
 export const metadata = { title: 'Novo Artigo' }
 
@@ -13,7 +12,7 @@ export default function NovoArtigoPage() {
         </div>
       </div>
       <div className="admin-card">
-        <ArtigoForm onSave={(data) => createArtigo(data)} />
+        <ArtigoForm />
       </div>
     </div>
   )

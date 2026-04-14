@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { ArtigoForm } from '@/components/admin/artigos/ArtigoForm'
-import { getArtigo, updateArtigo, deleteArtigo } from '@/lib/actions/artigos'
+import { getArtigo } from '@/lib/actions/artigos'
 
 export const metadata = { title: 'Editar Artigo' }
 
@@ -22,8 +22,8 @@ export default async function EditArtigoPage({ params }: { params: Promise<{ id:
       <div className="admin-card">
         <ArtigoForm
           artigo={artigo}
-          onSave={(data) => updateArtigo(id, data)}
-          onDelete={async () => { 'use server'; await deleteArtigo(id) }}
+          id={id}
+          isEdit
         />
       </div>
     </div>

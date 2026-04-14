@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { EquipeForm } from '@/components/admin/equipe/EquipeForm'
-import { getMembro, updateMembro, deleteMembro } from '@/lib/actions/equipe'
+import { getMembro } from '@/lib/actions/equipe'
 
 export const metadata = { title: 'Editar Membro' }
 
@@ -17,8 +17,8 @@ export default async function EditMembroPage({ params }: { params: Promise<{ id:
       <div className="admin-card">
         <EquipeForm
           membro={membro}
-          onSave={(data) => updateMembro(id, data)}
-          onDelete={async () => { 'use server'; await deleteMembro(id) }}
+          id={id}
+          isEdit
         />
       </div>
     </div>

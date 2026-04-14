@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import type { Evento } from '@prisma/client'
+import { createEvento, updateEvento, deleteEvento } from '@/lib/actions/eventos'
 
 const schema = z.object({
   title: z.string().min(3, 'Título obrigatório'),
@@ -23,11 +24,11 @@ type FormData = z.infer<typeof schema>
 
 interface Props {
   evento?: Evento
-  onSave: (data: FormData) => Promise<{ success: boolean; error?: string }>
-  onDelete?: () => Promise<void>
+  id?: string
+  isEdit?: boolean
 }
 
-export function EventoForm({ evento, onSave, onDelete }: Props) {
+export function EventoForm({ evento, id, isEdit }: Props) {
   const router = useRouter()
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
@@ -49,11 +50,18 @@ export function EventoForm({ evento, onSave, onDelete }: Props) {
   async function onSubmit(data: FormData) {
     setSaving(true)
     setServerError('')
-    const res = await onSave(data)
+    const res = isEdit && id
+      ? await updateEvento(id, data)
+      : await createEvento(data)
     setSaving(false)
     if (!res.success) { setServerError(res.error ?? 'Erro'); return }
     router.push('/eventos')
     router.refresh()
+  }
+
+  async function handleDelete() {
+    if (!id || !confirm('Excluir este evento?')) return
+    await deleteEvento(id)
   }
 
   return (
@@ -118,8 +126,8 @@ export function EventoForm({ evento, onSave, onDelete }: Props) {
       <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.5rem' }}>
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary"><Save size={14} />{saving ? 'Salvando…' : 'Salvar'}</button>
         <button type="button" onClick={() => router.push('/eventos')} className="admin-btn admin-btn-secondary">Cancelar</button>
-        {onDelete && (
-          <button type="button" onClick={async () => { if (!confirm('Excluir?')) return; await onDelete() }} className="admin-btn admin-btn-danger" style={{ marginLeft: 'auto' }}>
+        {isEdit && (
+          <button type="button" onClick={handleDelete} className="admin-btn admin-btn-danger" style={{ marginLeft: 'auto' }}>
             <Trash2 size={14} />Excluir
           </button>
         )}

@@ -1,5 +1,4 @@
 import { getSobre } from '@/lib/actions/sobre'
-import { saveSobre } from '@/lib/actions/sobre'
 import { SobreForm } from '@/components/admin/sobre/SobreForm'
 
 export const metadata = { title: 'Sobre' }
@@ -18,7 +17,6 @@ export default async function SobrePage() {
       <div className="admin-card">
         <SobreForm
           initial={sobre ? { bioText: sobre.bioText, credentials: sobre.credentials, lectures: sobre.lectures } : undefined}
-          onSave={(data) => saveSobre(data)}
         />
       </div>
     </div>

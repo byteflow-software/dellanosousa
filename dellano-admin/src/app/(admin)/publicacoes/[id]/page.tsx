@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { PublicacaoForm } from '@/components/admin/publicacoes/PublicacaoForm'
-import { getPublicacao, updatePublicacao, deletePublicacao } from '@/lib/actions/publicacoes'
+import { getPublicacao } from '@/lib/actions/publicacoes'
 
 export const metadata = { title: 'Editar Publicação' }
 
@@ -17,8 +17,8 @@ export default async function EditPublicacaoPage({ params }: { params: Promise<{
       <div className="admin-card">
         <PublicacaoForm
           publicacao={pub}
-          onSave={(data) => updatePublicacao(id, data)}
-          onDelete={async () => { 'use server'; await deletePublicacao(id) }}
+          id={id}
+          isEdit
         />
       </div>
     </div>
