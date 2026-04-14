@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Save, Trash2, AlertCircle } from 'lucide-react'
+import { Save, Trash2, AlertCircle, Eye } from 'lucide-react'
 import { slugify } from '@/lib/utils'
 import type { Artigo } from '@prisma/client'
 import { createArtigo, updateArtigo, deleteArtigo } from '@/lib/actions/artigos'
 import { RichTextEditor } from '@/components/admin/editor/RichTextEditor'
+import { ImageUploader } from '@/components/admin/upload/ImageUploader'
+import { ArtigoPreview } from './ArtigoPreview'
 
 const schema = z.object({
   title: z.string().min(3, 'Título muito curto'),
@@ -46,8 +48,9 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
   const router = useRouter()
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
 
-  const { register, handleSubmit, setValue, watch, control, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, control, formState: { errors }, getValues } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: artigo?.title ?? '',
@@ -66,6 +69,7 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
   })
 
   const title = watch('title')
+  const coverImage = watch('coverImage')
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value
@@ -165,8 +169,13 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
       {/* Imagem e status */}
       <div className="admin-form-grid">
         <div className="admin-form-group">
-          <label className="admin-form-label">Imagem de capa (URL)</label>
-          <input {...register('coverImage')} className="admin-form-input" placeholder="https://..." />
+          <ImageUploader
+            value={coverImage}
+            onChange={(url) => setValue('coverImage', url)}
+            folder="artigos"
+            label="Imagem de capa"
+            aspectRatio="landscape"
+          />
         </div>
 
         <div className="admin-form-group">
@@ -215,6 +224,14 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
           <Save size={14} />
           {saving ? 'Salvando…' : 'Salvar'}
         </button>
+        <button
+          type="button"
+          onClick={() => setShowPreview(true)}
+          className="admin-btn admin-btn-secondary"
+        >
+          <Eye size={14} />
+          Preview
+        </button>
         <button type="button" onClick={() => router.push('/artigos')} className="admin-btn admin-btn-secondary">
           Cancelar
         </button>
@@ -230,6 +247,22 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
           </button>
         )}
       </div>
+
+      {/* Preview Modal */}
+      <ArtigoPreview
+        artigo={{
+          title: getValues('title') || 'Título do Artigo',
+          slug: getValues('slug') || 'url-do-artigo',
+          excerpt: getValues('excerpt') || '',
+          content: getValues('content') || '<p>Conteúdo do artigo...</p>',
+          category: getValues('category'),
+          coverImage: getValues('coverImage'),
+          author: getValues('author'),
+          publishedAt: getValues('publishedAt'),
+        }}
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+      />
     </form>
   )
 }

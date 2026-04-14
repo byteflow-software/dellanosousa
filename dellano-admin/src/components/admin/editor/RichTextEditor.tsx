@@ -34,6 +34,8 @@ import {
   FileCode,
   Type,
   X,
+  Upload,
+  Loader2,
 } from 'lucide-react'
 
 
@@ -55,7 +57,10 @@ export function RichTextEditor({ content, onChange, placeholder = 'Escreva o con
   const [showImageModal, setShowImageModal] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
   const [imageAlt, setImageAlt] = useState('')
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [uploadError, setUploadError] = useState('')
   const htmlContentRef = useRef(content || '')
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const editor = useEditor({
     extensions: [
@@ -176,6 +181,53 @@ export function RichTextEditor({ content, onChange, placeholder = 'Escreva o con
     setShowImageModal(false)
     setImageUrl('')
     setImageAlt('')
+    setUploadError('')
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validar tipo
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Apenas imagens são permitidas')
+      return
+    }
+
+    // Validar tamanho (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError('Arquivo muito grande. Máximo 5MB.')
+      return
+    }
+
+    setUploadingImage(true)
+    setUploadError('')
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', 'artigos')
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Erro ao fazer upload')
+      }
+
+      setImageUrl(data.url)
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : 'Erro ao fazer upload')
+    } finally {
+      setUploadingImage(false)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    }
   }
 
   const setLink = () => {
@@ -388,15 +440,57 @@ export function RichTextEditor({ content, onChange, placeholder = 'Escreva o con
             </div>
             <div className="rich-editor__modal-body">
               <div className="admin-form-group">
-                <label className="admin-form-label">URL da imagem</label>
+                <label className="admin-form-label">Upload ou URL</label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploadingImage}
+                    className="admin-btn admin-btn-secondary flex-shrink-0"
+                  >
+                    {uploadingImage ? (
+                      <>
+                        <Loader2 size={14} className="animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        <Upload size={14} />
+                        Upload
+                      </>
+                    )}
+                  </button>
+                  <input
+                    type="url"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    className="admin-form-input flex-1"
+                    placeholder="Ou cole uma URL..."
+                    disabled={uploadingImage}
+                  />
+                </div>
                 <input
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  className="admin-form-input"
-                  placeholder="https://..."
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
                 />
               </div>
+
+              {imageUrl && (
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Preview</label>
+                  <div className="border border-border rounded-lg p-4 bg-background">
+                    <img
+                      src={imageUrl}
+                      alt="Preview"
+                      className="max-h-32 max-w-full object-contain mx-auto"
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="admin-form-group">
                 <label className="admin-form-label">Texto alternativo (alt)</label>
                 <input
@@ -407,6 +501,8 @@ export function RichTextEditor({ content, onChange, placeholder = 'Escreva o con
                   placeholder="Descrição da imagem"
                 />
               </div>
+
+              {uploadError && <span className="admin-form-error">{uploadError}</span>}
             </div>
             <div className="rich-editor__modal-footer">
               <button type="button" onClick={() => setShowImageModal(false)} className="admin-btn admin-btn-secondary">

@@ -124,6 +124,7 @@ model MembroEquipe {
   name      String
   role      String
   bio       String
+  photo     String?
   oab       String?
   linkedin  String?
   hierarchy String

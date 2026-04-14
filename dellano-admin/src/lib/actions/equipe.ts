@@ -11,6 +11,7 @@ const EquipeSchema = z.object({
   name: z.string().min(2, 'Nome obrigatório'),
   role: z.string().min(2, 'Cargo obrigatório'),
   bio: z.string().min(10, 'Bio obrigatória'),
+  photo: z.string().optional().or(z.literal('')),
   oab: z.string().optional().or(z.literal('')),
   linkedin: z.string().url('URL LinkedIn inválida').optional().or(z.literal('')),
   hierarchy: z.enum(['principal', 'apoio']),
@@ -32,9 +33,9 @@ export async function createMembro(data: Input): Promise<ActionResult<{ id: stri
   const parsed = EquipeSchema.safeParse(data)
   if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
 
-  const { expertise, oab, linkedin, ...rest } = parsed.data
+  const { expertise, oab, linkedin, photo, ...rest } = parsed.data
   const membro = await prisma.membroEquipe.create({
-    data: { ...rest, expertise: parseExpertise(expertise), oab: oab || null, linkedin: linkedin || null },
+    data: { ...rest, expertise: parseExpertise(expertise), oab: oab || null, linkedin: linkedin || null, photo: photo || null },
   })
   revalidatePath('/equipe')
   return { success: true, data: { id: membro.id } }
@@ -47,10 +48,10 @@ export async function updateMembro(id: string, data: Input): Promise<ActionResul
   const parsed = EquipeSchema.safeParse(data)
   if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
 
-  const { expertise, oab, linkedin, ...rest } = parsed.data
+  const { expertise, oab, linkedin, photo, ...rest } = parsed.data
   await prisma.membroEquipe.update({
     where: { id },
-    data: { ...rest, expertise: parseExpertise(expertise), oab: oab || null, linkedin: linkedin || null },
+    data: { ...rest, expertise: parseExpertise(expertise), oab: oab || null, linkedin: linkedin || null, photo: photo || null },
   })
   revalidatePath('/equipe')
   return { success: true }

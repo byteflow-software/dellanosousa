@@ -8,11 +8,13 @@ import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import type { MembroEquipe } from '@prisma/client'
 import { createMembro, updateMembro, deleteMembro } from '@/lib/actions/equipe'
+import { ImageUploader } from '@/components/admin/upload/ImageUploader'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome obrigatório'),
   role: z.string().min(2, 'Cargo obrigatório'),
   bio: z.string().min(10, 'Bio obrigatória'),
+  photo: z.string().optional(),
   oab: z.string().optional(),
   linkedin: z.string().optional(),
   hierarchy: z.enum(['principal', 'apoio']),
@@ -34,12 +36,13 @@ export function EquipeForm({ membro, id, isEdit }: Props) {
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: membro?.name ?? '',
       role: membro?.role ?? '',
       bio: membro?.bio ?? '',
+      photo: membro?.photo ?? '',
       oab: membro?.oab ?? '',
       linkedin: membro?.linkedin ?? '',
       hierarchy: (membro?.hierarchy as 'principal' | 'apoio') ?? 'apoio',
@@ -48,6 +51,8 @@ export function EquipeForm({ membro, id, isEdit }: Props) {
       active: membro?.active ?? true,
     },
   })
+
+  const photoUrl = watch('photo')
 
   async function onSubmit(data: FormData) {
     setSaving(true)
@@ -83,6 +88,24 @@ export function EquipeForm({ membro, id, isEdit }: Props) {
           {errors.role && <span className="admin-form-error">{errors.role.message}</span>}
         </div>
 
+        <div className="admin-form-group">
+          <ImageUploader
+            value={photoUrl}
+            onChange={(url) => setValue('photo', url)}
+            folder="team"
+            label="Foto"
+            aspectRatio="square"
+          />
+        </div>
+
+        <div className="admin-form-group">
+          <label className="admin-form-label">Hierarquia</label>
+          <select {...register('hierarchy')} className="admin-form-select">
+            <option value="principal">Principal (Sócio)</option>
+            <option value="apoio">Apoio</option>
+          </select>
+        </div>
+
         <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
           <label className="admin-form-label">Biografia *</label>
           <textarea {...register('bio')} className="admin-form-textarea" rows={4} placeholder="Breve biografia profissional…" />
@@ -103,14 +126,6 @@ export function EquipeForm({ membro, id, isEdit }: Props) {
           <label className="admin-form-label">Áreas de Expertise</label>
           <input {...register('expertise')} className="admin-form-input" placeholder="Provas Digitais, Defesa Criminal, Investigação Defensiva (separadas por vírgula)" />
           <span className="admin-form-hint">Separe as áreas por vírgula</span>
-        </div>
-
-        <div className="admin-form-group">
-          <label className="admin-form-label">Hierarquia</label>
-          <select {...register('hierarchy')} className="admin-form-select">
-            <option value="principal">Principal (Sócio)</option>
-            <option value="apoio">Apoio</option>
-          </select>
         </div>
 
         <div className="admin-form-group">
