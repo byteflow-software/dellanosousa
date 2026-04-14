@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import { slugify } from '@/lib/utils'
 import type { Artigo } from '@prisma/client'
 import { createArtigo, updateArtigo, deleteArtigo } from '@/lib/actions/artigos'
+import { RichTextEditor } from '@/components/admin/editor/RichTextEditor'
 
 const schema = z.object({
   title: z.string().min(3, 'Título muito curto'),
@@ -46,7 +47,7 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, control, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: artigo?.title ?? '',
@@ -144,15 +145,19 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         {errors.excerpt && <span className="admin-form-error">{errors.excerpt.message}</span>}
       </div>
 
-      {/* Conteúdo */}
+      {/* Conteúdo - Editor Rico */}
       <div className="admin-form-group">
-        <label className="admin-form-label">Conteúdo * <span className="admin-form-hint" style={{ fontWeight: 400, textTransform: 'none' }}>(Markdown)</span></label>
-        <textarea
-          {...register('content')}
-          className="admin-form-textarea"
-          rows={16}
-          placeholder="# Título&#10;&#10;Escreva o conteúdo em Markdown..."
-          style={{ fontFamily: 'monospace', fontSize: '0.8125rem' }}
+        <label className="admin-form-label">Conteúdo *</label>
+        <Controller
+          name="content"
+          control={control}
+          render={({ field }) => (
+            <RichTextEditor
+              content={field.value || ''}
+              onChange={field.onChange}
+              placeholder="Escreva o conteúdo do artigo..."
+            />
+          )}
         />
         {errors.content && <span className="admin-form-error">{errors.content.message}</span>}
       </div>
