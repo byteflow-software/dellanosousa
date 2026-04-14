@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { FileText, ExternalLink, Newspaper, CalendarDays, Users, HelpCircle, ArrowRight } from 'lucide-react'
 import { formatRelativeDate } from '@/lib/utils'
+import { ModuleLink } from '@/components/admin/ModuleLink'
+import { RecentArtigoLink } from '@/components/admin/RecentArtigoLink'
 
 async function getStats() {
   const [artigos, publicacoes, imprensa, eventos, equipe, faq] = await Promise.all([
@@ -89,28 +91,13 @@ export default async function DashboardPage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.625rem' }}>
             {modules.map(({ href, label, icon: Icon, desc }) => (
-              <Link
+              <ModuleLink
                 key={href}
                 href={href}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.625rem',
-                  padding: '0.75rem',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '0.5rem',
-                  textDecoration: 'none',
-                  transition: 'all 0.15s',
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-accent)'; (e.currentTarget as HTMLElement).style.background = '#F0F4FF'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-border)'; (e.currentTarget as HTMLElement).style.background = ''; }}
-              >
-                <Icon size={16} color="var(--color-accent)" />
-                <div>
-                  <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-primary)' }}>{label}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-muted)' }}>{desc}</div>
-                </div>
-              </Link>
+                label={label}
+                desc={desc}
+                icon={<Icon size={16} color="var(--color-accent)" />}
+              />
             ))}
           </div>
         </div>
@@ -134,34 +121,13 @@ export default async function DashboardPage() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {recentArtigos.map((a) => (
-                <Link
+                <RecentArtigoLink
                   key={a.id}
-                  href={`/artigos/${a.id}`}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '0.5rem',
-                    padding: '0.5rem',
-                    borderRadius: '0.375rem',
-                    textDecoration: 'none',
-                    transition: 'background 0.15s',
-                  }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#F8FAFC'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = ''; }}
-                >
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.8125rem', fontWeight: 500, color: '#1E293B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {a.title}
-                    </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--color-muted)', marginTop: '0.125rem' }}>
-                      {formatRelativeDate(a.updatedAt)}
-                    </div>
-                  </div>
-                  <span className={`admin-badge ${a.status === 'PUBLISHED' ? 'admin-badge-success' : a.status === 'DRAFT' ? 'admin-badge-warning' : 'admin-badge-secondary'}`}>
-                    {a.status === 'PUBLISHED' ? 'Publicado' : a.status === 'DRAFT' ? 'Rascunho' : 'Arquivado'}
-                  </span>
-                </Link>
+                  id={a.id}
+                  title={a.title}
+                  status={a.status}
+                  updatedAt={a.updatedAt.toISOString()}
+                />
               ))}
             </div>
           )}
