@@ -1,6 +1,6 @@
 import { put } from '@vercel/blob'
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyAuth } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 
 // Tipos de upload permitidos
 const ALLOWED_TYPES = [
@@ -15,7 +15,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 export async function POST(request: NextRequest) {
   // Verificar autenticação
-  const user = await verifyAuth()
+  const user = await getCurrentUser()
   if (!user) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
