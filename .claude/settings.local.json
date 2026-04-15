@@ -62,7 +62,9 @@
       "Bash(git mv:*)",
       "Bash(pnpm approve-builds *)",
       "Bash(npx prisma *)",
-      "Bash(pnpm remove *)"
+      "Bash(pnpm remove *)",
+      "Bash(cp /tmp/upload-team-photos.ts /c/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa/dellano-admin/upload-team-photos.ts)",
+      "Bash(BLOB_READ_WRITE_TOKEN=\"vercel_blob_rw_2ItpXXh7H6vruxpW_UWAiw0IlAGjqX4N0o1pnBXCvVIBEUq\" npx tsx ./upload-team-photos.ts)"
     ]
   }
 }

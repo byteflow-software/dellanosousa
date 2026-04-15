@@ -51,6 +51,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cheerio": "^1.2.0",
     "prisma": "^5.22.0",
     "tailwindcss": "^4",
     "tsx": "^4.19.0",
