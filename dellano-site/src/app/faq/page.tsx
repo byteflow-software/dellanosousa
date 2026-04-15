@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { faqs, faqCategories } from '@/data/faq'
+import { getActiveFaqs, getFaqCategories } from '@/lib/db'
 import { JsonLd } from '@/components/layout/JsonLd'
 import { Button } from '@/components/ui/Button'
 
@@ -9,7 +9,12 @@ export const metadata: Metadata = {
     'Dúvidas recorrentes sobre defesa criminal, provas digitais, investigação defensiva e honorários no escritório Dellano Sousa Advocacia.',
 }
 
-export default function FAQPage() {
+export const revalidate = 60
+
+export default async function FAQPage() {
+  const faqs = await getActiveFaqs()
+  const faqCategories = getFaqCategories()
+
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -49,9 +54,9 @@ export default function FAQPage() {
                   {cat.label}
                 </h2>
                 <div className="space-y-4">
-                  {items.map((f, i) => (
+                  {items.map((f) => (
                     <details
-                      key={i}
+                      key={f.id}
                       className="group p-5 rounded-lg border border-primary/10 bg-white"
                     >
                       <summary className="font-sans font-semibold text-primary text-sm cursor-pointer list-none flex items-start justify-between gap-4">

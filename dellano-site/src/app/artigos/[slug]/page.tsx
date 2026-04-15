@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import { getArticles, getArticleBySlug } from '@/lib/mdx'
+import { getArticles, getArtigoBySlug } from '@/lib/db'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { JsonLd } from '@/components/layout/JsonLd'
@@ -18,14 +17,16 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+export const revalidate = 60
+
 export async function generateStaticParams() {
-  const articles = getArticles()
+  const articles = await getArticles()
   return articles.map((a) => ({ slug: a.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const article = getArticleBySlug(slug)
+  const article = await getArtigoBySlug(slug)
   if (!article) return {}
   return {
     title: article.title,
@@ -43,10 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArtigoPage({ params }: Props) {
   const { slug } = await params
-  const article = getArticleBySlug(slug)
+  const article = await getArtigoBySlug(slug)
   if (!article) notFound()
 
-  const allArticles = getArticles()
+  const allArticles = await getArticles()
   const related = allArticles
     .filter((a) => a.slug !== slug && a.category === article.category)
     .slice(0, 3)
@@ -58,7 +59,7 @@ export default async function ArtigoPage({ params }: Props) {
     description: article.excerpt,
     author: { '@type': 'Person', name: article.author },
     datePublished: article.date,
-    image: article.coverImage ? `${SITE_URL}${article.coverImage}` : undefined,
+    image: article.coverImage ? article.coverImage : undefined,
     publisher: {
       '@type': 'Organization',
       name: 'Dellano Sousa Advocacia',
@@ -102,9 +103,10 @@ export default async function ArtigoPage({ params }: Props) {
               </div>
             )}
 
-            <div className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-primary prose-p:text-muted prose-p:leading-relaxed prose-a:text-accent prose-strong:text-primary">
-              <MDXRemote source={article.content} />
-            </div>
+            <div
+              className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-primary prose-p:text-muted prose-p:leading-relaxed prose-a:text-accent prose-strong:text-primary"
+              dangerouslySetInnerHTML={{ __html: article.content }}
+            />
 
             <ShareButtons url={`${SITE_URL}/artigos/${slug}`} title={article.title} />
 

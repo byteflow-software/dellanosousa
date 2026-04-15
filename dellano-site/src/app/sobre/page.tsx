@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { getSobrePage } from '@/lib/db'
 import { Badge } from '@/components/ui/Badge'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Button } from '@/components/ui/Button'
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
     'Advogado criminalista OAB/CE 53.322 | OAB/PI 25.100. Coordenador Nacional das Prerrogativas Digitais da ABRACRIM. Especializado em provas digitais, investigação defensiva e grandes operações. Autor no ConJur e Migalhas.',
 }
 
-const credentials = [
+export const revalidate = 60
+
+const fallbackCredentials = [
   'OAB/CE 53.322 | OAB/PI 25.100',
   'Membro da ABRACRIM',
   'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
@@ -21,14 +24,28 @@ const credentials = [
   'Membro do IAB',
 ]
 
-const lectures = [
+const fallbackLectures = [
   'Palestra — Provas Digitais e Cadeia de Custódia — OAB/CE, 2025',
   'Mesa-redonda — Investigação Defensiva na Era Digital — ABRACRIM Nacional, 2025',
   'Curso de extensão — Computação Forense para Advogados — ESA/CE, 2024',
   'Palestra — Cibercrimes e Defesa Criminal — OAB/PI, 2024',
 ]
 
-export default function SobrePage() {
+const fallbackBio = `Dellano Sousa é advogado criminalista, com atuação nacional e dedicação ao estudo de provas digitais e da investigação defensiva. Atua em casos de alta complexidade que envolvem evidências tecnológicas, interceptações, extrações forenses e análise de dados digitais.
+
+Coordenador Nacional das Prerrogativas Digitais da ABRACRIM, Vice-Presidente da Comissão de Direito Digital da ABRACRIM e membro da ABRACRIM, Dellano une o rigor do processo penal brasileiro ao conhecimento técnico em computação forense. Essa combinação permite a construção de teses defensivas sólidas, a identificação de fragilidades probatórias que poderiam passar despercebidas e a elaboração de pareceres técnicos de relevância nos tribunais.
+
+Autor de artigos jurídicos publicados no ConJur e no Migalhas, Dellano também se destaca pela produção de conteúdo técnico voltado à advocacia criminal, com enfoque em cadeia de custódia, admissibilidade da prova digital, contraditório técnico e garantias processuais.
+
+Com escritório-sede em Fortaleza e atuação em todo o Brasil, o escritório atende casos em todo o território nacional, com atendimento reservado para situações urgentes.`
+
+export default async function SobrePage() {
+  const sobre = await getSobrePage()
+
+  const bioText = sobre?.bioText ?? fallbackBio
+  const credentials = sobre?.credentials ?? fallbackCredentials
+  const lectures = sobre?.lectures ?? fallbackLectures
+
   return (
     <div className="bg-background">
       <section className="py-20 md:py-28">
@@ -59,18 +76,9 @@ export default function SobrePage() {
               </p>
 
               <div className="space-y-4 text-muted text-base leading-relaxed mb-8">
-                <p>
-                  Dellano Sousa é advogado criminalista, com atuação nacional e dedicação ao estudo de provas digitais e da investigação defensiva. Atua em casos de alta complexidade que envolvem evidências tecnológicas, interceptações, extrações forenses e análise de dados digitais.
-                </p>
-                <p>
-                  Coordenador Nacional das Prerrogativas Digitais da ABRACRIM, Vice-Presidente da Comissão de Direito Digital da ABRACRIM e membro da ABRACRIM, Dellano une o rigor do processo penal brasileiro ao conhecimento técnico em computação forense. Essa combinação permite a construção de teses defensivas sólidas, a identificação de fragilidades probatórias que poderiam passar despercebidas e a elaboração de pareceres técnicos de relevância nos tribunais.
-                </p>
-                <p>
-                  Autor de artigos jurídicos publicados no ConJur e no Migalhas, Dellano também se destaca pela produção de conteúdo técnico voltado à advocacia criminal, com enfoque em cadeia de custódia, admissibilidade da prova digital, contraditório técnico e garantias processuais.
-                </p>
-                <p>
-                  Com escritório-sede em Fortaleza e atuação em todo o Brasil, o escritório atende casos em todo o território nacional, com atendimento reservado para situações urgentes.
-                </p>
+                {bioText.split('\n\n').map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
               </div>
 
               <div className="flex flex-wrap gap-2 mb-8">

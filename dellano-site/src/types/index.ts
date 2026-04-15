@@ -21,18 +21,6 @@ export type Service = {
   faq?: ServiceFAQ[]
 }
 
-export type TeamMember = {
-  id: string
-  name: string
-  role: string
-  bio: string
-  photo: string
-  oab?: string
-  linkedin?: string
-  hierarchy: 'principal' | 'apoio'
-  expertise?: string[]
-}
-
 export type ArticleCategory =
   | 'Provas Digitais'
   | 'Processo Penal'
@@ -40,7 +28,7 @@ export type ArticleCategory =
   | 'Cibercrimes'
   | 'Análises'
 
-export type ArticleFrontmatter = {
+export type Article = {
   title: string
   slug: string
   date: string
@@ -49,9 +37,6 @@ export type ArticleFrontmatter = {
   excerpt: string
   coverImage?: string
   featured: boolean
-}
-
-export type Article = ArticleFrontmatter & {
   content: string
   readingTime: number
 }

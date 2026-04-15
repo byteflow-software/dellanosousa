@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { eventItems, eventTypeLabels } from '@/data/eventos'
+import { getPublishedEventos } from '@/lib/db'
 import { formatDate } from '@/lib/utils'
 import { Badge } from '@/components/ui/Badge'
 
@@ -9,8 +9,10 @@ export const metadata: Metadata = {
     'Palestras, cursos e participações acadêmicas de Dellano Sousa em temas de direito penal, provas digitais e investigação defensiva.',
 }
 
-export default function EventosPage() {
-  const sorted = [...eventItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export const revalidate = 60
+
+export default async function EventosPage() {
+  const eventos = await getPublishedEventos()
 
   return (
     <div className="bg-background py-20 md:py-28">
@@ -27,12 +29,12 @@ export default function EventosPage() {
           </p>
         </div>
 
-        {sorted.length > 0 ? (
+        {eventos.length > 0 ? (
           <div className="space-y-4">
-            {sorted.map((ev, i) => (
-              <div key={i} className="p-6 rounded-xl bg-white border border-primary/10">
+            {eventos.map((ev) => (
+              <div key={ev.id} className="p-6 rounded-xl bg-white border border-primary/10">
                 <div className="flex flex-wrap items-center gap-3 mb-3">
-                  <Badge variant="accent">{eventTypeLabels[ev.type]}</Badge>
+                  <Badge variant="accent">{ev.tipoLabel}</Badge>
                   <span className="text-xs text-muted font-sans">{ev.organizer}</span>
                   <span className="text-xs text-muted/60">·</span>
                   <time className="text-xs text-muted font-sans">{formatDate(ev.date)}</time>

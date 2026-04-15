@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { pressItems } from '@/data/imprensa'
+import { getPublishedImprensa } from '@/lib/db'
 import { formatDate } from '@/lib/utils'
 import { Badge } from '@/components/ui/Badge'
 
@@ -9,7 +9,11 @@ export const metadata: Metadata = {
     'Menções, entrevistas e participações em veículos de imprensa e instituições sobre direito penal, provas digitais e investigação defensiva.',
 }
 
-export default function ImprensaPage() {
+export const revalidate = 60
+
+export default async function ImprensaPage() {
+  const pressItems = await getPublishedImprensa()
+
   return (
     <div className="bg-background py-20 md:py-28">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,7 +31,7 @@ export default function ImprensaPage() {
 
         {pressItems.length > 0 ? (
           <div className="space-y-4">
-            {pressItems.map((item, i) => {
+            {pressItems.map((item) => {
               const card = (
                 <div className="p-6 rounded-xl bg-white border border-primary/10 hover:border-gold/40 transition-colors">
                   <div className="flex flex-wrap items-center gap-3 mb-3">
@@ -43,11 +47,11 @@ export default function ImprensaPage() {
                 </div>
               )
               return item.url ? (
-                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="block">
+                <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="block">
                   {card}
                 </a>
               ) : (
-                <div key={i}>{card}</div>
+                <div key={item.id}>{card}</div>
               )
             })}
           </div>

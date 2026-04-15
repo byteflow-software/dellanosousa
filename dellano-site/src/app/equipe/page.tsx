@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { team } from '@/data/team'
+import { getTeamMembers } from '@/lib/db'
 import { Badge } from '@/components/ui/Badge'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Button } from '@/components/ui/Button'
@@ -11,9 +11,12 @@ export const metadata: Metadata = {
     'Conheça a equipe do escritório Dellano Sousa Advocacia — profissionais especializados em defesa criminal e provas digitais.',
 }
 
-export default function EquipePage() {
-  const principal = team.find((m) => m.hierarchy === 'principal')
-  const apoio = team.filter((m) => m.hierarchy === 'apoio')
+export const revalidate = 60
+
+export default async function EquipePage() {
+  const members = await getTeamMembers()
+  const principal = members.find((m) => m.hierarchy === 'principal')
+  const apoio = members.filter((m) => m.hierarchy === 'apoio')
 
   return (
     <div className="bg-background py-20 md:py-28">
@@ -30,16 +33,18 @@ export default function EquipePage() {
         {principal && (
           <AnimatedSection className="mb-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 p-8 rounded-2xl bg-white border border-primary/10 shadow-sm">
-              <div className="relative w-full aspect-[3/4] max-w-sm mx-auto lg:mx-0 rounded-xl overflow-hidden bg-gradient-to-br from-secondary to-primary">
-                <Image
-                  src={principal.photo}
-                  alt={principal.name}
-                  fill
-                  className="object-cover object-top"
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
+              {principal.photo && (
+                <div className="relative w-full aspect-[3/4] max-w-sm mx-auto lg:mx-0 rounded-xl overflow-hidden bg-gradient-to-br from-secondary to-primary">
+                  <Image
+                    src={principal.photo}
+                    alt={principal.name}
+                    fill
+                    className="object-cover object-top"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+              )}
               <div className="flex flex-col justify-center">
                 <p className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-3">
                   Sócio Fundador
@@ -52,7 +57,7 @@ export default function EquipePage() {
                   <p className="font-sans text-xs text-muted mb-6">{principal.oab}</p>
                 )}
                 <p className="text-muted text-sm leading-relaxed mb-6">{principal.bio}</p>
-                {principal.expertise && (
+                {principal.expertise.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-6">
                     {principal.expertise.map((e) => (
                       <Badge key={e} variant="default">{e}</Badge>
@@ -86,15 +91,17 @@ export default function EquipePage() {
               {apoio.map((member, i) => (
                 <AnimatedSection key={member.id} delay={i * 0.1}>
                   <div className="flex flex-col bg-white border border-primary/10 rounded-lg p-6 shadow-sm">
-                    <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-secondary to-primary mb-4">
-                      <Image
-                        src={member.photo}
-                        alt={member.name}
-                        fill
-                        className="object-cover object-top"
-                        sizes="80px"
-                      />
-                    </div>
+                    {member.photo && (
+                      <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-secondary to-primary mb-4">
+                        <Image
+                          src={member.photo}
+                          alt={member.name}
+                          fill
+                          className="object-cover object-top"
+                          sizes="80px"
+                        />
+                      </div>
+                    )}
                     <h3 className="font-serif font-semibold text-primary text-lg mb-1">
                       {member.name}
                     </h3>
@@ -103,7 +110,7 @@ export default function EquipePage() {
                       <p className="font-sans text-xs text-muted mb-3">{member.oab}</p>
                     )}
                     <p className="text-muted text-sm leading-relaxed mb-3">{member.bio}</p>
-                    {member.expertise && member.expertise.length > 0 && (
+                    {member.expertise.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-auto">
                         {member.expertise.map((e) => (
                           <Badge key={e} variant="default">{e}</Badge>

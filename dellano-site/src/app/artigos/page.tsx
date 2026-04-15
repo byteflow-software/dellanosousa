@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getArticles } from '@/lib/mdx'
+import { getArticles } from '@/lib/db'
 import { ArticleCover } from '@/components/artigos/ArticleCover'
 import { ArticleSearch } from '@/components/artigos/ArticleSearch'
 import { NewsletterSignup } from '@/components/layout/NewsletterSignup'
@@ -13,8 +13,10 @@ export const metadata: Metadata = {
     'Conteúdo técnico sobre provas digitais, processo penal, investigação defensiva e cibercrimes.',
 }
 
-export default function ArtigosPage() {
-  const articles = getArticles()
+export const revalidate = 60
+
+export default async function ArtigosPage() {
+  const articles = await getArticles()
   const featured = articles.find((a) => a.featured)
   const others = articles.filter((a) => !a.featured)
 

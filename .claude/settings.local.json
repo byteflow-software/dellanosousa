@@ -41,7 +41,28 @@
       "mcp__mempalace__mempalace_delete_drawer",
       "Bash(gh api:*)",
       "Bash(pnpm update:*)",
-      "mcp__mempalace__mempalace_diary_write"
+      "mcp__mempalace__mempalace_diary_write",
+      "Bash(mkdir -p \"C:/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa/dellano-admin/src/app/\\(admin\\)/artigos/[id]\")",
+      "Bash(mkdir -p \"C:/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa/dellano-admin/src/app/\\(admin\\)/publicacoes/[id]\")",
+      "Bash(mkdir -p \"C:/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa/dellano-admin/src/app/\\(admin\\)/imprensa/[id]\")",
+      "Bash(mkdir -p \"C:/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa/dellano-admin/src/app/\\(admin\\)/eventos/[id]\")",
+      "Bash(mkdir -p \"C:/Users/ryanm/OneDrive/Documentos/GitHub/dellanosousa/dellano-admin/src/app/\\(admin\\)/equipe/[id]\")",
+      "Bash(mkdir -p \"dellano-admin/src/app/\\(auth\\)/login\")",
+      "Bash(mkdir -p \"dellano-admin/src/app/\\(admin\\)/artigos/novo\")",
+      "Bash(mkdir -p \"dellano-admin/src/app/\\(admin\\)/artigos/[id]\")",
+      "Bash(mkdir -p \"dellano-admin/src/app/\\(admin\\)/publicacoes/nova\")",
+      "Bash(mkdir -p \"dellano-admin/src/app/\\(admin\\)/publicacoes/[id]\")",
+      "Bash(pnpm dev:*)",
+      "Bash(pnpm db:seed:*)",
+      "mcp__mempalace__mempalace_traverse",
+      "Bash(pnpm db:push:*)",
+      "Bash(gh repo:*)",
+      "Bash(git config:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git mv:*)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(npx prisma *)",
+      "Bash(pnpm remove *)"
     ]
   }
 }

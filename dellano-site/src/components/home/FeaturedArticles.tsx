@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import { getFeaturedArticles } from '@/lib/mdx'
+import { getFeaturedArticles } from '@/lib/db'
 import { Badge } from '@/components/ui/Badge'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ArticleCover } from '@/components/artigos/ArticleCover'
 import { formatDate } from '@/lib/utils'
 
-export function FeaturedArticles() {
-  const articles = getFeaturedArticles()
+export async function FeaturedArticles() {
+  const articles = await getFeaturedArticles()
 
   if (articles.length === 0) return null
 
