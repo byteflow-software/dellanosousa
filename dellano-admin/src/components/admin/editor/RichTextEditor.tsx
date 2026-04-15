@@ -321,7 +321,7 @@ export function RichTextEditor({ content, onChange, placeholder = 'Escreva o con
           <div className="rich-editor__toolbar-divider" />
 
           <div className="rich-editor__toolbar-group">
-            {toolbarButton(setLink, <LinkIcon size={16} />, editor.isActive('link'), 'Inserir link')}
+            {toolbarButton(() => { setLink(); return true }, <LinkIcon size={16} />, editor.isActive('link'), 'Inserir link')}
             {toolbarButton(() => setShowImageModal(true), <ImageIcon size={16} />, false, 'Inserir imagem')}
           </div>
 
