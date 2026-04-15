@@ -1,13 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Save, Trash2, AlertCircle, Eye } from 'lucide-react'
+import { Save, Trash2, AlertCircle, Eye, X } from 'lucide-react'
 import { slugify } from '@/lib/utils'
-import type { Artigo } from '@prisma/client'
 import { createArtigo, updateArtigo, deleteArtigo } from '@/lib/actions/artigos'
 import { RichTextEditor } from '@/components/admin/editor/RichTextEditor'
 import { ImageUploader } from '@/components/admin/upload/ImageUploader'
@@ -18,7 +17,8 @@ const schema = z.object({
   slug: z.string().min(2).regex(/^[a-z0-9-]+$/, 'Apenas letras, números e hífens'),
   excerpt: z.string().min(10).max(500),
   content: z.string().min(1, 'Conteúdo obrigatório'),
-  category: z.enum(['PROVAS_DIGITAIS', 'PROCESSO_PENAL', 'INVESTIGACAO_DEFENSIVA', 'CIBERCRIMES', 'ANALISES']),
+  categoryId: z.string().min(1, 'Selecione uma categoria'),
+  tagNames: z.array(z.string()),
   coverImage: z.string().optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
   featured: z.boolean(),
@@ -33,7 +33,8 @@ interface FormData {
   slug: string
   excerpt: string
   content: string
-  category: 'PROVAS_DIGITAIS' | 'PROCESSO_PENAL' | 'INVESTIGACAO_DEFENSIVA' | 'CIBERCRIMES' | 'ANALISES'
+  categoryId: string
+  tagNames: string[]
   coverImage?: string
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   featured: boolean
@@ -43,25 +44,43 @@ interface FormData {
   seoDesc?: string
 }
 
-const CATEGORIES = [
-  { value: 'PROVAS_DIGITAIS', label: 'Provas Digitais' },
-  { value: 'PROCESSO_PENAL', label: 'Processo Penal' },
-  { value: 'INVESTIGACAO_DEFENSIVA', label: 'Investigação Defensiva' },
-  { value: 'CIBERCRIMES', label: 'Cibercrimes' },
-  { value: 'ANALISES', label: 'Análises' },
-]
+interface CategoriaOption { id: string; name: string }
+interface TagOption { id: string; name: string }
 
-interface Props {
-  artigo?: Artigo
-  id?: string
-  isEdit?: boolean
+interface ArtigoFormData {
+  id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  categoryId: string
+  coverImage: string | null
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
+  featured: boolean
+  publishedAt: Date | null
+  author: string
+  seoTitle: string | null
+  seoDesc: string | null
+  tags: TagOption[]
 }
 
-export function ArtigoForm({ artigo, id, isEdit }: Props) {
+interface Props {
+  artigo?: ArtigoFormData
+  id?: string
+  isEdit?: boolean
+  categorias: CategoriaOption[]
+  tagsDisponiveis: TagOption[]
+}
+
+export function ArtigoForm({ artigo, id, isEdit, categorias, tagsDisponiveis }: Props) {
   const router = useRouter()
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
+  const [tagInput, setTagInput] = useState('')
+
+  const defaultCategoryId =
+    artigo?.categoryId ?? (categorias[0]?.id ?? '')
 
   const { register, handleSubmit, setValue, watch, control, formState: { errors }, getValues } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -70,7 +89,8 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
       slug: artigo?.slug ?? '',
       excerpt: artigo?.excerpt ?? '',
       content: artigo?.content ?? '',
-      category: artigo?.category ?? 'PROVAS_DIGITAIS',
+      categoryId: defaultCategoryId,
+      tagNames: artigo?.tags?.map((t) => t.name) ?? [],
       coverImage: artigo?.coverImage ?? '',
       status: artigo?.status ?? 'DRAFT',
       featured: artigo?.featured ?? false,
@@ -83,11 +103,34 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
 
   const title = watch('title')
   const coverImage = watch('coverImage')
+  const tagNames = watch('tagNames') ?? []
+  const categoryId = watch('categoryId')
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value
     setValue('title', val)
     if (!isEdit) setValue('slug', slugify(val))
+  }
+
+  function addTag(name: string) {
+    const trimmed = name.trim()
+    if (!trimmed) return
+    if (tagNames.includes(trimmed)) return
+    setValue('tagNames', [...tagNames, trimmed], { shouldValidate: true })
+    setTagInput('')
+  }
+
+  function removeTag(name: string) {
+    setValue('tagNames', tagNames.filter((t) => t !== name), { shouldValidate: true })
+  }
+
+  function handleTagKey(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault()
+      addTag(tagInput)
+    } else if (e.key === 'Backspace' && !tagInput && tagNames.length > 0) {
+      removeTag(tagNames[tagNames.length - 1])
+    }
   }
 
   async function onSubmit(data: FormData) {
@@ -110,6 +153,13 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
   const seoTitleVal = watch('seoTitle') ?? ''
   const seoDescVal = watch('seoDesc') ?? ''
 
+  const sugestoesTags = tagsDisponiveis
+    .filter((t) => !tagNames.includes(t.name))
+    .filter((t) => !tagInput || t.name.toLowerCase().includes(tagInput.toLowerCase()))
+    .slice(0, 8)
+
+  const categoriaSelecionada = categorias.find((c) => c.id === categoryId)?.name ?? ''
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="admin-form">
       {serverError && (
@@ -119,7 +169,6 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         </div>
       )}
 
-      {/* Título e Slug */}
       <div className="admin-form-grid">
         <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
           <label className="admin-form-label">Título *</label>
@@ -141,15 +190,91 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
 
         <div className="admin-form-group">
           <label className="admin-form-label">Categoria *</label>
-          <select {...register('category')} className="admin-form-select">
-            {CATEGORIES.map((c) => (
-              <option key={c.value} value={c.value}>{c.label}</option>
-            ))}
-          </select>
+          {categorias.length === 0 ? (
+            <span className="admin-form-hint" style={{ color: '#b91c1c' }}>
+              Cadastre uma categoria em <a href="/categorias">/categorias</a> antes.
+            </span>
+          ) : (
+            <select {...register('categoryId')} className="admin-form-select">
+              {categorias.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
+          {errors.categoryId && <span className="admin-form-error">{errors.categoryId.message}</span>}
         </div>
       </div>
 
-      {/* Resumo */}
+      <div className="admin-form-group">
+        <label className="admin-form-label">Tags</label>
+        <Controller
+          name="tagNames"
+          control={control}
+          render={() => (
+            <div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.4rem' }}>
+                {tagNames.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      background: '#e6f0ff',
+                      color: '#1e3a8a',
+                      padding: '0.2rem 0.55rem',
+                      borderRadius: '999px',
+                      fontSize: '0.78rem',
+                    }}
+                  >
+                    {t}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(t)}
+                      style={{ background: 'transparent', border: 0, cursor: 'pointer', padding: 0, display: 'flex' }}
+                      aria-label={`Remover ${t}`}
+                    >
+                      <X size={12} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleTagKey}
+                onBlur={() => tagInput && addTag(tagInput)}
+                className="admin-form-input"
+                placeholder="Digite e pressione Enter ou vírgula"
+              />
+              {sugestoesTags.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.35rem' }}>
+                  {sugestoesTags.map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => addTag(t.name)}
+                      style={{
+                        fontSize: '0.72rem',
+                        padding: '0.15rem 0.5rem',
+                        borderRadius: '999px',
+                        border: '1px solid #d1d5db',
+                        background: '#f9fafb',
+                        cursor: 'pointer',
+                        color: '#374151',
+                      }}
+                    >
+                      + {t.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        />
+      </div>
+
       <div className="admin-form-group">
         <label className="admin-form-label">Resumo *</label>
         <textarea
@@ -162,7 +287,6 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         {errors.excerpt && <span className="admin-form-error">{errors.excerpt.message}</span>}
       </div>
 
-      {/* Conteúdo - Editor Rico */}
       <div className="admin-form-group">
         <label className="admin-form-label">Conteúdo *</label>
         <Controller
@@ -179,7 +303,6 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         {errors.content && <span className="admin-form-error">{errors.content.message}</span>}
       </div>
 
-      {/* Imagem e status */}
       <div className="admin-form-grid">
         <div className="admin-form-group">
           <ImageUploader
@@ -216,7 +339,6 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         <span className="admin-form-checkbox-label">Artigo em destaque</span>
       </label>
 
-      {/* SEO */}
       <div className="admin-form-section-title">SEO</div>
       <div className="admin-form-grid">
         <div className="admin-form-group">
@@ -231,9 +353,8 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         </div>
       </div>
 
-      {/* Actions */}
       <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.5rem' }}>
-        <button type="submit" disabled={saving} className="admin-btn admin-btn-primary">
+        <button type="submit" disabled={saving || categorias.length === 0} className="admin-btn admin-btn-primary">
           <Save size={14} />
           {saving ? 'Salvando…' : 'Salvar'}
         </button>
@@ -261,14 +382,13 @@ export function ArtigoForm({ artigo, id, isEdit }: Props) {
         )}
       </div>
 
-      {/* Preview Modal */}
       <ArtigoPreview
         artigo={{
           title: getValues('title') || 'Título do Artigo',
           slug: getValues('slug') || 'url-do-artigo',
           excerpt: getValues('excerpt') || '',
           content: getValues('content') || '<p>Conteúdo do artigo...</p>',
-          category: getValues('category'),
+          categoryLabel: categoriaSelecionada || 'Categoria',
           coverImage: getValues('coverImage'),
           author: getValues('author'),
           publishedAt: getValues('publishedAt'),

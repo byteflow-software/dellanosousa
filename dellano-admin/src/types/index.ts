@@ -1,5 +1,4 @@
 export type ContentStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
-export type ArtigoCategory = 'PROVAS_DIGITAIS' | 'PROCESSO_PENAL' | 'INVESTIGACAO_DEFENSIVA' | 'CIBERCRIMES' | 'ANALISES'
 export type PublicacaoTipo = 'MIDIA' | 'PUBLICACAO_ACADEMICA'
 export type EventoTipo = 'PALESTRA' | 'CURSO' | 'CONGRESSO' | 'MESA'
 export type FaqCategory = 'GERAL' | 'PROVAS_DIGITAIS' | 'INVESTIGACAO' | 'HONORARIOS'
@@ -7,14 +6,6 @@ export type FaqCategory = 'GERAL' | 'PROVAS_DIGITAIS' | 'INVESTIGACAO' | 'HONORA
 export type ActionResult<T = void> =
   | { success: true; data?: T }
   | { success: false; error: string }
-
-export const ARTIGO_CATEGORY_LABELS: Record<ArtigoCategory, string> = {
-  PROVAS_DIGITAIS: 'Provas Digitais',
-  PROCESSO_PENAL: 'Processo Penal',
-  INVESTIGACAO_DEFENSIVA: 'Investigação Defensiva',
-  CIBERCRIMES: 'Cibercrimes',
-  ANALISES: 'Análises',
-}
 
 export const PUBLICACAO_TIPO_LABELS: Record<PublicacaoTipo, string> = {
   MIDIA: 'Mídia / Entrevista',

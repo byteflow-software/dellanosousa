@@ -21,24 +21,26 @@ export type Service = {
   faq?: ServiceFAQ[]
 }
 
-export type ArticleCategory =
-  | 'Provas Digitais'
-  | 'Processo Penal'
-  | 'Investigação Defensiva'
-  | 'Cibercrimes'
-  | 'Análises'
+export type ArticleCategory = string
+
+export type ArticleTag = {
+  name: string
+  slug: string
+}
 
 export type Article = {
   title: string
   slug: string
   date: string
   author: string
-  category: ArticleCategory
+  category: string
+  categorySlug: string
   excerpt: string
   coverImage?: string
   featured: boolean
   content: string
   readingTime: number
+  tags: ArticleTag[]
 }
 
 export type Risk = {

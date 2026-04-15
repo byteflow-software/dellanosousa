@@ -1,8 +1,11 @@
 import { ArtigoForm } from '@/components/admin/artigos/ArtigoForm'
+import { listCategorias } from '@/lib/actions/categorias'
+import { listTags } from '@/lib/actions/tags'
 
 export const metadata = { title: 'Novo Artigo' }
 
-export default function NovoArtigoPage() {
+export default async function NovoArtigoPage() {
+  const [categorias, tags] = await Promise.all([listCategorias(), listTags()])
   return (
     <div>
       <div className="admin-page-header">
@@ -12,7 +15,10 @@ export default function NovoArtigoPage() {
         </div>
       </div>
       <div className="admin-card">
-        <ArtigoForm />
+        <ArtigoForm
+          categorias={categorias.map((c) => ({ id: c.id, name: c.name }))}
+          tagsDisponiveis={tags.map((t) => ({ id: t.id, name: t.name }))}
+        />
       </div>
     </div>
   )

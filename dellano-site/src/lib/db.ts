@@ -1,16 +1,6 @@
 import { prisma } from './prisma'
 import { estimateReadingTime } from './utils'
-import type { Article, ArticleCategory } from '@/types'
-
-// ─── Enum mappings (Prisma enum → display label) ────────────────────────────
-
-const categoryMap: Record<string, ArticleCategory> = {
-  PROVAS_DIGITAIS: 'Provas Digitais',
-  PROCESSO_PENAL: 'Processo Penal',
-  INVESTIGACAO_DEFENSIVA: 'Investigação Defensiva',
-  CIBERCRIMES: 'Cibercrimes',
-  ANALISES: 'Análises',
-}
+import type { Article } from '@/types'
 
 const eventTypeLabels: Record<string, string> = {
   PALESTRA: 'Palestra',
@@ -30,41 +20,55 @@ export { eventTypeLabels, faqCategoryLabels }
 
 // ─── Artigos ─────────────────────────────────────────────────────────────────
 
-function toArticle(row: {
+type ArtigoRow = {
   title: string
   slug: string
   content: string
   excerpt: string
-  category: string
   coverImage: string | null
   featured: boolean
   publishedAt: Date | null
   author: string
-}): Article {
+  categoria: { name: string; slug: string } | null
+  tags: { name: string; slug: string }[]
+}
+
+function toArticle(row: ArtigoRow): Article {
   return {
     title: row.title,
     slug: row.slug,
     content: row.content,
     excerpt: row.excerpt,
-    category: categoryMap[row.category] ?? 'Análises',
+    category: row.categoria?.name ?? 'Sem categoria',
+    categorySlug: row.categoria?.slug ?? '',
     coverImage: row.coverImage ?? undefined,
     featured: row.featured,
     date: row.publishedAt?.toISOString().split('T')[0] ?? '',
     author: row.author,
     readingTime: estimateReadingTime(row.content),
+    tags: row.tags.map((t) => ({ name: t.name, slug: t.slug })),
   }
 }
+
+const artigoInclude = {
+  categoria: { select: { name: true, slug: true } },
+  tags: { select: { name: true, slug: true } },
+} as const
 
 export async function getArticles(): Promise<Article[]> {
   const rows = await prisma.artigo.findMany({
     where: { status: 'PUBLISHED' },
     orderBy: { publishedAt: 'desc' },
+    include: artigoInclude,
   })
   return rows.map(toArticle)
 }
 
 export async function getArtigoBySlug(slug: string): Promise<Article | null> {
-  const row = await prisma.artigo.findUnique({ where: { slug } })
+  const row = await prisma.artigo.findUnique({
+    where: { slug },
+    include: artigoInclude,
+  })
   if (!row || row.status !== 'PUBLISHED') return null
   return toArticle(row)
 }
@@ -74,8 +78,16 @@ export async function getFeaturedArticles(): Promise<Article[]> {
     where: { status: 'PUBLISHED', featured: true },
     orderBy: { publishedAt: 'desc' },
     take: 3,
+    include: artigoInclude,
   })
   return rows.map(toArticle)
+}
+
+export async function getCategorias() {
+  return prisma.categoria.findMany({
+    orderBy: [{ order: 'asc' }, { name: 'asc' }],
+    select: { name: true, slug: true },
+  })
 }
 
 // ─── Equipe ──────────────────────────────────────────────────────────────────

@@ -34,10 +34,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      ...(article.coverImage ? { images: [{ url: article.coverImage, width: 1200, height: 630 }] } : {}),
       type: 'article',
       publishedTime: article.date,
       authors: [article.author],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt,
     },
   }
 }

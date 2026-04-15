@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, FileText, ExternalLink, Newspaper,
   CalendarDays, Users, HelpCircle, User, Search, LogOut,
+  FolderTree, Tag,
 } from 'lucide-react'
 
 const nav = [
@@ -13,6 +14,8 @@ const nav = [
     links: [
       { href: '/', label: 'Dashboard', icon: LayoutDashboard },
       { href: '/artigos', label: 'Artigos', icon: FileText },
+      { href: '/categorias', label: 'Categorias', icon: FolderTree },
+      { href: '/tags', label: 'Tags', icon: Tag },
       { href: '/publicacoes', label: 'Publicações Externas', icon: ExternalLink },
       { href: '/imprensa', label: 'Imprensa', icon: Newspaper },
       { href: '/eventos', label: 'Eventos', icon: CalendarDays },

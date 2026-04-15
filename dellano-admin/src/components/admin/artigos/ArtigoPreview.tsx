@@ -9,7 +9,7 @@ interface ArtigoData {
   slug: string
   excerpt: string
   content: string
-  category: string
+  categoryLabel: string
   coverImage?: string
   author: string
   publishedAt?: string
@@ -19,14 +19,6 @@ interface Props {
   artigo: ArtigoData
   isOpen: boolean
   onClose: () => void
-}
-
-const CATEGORY_LABELS: Record<string, string> = {
-  PROVAS_DIGITAIS: 'Provas Digitais',
-  PROCESSO_PENAL: 'Processo Penal',
-  INVESTIGACAO_DEFENSIVA: 'Investigação Defensiva',
-  CIBERCRIMES: 'Cibercrimes',
-  ANALISES: 'Análises',
 }
 
 export function ArtigoPreview({ artigo, isOpen, onClose }: Props) {
@@ -63,7 +55,7 @@ export function ArtigoPreview({ artigo, isOpen, onClose }: Props) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                   <Badge variant="accent" className="mb-3">
-                    {CATEGORY_LABELS[artigo.category] || artigo.category}
+                    {artigo.categoryLabel}
                   </Badge>
                   <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
                     {artigo.title}
@@ -73,7 +65,7 @@ export function ArtigoPreview({ artigo, isOpen, onClose }: Props) {
             ) : (
               <div className="p-6 md:p-8 border-b border-border">
                 <Badge variant="accent" className="mb-3">
-                  {CATEGORY_LABELS[artigo.category] || artigo.category}
+                  {artigo.categoryLabel}
                 </Badge>
                 <h1 className="text-2xl md:text-3xl font-bold text-primary mb-4">
                   {artigo.title}

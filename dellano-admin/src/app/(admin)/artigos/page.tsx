@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Plus, FileText } from 'lucide-react'
 import { listArtigos } from '@/lib/actions/artigos'
-import { ARTIGO_CATEGORY_LABELS, STATUS_LABELS } from '@/types'
+import { STATUS_LABELS } from '@/types'
 import { formatRelativeDate } from '@/lib/utils'
 
 export const metadata = { title: 'Artigos' }
@@ -50,7 +50,7 @@ export default async function ArtigosPage() {
                     </td>
                     <td>
                       <span className="admin-badge admin-badge-blue">
-                        {ARTIGO_CATEGORY_LABELS[a.category]}
+                        {a.categoria?.name ?? '—'}
                       </span>
                     </td>
                     <td>

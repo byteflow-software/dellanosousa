@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import Script from "next/script";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
@@ -9,6 +10,8 @@ import "./globals.css";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://dellanosousa.com.br";
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const attorneyJsonLd = {
   "@context": "https://schema.org",
@@ -96,9 +99,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     siteName: "Dellano Sousa Advocacia",
-    images: [
-      { url: "/images/brand/topo-insta.jpg", width: 1080, height: 1080 },
-    ],
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dellano Sousa Advocacia — Defesa Criminal e Provas Digitais",
+    description:
+      "Escritório jurídico com atuação especializada em defesa criminal estratégica, provas digitais e investigação defensiva.",
   },
   robots: { index: true, follow: true },
 };
@@ -117,6 +124,20 @@ export default function RootLayout({
         <Footer />
         <WhatsAppFloat />
         <CookieBanner />
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
