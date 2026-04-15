@@ -21,14 +21,27 @@ const schema = z.object({
   category: z.enum(['PROVAS_DIGITAIS', 'PROCESSO_PENAL', 'INVESTIGACAO_DEFENSIVA', 'CIBERCRIMES', 'ANALISES']),
   coverImage: z.string().optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
-  featured: z.boolean().default(false),
+  featured: z.boolean(),
   publishedAt: z.string().optional(),
-  author: z.string().min(1),
+  author: z.string(),
   seoTitle: z.string().max(70).optional(),
   seoDesc: z.string().max(160).optional(),
 })
 
-type FormData = z.infer<typeof schema>
+interface FormData {
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  category: 'PROVAS_DIGITAIS' | 'PROCESSO_PENAL' | 'INVESTIGACAO_DEFENSIVA' | 'CIBERCRIMES' | 'ANALISES'
+  coverImage?: string
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
+  featured: boolean
+  publishedAt?: string
+  author: string
+  seoTitle?: string
+  seoDesc?: string
+}
 
 const CATEGORIES = [
   { value: 'PROVAS_DIGITAIS', label: 'Provas Digitais' },
