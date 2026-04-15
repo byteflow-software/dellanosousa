@@ -23,7 +23,7 @@ export async function createImprensa(data: Input): Promise<ActionResult<{ id: st
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = ImprensaSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { url, description, ...rest } = parsed.data
   const item = await prisma.imprensa.create({ data: { ...rest, url: url || null, description: description || null } })
@@ -36,7 +36,7 @@ export async function updateImprensa(id: string, data: Input): Promise<ActionRes
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = ImprensaSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { url, description, ...rest } = parsed.data
   await prisma.imprensa.update({ where: { id }, data: { ...rest, url: url || null, description: description || null } })

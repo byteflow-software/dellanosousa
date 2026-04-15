@@ -24,7 +24,7 @@ export async function createPublicacao(data: Input): Promise<ActionResult<{ id: 
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = PublicacaoSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { url, ...rest } = parsed.data
   const pub = await prisma.publicacao.create({ data: { ...rest, url: url || null } })
@@ -37,7 +37,7 @@ export async function updatePublicacao(id: string, data: Input): Promise<ActionR
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = PublicacaoSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { url, ...rest } = parsed.data
   await prisma.publicacao.update({ where: { id }, data: { ...rest, url: url || null } })

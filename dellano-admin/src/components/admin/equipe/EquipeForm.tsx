@@ -19,11 +19,22 @@ const schema = z.object({
   linkedin: z.string().optional(),
   hierarchy: z.enum(['principal', 'apoio']),
   expertise: z.string(),
-  order: z.coerce.number().int().default(0),
-  active: z.boolean().default(true),
+  order: z.number().int(),
+  active: z.boolean(),
 })
 
-type FormData = z.infer<typeof schema>
+interface FormData {
+  name: string
+  role: string
+  bio: string
+  photo?: string
+  oab?: string
+  linkedin?: string
+  hierarchy: 'principal' | 'apoio'
+  expertise: string
+  order: number
+  active: boolean
+}
 
 interface Props {
   membro?: MembroEquipe

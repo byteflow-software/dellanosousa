@@ -35,7 +35,7 @@ export async function createArtigo(data: ArtigoInput): Promise<ActionResult<{ id
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = ArtigoSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { coverImage, seoTitle, seoDesc, publishedAt, ...rest } = parsed.data
 
@@ -62,7 +62,7 @@ export async function updateArtigo(id: string, data: ArtigoInput): Promise<Actio
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = ArtigoSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { coverImage, seoTitle, seoDesc, publishedAt, ...rest } = parsed.data
 

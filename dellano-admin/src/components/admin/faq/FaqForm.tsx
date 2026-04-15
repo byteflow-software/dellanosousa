@@ -13,11 +13,17 @@ const schema = z.object({
   category: z.enum(['GERAL', 'PROVAS_DIGITAIS', 'INVESTIGACAO', 'HONORARIOS']),
   question: z.string().min(5, 'Pergunta obrigatória'),
   answer: z.string().min(10, 'Resposta obrigatória'),
-  order: z.coerce.number().int().default(0),
-  active: z.boolean().default(true),
+  order: z.number().int(),
+  active: z.boolean(),
 })
 
-type FormData = z.infer<typeof schema>
+interface FormData {
+  category: 'GERAL' | 'PROVAS_DIGITAIS' | 'INVESTIGACAO' | 'HONORARIOS'
+  question: string
+  answer: string
+  order: number
+  active: boolean
+}
 
 interface Props {
   item?: FaqItem

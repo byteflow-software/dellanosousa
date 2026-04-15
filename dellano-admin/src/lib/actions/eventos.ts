@@ -25,7 +25,7 @@ export async function createEvento(data: Input): Promise<ActionResult<{ id: stri
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = EventoSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { role, description, ...rest } = parsed.data
   const evento = await prisma.evento.create({ data: { ...rest, role: role || null, description: description || null } })
@@ -38,7 +38,7 @@ export async function updateEvento(id: string, data: Input): Promise<ActionResul
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = EventoSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { role, description, ...rest } = parsed.data
   await prisma.evento.update({ where: { id }, data: { ...rest, role: role || null, description: description || null } })

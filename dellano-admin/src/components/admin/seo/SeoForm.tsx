@@ -14,10 +14,17 @@ const schema = z.object({
   description: z.string().min(10).max(160),
   ogTitle: z.string().max(70).optional(),
   ogDesc: z.string().max(160).optional(),
-  noIndex: z.boolean().default(false),
+  noIndex: z.boolean(),
 })
 
-type FormData = z.infer<typeof schema>
+interface FormData {
+  pageKey: string
+  title: string
+  description: string
+  ogTitle?: string
+  ogDesc?: string
+  noIndex: boolean
+}
 
 interface Props {
   page: PageSeo

@@ -16,10 +16,18 @@ const schema = z.object({
   url: z.string().optional(),
   date: z.string().min(4, 'Data obrigatória'),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
-  order: z.coerce.number().int().default(0),
+  order: z.number().int(),
 })
 
-type FormData = z.infer<typeof schema>
+interface FormData {
+  title: string
+  venue: string
+  tipo: 'MIDIA' | 'PUBLICACAO_ACADEMICA'
+  url?: string
+  date: string
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
+  order: number
+}
 
 interface Props {
   publicacao?: Publicacao

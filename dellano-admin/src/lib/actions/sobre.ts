@@ -23,7 +23,7 @@ export async function saveSobre(data: Input): Promise<ActionResult> {
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = SobreSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { bioText, credentials, lectures } = parsed.data
 

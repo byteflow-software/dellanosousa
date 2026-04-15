@@ -31,7 +31,7 @@ export async function createMembro(data: Input): Promise<ActionResult<{ id: stri
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = EquipeSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { expertise, oab, linkedin, photo, ...rest } = parsed.data
   const membro = await prisma.membroEquipe.create({
@@ -46,7 +46,7 @@ export async function updateMembro(id: string, data: Input): Promise<ActionResul
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = EquipeSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const { expertise, oab, linkedin, photo, ...rest } = parsed.data
   await prisma.membroEquipe.update({

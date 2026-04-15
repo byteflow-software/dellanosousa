@@ -22,7 +22,7 @@ export async function createFaq(data: Input): Promise<ActionResult<{ id: string 
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = FaqSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   const item = await prisma.faqItem.create({ data: parsed.data })
   revalidatePath('/faq')
@@ -34,7 +34,7 @@ export async function updateFaq(id: string, data: Input): Promise<ActionResult> 
   if (!user) return { success: false, error: 'Não autorizado' }
 
   const parsed = FaqSchema.safeParse(data)
-  if (!parsed.success) return { success: false, error: parsed.error.errors[0].message }
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
   await prisma.faqItem.update({ where: { id }, data: parsed.data })
   revalidatePath('/faq')
