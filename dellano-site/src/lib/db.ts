@@ -90,6 +90,33 @@ export async function getCategorias() {
   })
 }
 
+export async function getTags() {
+  const rows = await prisma.tag.findMany({
+    orderBy: { name: 'asc' },
+    select: {
+      name: true,
+      slug: true,
+      _count: { select: { artigos: { where: { status: 'PUBLISHED' } } } },
+    },
+  })
+  return rows
+    .filter((t) => t._count.artigos > 0)
+    .map((t) => ({ name: t.name, slug: t.slug, count: t._count.artigos }))
+}
+
+export async function getTagBySlug(slug: string) {
+  return prisma.tag.findUnique({ where: { slug } })
+}
+
+export async function getArticlesByTag(tagSlug: string): Promise<Article[]> {
+  const rows = await prisma.artigo.findMany({
+    where: { status: 'PUBLISHED', tags: { some: { slug: tagSlug } } },
+    orderBy: { publishedAt: 'desc' },
+    include: artigoInclude,
+  })
+  return rows.map(toArticle)
+}
+
 // ─── Equipe ──────────────────────────────────────────────────────────────────
 
 export async function getTeamMembers() {

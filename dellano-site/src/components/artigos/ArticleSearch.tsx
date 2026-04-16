@@ -1,17 +1,22 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Link from 'next/link'
 import { ArticleCard } from './ArticleCard'
 import { Badge } from '@/components/ui/Badge'
 import type { Article, ArticleCategory } from '@/types'
 
+type TagInfo = { name: string; slug: string; count: number }
+
 type ArticleSearchProps = {
   articles: Article[]
+  tags?: TagInfo[]
 }
 
-export function ArticleSearch({ articles }: ArticleSearchProps) {
+export function ArticleSearch({ articles, tags = [] }: ArticleSearchProps) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<ArticleCategory | 'todos'>('todos')
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
 
   const categories = useMemo(() => {
     const set = new Set<ArticleCategory>()
@@ -24,6 +29,7 @@ export function ArticleSearch({ articles }: ArticleSearchProps) {
     return articles.filter((a) => {
       const matchesCategory = category === 'todos' || a.category === category
       if (!matchesCategory) return false
+      if (selectedTag && !a.tags.some((t) => t.slug === selectedTag)) return false
       if (!q) return true
       return (
         a.title.toLowerCase().includes(q) ||
@@ -31,48 +37,80 @@ export function ArticleSearch({ articles }: ArticleSearchProps) {
         a.author.toLowerCase().includes(q)
       )
     })
-  }, [articles, query, category])
+  }, [articles, query, category, selectedTag])
 
   return (
     <div>
-      <div className="mb-8 flex flex-col md:flex-row gap-4 md:items-center">
-        <label className="flex-1 relative">
-          <span className="sr-only">Buscar artigo</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar por título, autor ou palavra-chave"
-            className="w-full px-4 py-3 rounded-lg border border-primary/15 bg-white text-sm text-primary placeholder:text-muted/60 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
-          />
-        </label>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setCategory('todos')}
-            className={`px-3 py-1.5 rounded-full text-xs font-sans font-medium transition-colors ${
-              category === 'todos'
-                ? 'bg-primary text-white'
-                : 'bg-white border border-primary/15 text-muted hover:border-gold/40 hover:text-primary'
-            }`}
-          >
-            Todas
-          </button>
-          {categories.map((cat) => (
+      <div className="mb-8 space-y-4">
+        <div className="flex flex-col md:flex-row gap-4 md:items-center">
+          <label className="flex-1 relative">
+            <span className="sr-only">Buscar artigo</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Buscar por título, autor ou palavra-chave"
+              className="w-full px-4 py-3 rounded-lg border border-primary/15 bg-white text-sm text-primary placeholder:text-muted/60 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
+            />
+          </label>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={cat}
               type="button"
-              onClick={() => setCategory(cat)}
+              onClick={() => setCategory('todos')}
               className={`px-3 py-1.5 rounded-full text-xs font-sans font-medium transition-colors ${
-                category === cat
+                category === 'todos'
                   ? 'bg-primary text-white'
                   : 'bg-white border border-primary/15 text-muted hover:border-gold/40 hover:text-primary'
               }`}
             >
-              {cat}
+              Todas
             </button>
-          ))}
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setCategory(cat)}
+                className={`px-3 py-1.5 rounded-full text-xs font-sans font-medium transition-colors ${
+                  category === cat
+                    ? 'bg-primary text-white'
+                    : 'bg-white border border-primary/15 text-muted hover:border-gold/40 hover:text-primary'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 items-center">
+            <span className="text-xs font-sans text-muted mr-1">Tags:</span>
+            {tags.map((tag) => (
+              <button
+                key={tag.slug}
+                type="button"
+                onClick={() => setSelectedTag(selectedTag === tag.slug ? null : tag.slug)}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-sans transition-colors ${
+                  selectedTag === tag.slug
+                    ? 'bg-gold text-white'
+                    : 'bg-white border border-primary/10 text-muted hover:border-gold/40 hover:text-primary'
+                }`}
+              >
+                #{tag.name}
+                <span className="opacity-60">({tag.count})</span>
+              </button>
+            ))}
+            {selectedTag && (
+              <button
+                type="button"
+                onClick={() => setSelectedTag(null)}
+                className="text-xs text-muted hover:text-primary transition-colors underline underline-offset-2"
+              >
+                limpar
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {filtered.length > 0 ? (

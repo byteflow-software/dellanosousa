@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getArticles } from '@/lib/db'
+import { getArticles, getTags } from '@/lib/db'
 import { ArticleCover } from '@/components/artigos/ArticleCover'
 import { ArticleSearch } from '@/components/artigos/ArticleSearch'
 import { NewsletterSignup } from '@/components/layout/NewsletterSignup'
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 export default async function ArtigosPage() {
-  const articles = await getArticles()
+  const [articles, tags] = await Promise.all([getArticles(), getTags()])
   const featured = articles.find((a) => a.featured)
   const others = articles.filter((a) => !a.featured)
 
@@ -64,7 +64,7 @@ export default async function ArtigosPage() {
           </Link>
         )}
 
-        {others.length > 0 && <ArticleSearch articles={others} />}
+        {others.length > 0 && <ArticleSearch articles={others} tags={tags} />}
 
         {articles.length === 0 && (
           <p className="text-muted text-center py-20">Nenhum artigo publicado ainda.</p>

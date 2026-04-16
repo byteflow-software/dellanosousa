@@ -31,12 +31,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title,
     description: article.excerpt,
+    keywords: article.tags.map((t) => t.name),
     openGraph: {
       title: article.title,
       description: article.excerpt,
       type: 'article',
       publishedTime: article.date,
       authors: [article.author],
+      tags: article.tags.map((t) => t.name),
     },
     twitter: {
       card: 'summary_large_image',
@@ -71,6 +73,7 @@ export default async function ArtigoPage({ params }: Props) {
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/artigos/${slug}` },
     articleSection: article.category,
+    keywords: article.tags.map((t) => t.name).join(', '),
   }
 
   return (
@@ -111,6 +114,23 @@ export default async function ArtigoPage({ params }: Props) {
               className="prose prose-sm md:prose-base max-w-none prose-headings:font-serif prose-headings:text-primary prose-p:text-muted prose-p:leading-relaxed prose-a:text-accent prose-strong:text-primary"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
+
+            {article.tags.length > 0 && (
+              <div className="mt-10 pt-6 border-t border-primary/10">
+                <p className="text-xs font-sans font-semibold text-muted uppercase tracking-widest mb-3">Tags</p>
+                <div className="flex flex-wrap gap-2">
+                  {article.tags.map((tag) => (
+                    <Link
+                      key={tag.slug}
+                      href={`/tags/${tag.slug}`}
+                      className="inline-flex items-center px-3 py-1 rounded-full bg-white border border-primary/15 text-xs font-sans text-muted hover:border-gold/40 hover:text-primary transition-colors"
+                    >
+                      #{tag.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <ShareButtons url={`${SITE_URL}/artigos/${slug}`} title={article.title} />
 
