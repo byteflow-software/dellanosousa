@@ -138,7 +138,7 @@ export default async function ArtigoPage({ params }: Props) {
               <div className="flex items-start gap-4">
                 <div className="relative w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-secondary to-primary flex-shrink-0">
                   <Image
-                    src="/images/dellano/dellano-principal.png"
+                    src="/images/dellano/dellano-sobre.jpeg"
                     alt={article.author}
                     fill
                     className="object-cover object-top"
