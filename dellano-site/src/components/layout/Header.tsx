@@ -44,11 +44,6 @@ export function Header() {
                 className="h-9 md:h-11 w-auto object-contain"
                 priority
               />
-              <span className="hidden sm:inline-block text-[11px] font-sans font-medium text-muted border-l border-primary/15 pl-3 leading-tight">
-                OAB/CE
-                <br />
-                04.969
-              </span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">
