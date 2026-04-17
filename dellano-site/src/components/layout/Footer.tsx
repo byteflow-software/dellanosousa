@@ -35,7 +35,7 @@ export function Footer() {
               digitais e investigação defensiva.
             </p>
             <p className="text-white/50 text-xs mt-3 font-sans">
-              Dellano Sousa · OAB/CE 04.969
+              Dellano Sousa · OAB/CE 53.322 | OAB/PI 25.100
             </p>
             <div className="flex items-center gap-4 mt-6">
               {[
