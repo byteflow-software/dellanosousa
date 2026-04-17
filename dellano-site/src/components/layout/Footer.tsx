@@ -178,7 +178,7 @@ export function Footer() {
         <Separator light />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-white/40 text-xs">
-          <p>© {year} Dellano Sousa Advocacia. Todos os direitos reservados.</p>
+          <p>© {year} Dellano Sousa Sociedade Individual de Advocacia — OAB/CE nº 4.969. Todos os direitos reservados.</p>
           <div className="flex items-center gap-6">
             <Link
               href="/politica-de-privacidade"
