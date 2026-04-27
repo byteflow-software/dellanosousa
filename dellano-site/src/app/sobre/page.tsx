@@ -4,47 +4,23 @@ import { getSobrePage } from '@/lib/db'
 import { Badge } from '@/components/ui/Badge'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Button } from '@/components/ui/Button'
+import { meta, pages } from '@/content'
+
+const { sobre } = pages
 
 export const metadata: Metadata = {
-  title: 'Sobre Dellano Sousa',
-  description:
-    'Advogado criminalista OAB/CE 53.322 | OAB/PI 25.100. Coordenador Nacional das Prerrogativas Digitais da ABRACRIM. Especializado em provas digitais, investigação defensiva e grandes operações. Autor no ConJur e Migalhas.',
+  title: meta.sobre.title,
+  description: meta.sobre.description,
 }
 
 export const revalidate = 60
 
-const fallbackCredentials = [
-  'OAB/CE 53.322 | OAB/PI 25.100',
-  'Membro da ABRACRIM',
-  'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
-  'Vice-Presidente da Comissão de Direito Digital — ABRACRIM',
-  'Autor — ConJur e Migalhas',
-  'Atuação especializada em Computação Forense',
-  'Atuação Nacional',
-  'Membro do IAB',
-]
-
-const fallbackLectures = [
-  'Palestra — Provas Digitais e Cadeia de Custódia — OAB/CE, 2025',
-  'Mesa-redonda — Investigação Defensiva na Era Digital — ABRACRIM Nacional, 2025',
-  'Curso de extensão — Computação Forense para Advogados — ESA/CE, 2024',
-  'Palestra — Cibercrimes e Defesa Criminal — OAB/PI, 2024',
-]
-
-const fallbackBio = `Dellano Sousa é advogado criminalista, com atuação nacional e dedicação ao estudo de provas digitais e da investigação defensiva. Atua em casos de alta complexidade que envolvem evidências tecnológicas, interceptações, extrações forenses e análise de dados digitais.
-
-Coordenador Nacional das Prerrogativas Digitais da ABRACRIM, Vice-Presidente da Comissão de Direito Digital da ABRACRIM e membro da ABRACRIM, Dellano une o rigor do processo penal brasileiro ao conhecimento técnico em computação forense. Essa combinação permite a construção de teses defensivas sólidas, a identificação de fragilidades probatórias que poderiam passar despercebidas e a elaboração de pareceres técnicos de relevância nos tribunais.
-
-Autor de artigos jurídicos publicados no ConJur e no Migalhas, Dellano também se destaca pela produção de conteúdo técnico voltado à advocacia criminal, com enfoque em cadeia de custódia, admissibilidade da prova digital, contraditório técnico e garantias processuais.
-
-Com escritório-sede em Fortaleza e atuação em todo o Brasil, o escritório atende casos em todo o território nacional, com atendimento reservado para situações urgentes.`
-
 export default async function SobrePage() {
-  const sobre = await getSobrePage()
+  const sobreData = await getSobrePage()
 
-  const bioText = sobre?.bioText ?? fallbackBio
-  const credentials = sobre?.credentials ?? fallbackCredentials
-  const lectures = sobre?.lectures ?? fallbackLectures
+  const bioText = sobreData?.bioText ?? sobre.fallbackBio
+  const credentials = sobreData?.credentials ?? sobre.fallbackCredentials
+  const lectures = sobreData?.lectures ?? sobre.fallbackLectures
 
   return (
     <div className="bg-background">
@@ -54,8 +30,8 @@ export default async function SobrePage() {
             <AnimatedSection direction="left">
               <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden border border-primary/10 shadow-xl bg-gradient-to-br from-secondary to-primary sticky top-28">
                 <Image
-                  src="/images/dellano/dellano-sobre.jpeg"
-                  alt="Dellano Sousa — Advogado Criminal e Especialista em Provas Digitais"
+                  src={sobre.image.src}
+                  alt={sobre.image.alt}
                   fill
                   className="object-cover object-top"
                   priority
@@ -66,13 +42,13 @@ export default async function SobrePage() {
 
             <AnimatedSection direction="right" delay={0.1}>
               <p className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4">
-                Perfil Profissional
+                {sobre.eyebrow}
               </p>
               <h1 className="font-serif font-semibold text-primary text-3xl md:text-5xl leading-tight mb-6">
-                Dellano Sousa
+                {sobre.title}
               </h1>
               <p className="font-sans font-medium text-accent text-base mb-8">
-                Advogado Criminal — OAB/CE 53.322 | OAB/PI 25.100 · Atuação especializada em provas digitais, investigação defensiva e grandes operações
+                {sobre.subtitle}
               </p>
 
               <div className="space-y-4 text-muted text-base leading-relaxed mb-8">
@@ -88,7 +64,7 @@ export default async function SobrePage() {
               </div>
 
               <Button href="/contato" variant="primary">
-                Agendar consulta
+                {sobre.ctaPrimaryLabel}
               </Button>
             </AnimatedSection>
           </div>
@@ -99,7 +75,7 @@ export default async function SobrePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-12">
-              Palestras e Participações
+              {sobre.lecturesTitle}
             </h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl">
@@ -117,10 +93,10 @@ export default async function SobrePage() {
       <section className="py-16 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif font-semibold text-white text-2xl md:text-3xl mb-6">
-            Precisa de uma defesa técnica e estratégica?
+            {sobre.finalCta.title}
           </h2>
           <Button href="/contato" variant="gold" size="lg">
-            Entre em contato
+            {sobre.finalCta.ctaLabel}
           </Button>
         </div>
       </section>

@@ -2,11 +2,13 @@ import type { Metadata } from 'next'
 import { getActiveFaqs, getFaqCategories } from '@/lib/db'
 import { JsonLd } from '@/components/layout/JsonLd'
 import { Button } from '@/components/ui/Button'
+import { meta, pages } from '@/content'
+
+const { faq } = pages
 
 export const metadata: Metadata = {
-  title: 'Perguntas Frequentes',
-  description:
-    'Dúvidas recorrentes sobre defesa criminal, provas digitais, investigação defensiva e honorários no escritório Dellano Sousa Advocacia.',
+  title: meta.faq.title,
+  description: meta.faq.description,
 }
 
 export const revalidate = 60
@@ -32,13 +34,13 @@ export default async function FAQPage() {
       <section className="py-16 md:py-24 bg-primary">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4">
-            Dúvidas Recorrentes
+            {faq.eyebrow}
           </p>
           <h1 className="font-serif font-semibold text-white text-3xl md:text-5xl leading-tight mb-4">
-            Perguntas Frequentes
+            {faq.title}
           </h1>
           <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-3xl">
-            Respostas técnicas às perguntas mais comuns sobre nossa atuação. Para análise do seu caso específico, entre em contato.
+            {faq.description}
           </p>
         </div>
       </section>
@@ -76,13 +78,13 @@ export default async function FAQPage() {
       <section className="py-16 bg-primary">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif font-semibold text-white text-2xl md:text-3xl mb-4">
-            Sua dúvida não está aqui?
+            {faq.finalCta.title}
           </h2>
           <p className="text-white/70 text-sm md:text-base mb-8 max-w-xl mx-auto">
-            Envie os elementos do seu caso e receba avaliação técnico-jurídica estruturada.
+            {faq.finalCta.description}
           </p>
           <Button href="/contato" variant="gold" size="lg">
-            Entrar em contato
+            {faq.finalCta.ctaLabel}
           </Button>
         </div>
       </section>

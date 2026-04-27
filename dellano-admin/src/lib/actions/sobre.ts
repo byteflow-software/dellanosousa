@@ -2,14 +2,16 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { SiteKey } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import type { ActionResult } from '@/types'
 
 const SobreSchema = z.object({
+  siteKey: z.nativeEnum(SiteKey),
   bioText: z.string().min(20, 'Biografia obrigatória'),
-  credentials: z.string(), // uma por linha
-  lectures: z.string(),    // uma por linha
+  credentials: z.string(),
+  lectures: z.string(),
 })
 
 type Input = z.infer<typeof SobreSchema>
@@ -25,18 +27,22 @@ export async function saveSobre(data: Input): Promise<ActionResult> {
   const parsed = SobreSchema.safeParse(data)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
-  const { bioText, credentials, lectures } = parsed.data
+  const { siteKey, bioText, credentials, lectures } = parsed.data
 
   await prisma.sobrePage.upsert({
-    where: { id: '1' },
+    where: { siteKey },
     update: { bioText, credentials: parseLines(credentials), lectures: parseLines(lectures) },
-    create: { id: '1', bioText, credentials: parseLines(credentials), lectures: parseLines(lectures) },
+    create: { siteKey, bioText, credentials: parseLines(credentials), lectures: parseLines(lectures) },
   })
 
   revalidatePath('/sobre')
   return { success: true }
 }
 
-export async function getSobre() {
-  return prisma.sobrePage.findUnique({ where: { id: '1' } })
+export async function getSobre(siteKey: SiteKey = 'PRINCIPAL') {
+  return prisma.sobrePage.findUnique({ where: { siteKey } })
+}
+
+export async function listSobre() {
+  return prisma.sobrePage.findMany({ orderBy: { siteKey: 'asc' } })
 }

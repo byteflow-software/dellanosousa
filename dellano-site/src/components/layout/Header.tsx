@@ -9,6 +9,9 @@ import { navigation } from '@/data/navigation'
 import { Button } from '@/components/ui/Button'
 import { MobileMenu } from './MobileMenu'
 import { cn } from '@/lib/utils'
+import { layout } from '@/content'
+
+const { brand, header } = layout
 
 const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL || 'https://wa.me/message/PWFG7DRODCD6I1'
 
@@ -37,8 +40,8 @@ export function Header() {
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/images/brand/logo-header.png"
-                alt="Dellano Sousa Advocacia"
+                src={brand.logoHeader.src}
+                alt={brand.logoHeader.alt}
                 width={220}
                 height={64}
                 className="h-9 md:h-11 w-auto object-contain"
@@ -71,12 +74,12 @@ export function Header() {
                 size="sm"
                 className="hidden md:inline-flex"
               >
-                Atendimento urgente
+                {header.ctaLabel}
               </Button>
               <button
                 onClick={() => setMobileOpen(true)}
                 className="md:hidden p-2 rounded-lg hover:bg-primary/5 transition-colors"
-                aria-label="Abrir menu"
+                aria-label={header.mobileMenuAriaLabel}
               >
                 <Menu size={22} className="text-primary" />
               </button>

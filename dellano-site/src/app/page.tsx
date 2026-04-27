@@ -10,16 +10,15 @@ import { FeaturedArticles } from '@/components/home/FeaturedArticles'
 import { GeographicPresence } from '@/components/home/GeographicPresence'
 import { NewsletterSignup } from '@/components/layout/NewsletterSignup'
 import { FinalCTA } from '@/components/home/FinalCTA'
+import { meta } from '@/content'
 
 export const metadata: Metadata = {
-  title: 'Defesa Criminal Estratégica e Provas Digitais',
-  description:
-    'Dellano Sousa Advocacia — Escritório de advocacia criminal com atuação especializada em provas digitais e investigação defensiva. Atuação nacional.',
+  title: meta.home.title,
+  description: meta.home.description,
   openGraph: {
-    title: 'Dellano Sousa Advocacia — Defesa Criminal e Provas Digitais',
-    description:
-      'Escritório jurídico com atuação especializada em evidências digitais, investigação defensiva e construção de teses técnicas.',
-    images: [{ url: '/images/brand/topo-insta.jpg', width: 1080, height: 1080 }],
+    title: meta.home.ogTitle,
+    description: meta.home.ogDescription,
+    images: [{ url: meta.home.ogImage, width: 1080, height: 1080 }],
   },
 }
 

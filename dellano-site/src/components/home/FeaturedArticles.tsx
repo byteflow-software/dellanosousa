@@ -5,6 +5,9 @@ import { SectionTitle } from '@/components/ui/SectionTitle'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ArticleCover } from '@/components/artigos/ArticleCover'
 import { formatDate } from '@/lib/utils'
+import { home } from '@/content'
+
+const { featuredArticles } = home
 
 export async function FeaturedArticles() {
   const articles = await getFeaturedArticles()
@@ -17,15 +20,15 @@ export async function FeaturedArticles() {
         <AnimatedSection>
           <div className="flex items-end justify-between mb-12">
             <SectionTitle
-              title="Conteúdo Técnico"
-              subtitle="Artigos e análises sobre provas digitais, processo penal e investigação defensiva."
+              title={featuredArticles.title}
+              subtitle={featuredArticles.subtitle}
               className="mb-0"
             />
             <Link
               href="/artigos"
               className="hidden md:block text-sm font-sans font-medium text-gold hover:underline whitespace-nowrap ml-8"
             >
-              Ver todos os artigos →
+              {featuredArticles.seeAllLabel}
             </Link>
           </div>
         </AnimatedSection>
@@ -66,7 +69,7 @@ export async function FeaturedArticles() {
 
         <div className="text-center mt-8 md:hidden">
           <Link href="/artigos" className="text-sm font-sans font-medium text-gold hover:underline">
-            Ver todos os artigos →
+            {featuredArticles.seeAllLabel}
           </Link>
         </div>
       </div>

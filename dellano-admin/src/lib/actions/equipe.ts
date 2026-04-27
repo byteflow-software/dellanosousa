@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { SiteKey } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import type { ActionResult } from '@/types'
@@ -18,6 +19,7 @@ const EquipeSchema = z.object({
   expertise: z.string(), // CSV string, será convertida para array
   order: z.number().int().default(0),
   active: z.boolean().default(true),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 type Input = z.infer<typeof EquipeSchema>

@@ -1,6 +1,20 @@
+import { SiteKey as PrismaSiteKey } from '@prisma/client'
 import { prisma } from './prisma'
 import { estimateReadingTime } from './utils'
+import { SITE_KEY } from './site'
 import type { Article } from '@/types'
+
+const SITE_KEY_TO_PRISMA: Record<string, PrismaSiteKey> = {
+  principal: 'PRINCIPAL',
+  marca: 'MARCA',
+  perito: 'PERITO',
+  'prova-digital': 'PROVA_DIGITAL',
+  criminal: 'CRIMINAL',
+  'criminal-ce': 'CRIMINAL_CE',
+}
+
+const CURRENT_SITE: PrismaSiteKey = SITE_KEY_TO_PRISMA[SITE_KEY] ?? 'PRINCIPAL'
+const sitesFilter = { sites: { has: CURRENT_SITE } }
 
 const eventTypeLabels: Record<string, string> = {
   PALESTRA: 'Palestra',
@@ -57,7 +71,7 @@ const artigoInclude = {
 
 export async function getArticles(): Promise<Article[]> {
   const rows = await prisma.artigo.findMany({
-    where: { status: 'PUBLISHED' },
+    where: { status: 'PUBLISHED', ...sitesFilter },
     orderBy: { publishedAt: 'desc' },
     include: artigoInclude,
   })
@@ -70,12 +84,13 @@ export async function getArtigoBySlug(slug: string): Promise<Article | null> {
     include: artigoInclude,
   })
   if (!row || row.status !== 'PUBLISHED') return null
+  if (!row.sites.includes(CURRENT_SITE)) return null
   return toArticle(row)
 }
 
 export async function getFeaturedArticles(): Promise<Article[]> {
   const rows = await prisma.artigo.findMany({
-    where: { status: 'PUBLISHED', featured: true },
+    where: { status: 'PUBLISHED', featured: true, ...sitesFilter },
     orderBy: { publishedAt: 'desc' },
     take: 3,
     include: artigoInclude,
@@ -96,7 +111,7 @@ export async function getTags() {
     select: {
       name: true,
       slug: true,
-      _count: { select: { artigos: { where: { status: 'PUBLISHED' } } } },
+      _count: { select: { artigos: { where: { status: 'PUBLISHED', ...sitesFilter } } } },
     },
   })
   return rows
@@ -110,7 +125,7 @@ export async function getTagBySlug(slug: string) {
 
 export async function getArticlesByTag(tagSlug: string): Promise<Article[]> {
   const rows = await prisma.artigo.findMany({
-    where: { status: 'PUBLISHED', tags: { some: { slug: tagSlug } } },
+    where: { status: 'PUBLISHED', tags: { some: { slug: tagSlug } }, ...sitesFilter },
     orderBy: { publishedAt: 'desc' },
     include: artigoInclude,
   })
@@ -121,7 +136,7 @@ export async function getArticlesByTag(tagSlug: string): Promise<Article[]> {
 
 export async function getTeamMembers() {
   return prisma.membroEquipe.findMany({
-    where: { active: true },
+    where: { active: true, ...sitesFilter },
     orderBy: [{ hierarchy: 'asc' }, { order: 'asc' }],
   })
 }
@@ -130,7 +145,7 @@ export async function getTeamMembers() {
 
 export async function getPublishedEventos() {
   const rows = await prisma.evento.findMany({
-    where: { status: 'PUBLISHED' },
+    where: { status: 'PUBLISHED', ...sitesFilter },
     orderBy: { date: 'desc' },
   })
   return rows.map((ev) => ({
@@ -143,7 +158,7 @@ export async function getPublishedEventos() {
 
 export async function getActiveFaqs() {
   return prisma.faqItem.findMany({
-    where: { active: true },
+    where: { active: true, ...sitesFilter },
     orderBy: [{ category: 'asc' }, { order: 'asc' }],
   })
 }
@@ -161,7 +176,7 @@ export function getFaqCategories() {
 
 export async function getPublishedImprensa() {
   return prisma.imprensa.findMany({
-    where: { status: 'PUBLISHED' },
+    where: { status: 'PUBLISHED', ...sitesFilter },
     orderBy: { date: 'desc' },
   })
 }
@@ -170,7 +185,7 @@ export async function getPublishedImprensa() {
 
 export async function getPublishedPublicacoes() {
   return prisma.publicacao.findMany({
-    where: { status: 'PUBLISHED' },
+    where: { status: 'PUBLISHED', ...sitesFilter },
     orderBy: [{ tipo: 'asc' }, { order: 'asc' }, { date: 'desc' }],
   })
 }
@@ -178,11 +193,19 @@ export async function getPublishedPublicacoes() {
 // ─── Sobre ───────────────────────────────────────────────────────────────────
 
 export async function getSobrePage() {
-  return prisma.sobrePage.findFirst()
+  const own = await prisma.sobrePage.findUnique({ where: { siteKey: CURRENT_SITE } })
+  if (own) return own
+  return prisma.sobrePage.findUnique({ where: { siteKey: 'PRINCIPAL' } })
 }
 
 // ─── SEO ─────────────────────────────────────────────────────────────────────
 
 export async function getPageSeo(pageKey: string) {
-  return prisma.pageSeo.findUnique({ where: { pageKey } })
+  const own = await prisma.pageSeo.findUnique({
+    where: { siteKey_pageKey: { siteKey: CURRENT_SITE, pageKey } },
+  })
+  if (own) return own
+  return prisma.pageSeo.findUnique({
+    where: { siteKey_pageKey: { siteKey: 'PRINCIPAL', pageKey } },
+  })
 }

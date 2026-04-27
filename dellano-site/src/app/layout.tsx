@@ -6,10 +6,9 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { JsonLd } from "@/components/layout/JsonLd";
+import { SITE_URL } from "@/lib/site";
+import { layout as siteLayout, meta as siteMeta } from "@/content";
 import "./globals.css";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://dellanosousa.com.br";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -17,7 +16,7 @@ const attorneyJsonLd = {
   "@context": "https://schema.org",
   "@type": "Attorney",
   name: "Dellano Sousa",
-  alternateName: "Dellano Sousa Advocacia",
+  alternateName: siteLayout.brand.name,
   url: SITE_URL,
   image: `${SITE_URL}/images/dellano/dellano-hero.jpeg`,
   description:
@@ -57,11 +56,10 @@ const attorneyJsonLd = {
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "LegalService",
-  name: "Dellano Sousa Advocacia",
+  name: siteLayout.brand.name,
   url: SITE_URL,
-  logo: `${SITE_URL}/images/brand/logo-header.png`,
-  description:
-    "Escritório de advocacia criminal com atuação especializada em provas digitais, investigação defensiva e cadeia de custódia.",
+  logo: `${SITE_URL}${siteLayout.brand.logoHeader.src}`,
+  description: siteMeta.home.description,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Fortaleza",
@@ -87,25 +85,22 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Dellano Sousa Advocacia",
-    default: "Dellano Sousa Advocacia — Defesa Criminal e Provas Digitais",
+    template: `%s | ${siteLayout.brand.name}`,
+    default: siteMeta.home.ogTitle,
   },
-  description:
-    "Escritório jurídico com atuação especializada em defesa criminal estratégica, provas digitais e investigação defensiva. Atuação nacional.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://dellanosousa.com.br",
-  ),
+  description: siteMeta.home.description,
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    siteName: "Dellano Sousa Advocacia",
+    siteName: siteLayout.brand.name,
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dellano Sousa Advocacia — Defesa Criminal e Provas Digitais",
-    description:
-      "Escritório jurídico com atuação especializada em defesa criminal estratégica, provas digitais e investigação defensiva.",
+    title: siteMeta.home.ogTitle,
+    description: siteMeta.home.description,
   },
   robots: { index: true, follow: true },
 };

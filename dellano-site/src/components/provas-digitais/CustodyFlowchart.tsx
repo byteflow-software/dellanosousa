@@ -6,7 +6,7 @@ type CustodyStep = {
 }
 
 type Props = {
-  steps: CustodyStep[]
+  steps: readonly CustodyStep[]
 }
 
 export function CustodyFlowchart({ steps }: Props) {

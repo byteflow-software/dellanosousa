@@ -10,6 +10,13 @@ rooms:
   keywords:
   - dellano_site
   - dellano-site
+- name: dellano_admin
+  description: Files from dellano-admin/ (painel administrativo Next.js + Prisma)
+  keywords:
+  - dellano_admin
+  - dellano-admin
+  - admin
+  - painel
 - name: planning
   description: Files from specs/
   keywords:

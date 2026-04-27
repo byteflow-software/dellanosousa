@@ -1,6 +1,7 @@
 import { methodSteps } from '@/data/method'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { home } from '@/content'
 
 export function MethodSection() {
   return (
@@ -8,8 +9,8 @@ export function MethodSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <SectionTitle
-            title="Método de Atuação"
-            subtitle="Uma abordagem estruturada e transparente para cada caso, da análise inicial ao acompanhamento final."
+            title={home.method.title}
+            subtitle={home.method.subtitle}
             align="center"
           />
         </AnimatedSection>

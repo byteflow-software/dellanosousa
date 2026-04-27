@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { SiteKey } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import type { ActionResult } from '@/types'
@@ -15,6 +16,7 @@ const PublicacaoSchema = z.object({
   date: z.string().min(4, 'Data obrigatória'),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
   order: z.number().int().default(0),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 type Input = z.infer<typeof PublicacaoSchema>

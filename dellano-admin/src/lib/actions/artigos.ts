@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { SiteKey } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import { ensureTagsByNames } from './tags'
@@ -22,6 +23,7 @@ const ArtigoSchema = z.object({
   author: z.string().default('Dellano Sousa'),
   seoTitle: z.string().max(70).optional().or(z.literal('')),
   seoDesc: z.string().max(160).optional().or(z.literal('')),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 type ArtigoInput = z.infer<typeof ArtigoSchema>
@@ -123,6 +125,7 @@ export async function listArtigos() {
       featured: true,
       publishedAt: true,
       updatedAt: true,
+      sites: true,
       categoria: { select: { name: true, slug: true } },
     },
   })

@@ -2,11 +2,13 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { SiteKey } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import type { ActionResult } from '@/types'
 
 const SeoSchema = z.object({
+  siteKey: z.nativeEnum(SiteKey),
   pageKey: z.string().min(1),
   title: z.string().min(5, 'Título SEO obrigatório').max(70, 'Máximo 70 caracteres'),
   description: z.string().min(10, 'Descrição obrigatória').max(160, 'Máximo 160 caracteres'),
@@ -24,12 +26,12 @@ export async function saveSeo(data: Input): Promise<ActionResult> {
   const parsed = SeoSchema.safeParse(data)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0]?.message || 'Erro de validação' }
 
-  const { pageKey, ogTitle, ogDesc, ...rest } = parsed.data
+  const { siteKey, pageKey, ogTitle, ogDesc, ...rest } = parsed.data
 
   await prisma.pageSeo.upsert({
-    where: { pageKey },
+    where: { siteKey_pageKey: { siteKey, pageKey } },
     update: { ...rest, ogTitle: ogTitle || null, ogDesc: ogDesc || null },
-    create: { pageKey, ...rest, ogTitle: ogTitle || null, ogDesc: ogDesc || null },
+    create: { siteKey, pageKey, ...rest, ogTitle: ogTitle || null, ogDesc: ogDesc || null },
   })
 
   revalidatePath('/seo')
@@ -37,9 +39,11 @@ export async function saveSeo(data: Input): Promise<ActionResult> {
 }
 
 export async function listSeo() {
-  return prisma.pageSeo.findMany({ orderBy: { pageKey: 'asc' } })
+  return prisma.pageSeo.findMany({ orderBy: [{ siteKey: 'asc' }, { pageKey: 'asc' }] })
 }
 
-export async function getSeoByKey(pageKey: string) {
-  return prisma.pageSeo.findUnique({ where: { pageKey } })
+export async function getSeoByKey(siteKey: SiteKey, pageKey: string) {
+  return prisma.pageSeo.findUnique({
+    where: { siteKey_pageKey: { siteKey, pageKey } },
+  })
 }

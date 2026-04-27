@@ -11,6 +11,7 @@ import { services } from '@/data/services'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { cn } from '@/lib/utils'
+import { home } from '@/content'
 
 const iconMap: Record<string, React.ElementType> = {
   Monitor,
@@ -27,8 +28,8 @@ export function ServicesGrid() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <SectionTitle
-            title="Atuação Especializada"
-            subtitle="Núcleos de atuação com profundidade técnica e estratégia jurídica para cada perfil de caso."
+            title={home.services.title}
+            subtitle={home.services.subtitle}
             align="center"
           />
         </AnimatedSection>
@@ -55,7 +56,7 @@ export function ServicesGrid() {
                     {service.description}
                   </p>
                   <span className="mt-4 text-xs font-sans font-medium text-gold group-hover:underline">
-                    Saiba mais →
+                    {home.services.cardCtaLabel}
                   </span>
                 </Link>
               </AnimatedSection>

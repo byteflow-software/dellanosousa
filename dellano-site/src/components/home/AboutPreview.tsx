@@ -2,16 +2,9 @@ import Image from 'next/image'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { home } from '@/content'
 
-const credentials = [
-  'OAB/CE 53.322 | OAB/PI 25.100',
-  'Membro da ABRACRIM',
-  'Coordenador Nacional das Prerrogativas Digitais — ABRACRIM',
-  'Vice-Presidente da Comissão de Direito Digital — ABRACRIM',
-  'Autor — ConJur e Migalhas',
-  'Atuação especializada em Computação Forense',
-  'Atuação Nacional',
-]
+const { about } = home
 
 export function AboutPreview() {
   return (
@@ -21,8 +14,8 @@ export function AboutPreview() {
           <AnimatedSection direction="left" className="relative">
             <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden border border-primary/10 shadow-xl bg-gradient-to-br from-secondary to-primary">
               <Image
-                src="/images/dellano/dellano-about-preview.jpeg"
-                alt="Dellano Sousa"
+                src={about.image.src}
+                alt={about.image.alt}
                 fill
                 className="object-cover object-top"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -33,24 +26,26 @@ export function AboutPreview() {
 
           <AnimatedSection direction="right" delay={0.1}>
             <p className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4">
-              Quem é Dellano Sousa
+              {about.eyebrow}
             </p>
             <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl leading-tight mb-6">
-              Técnica, estratégia e comprometimento na defesa que você merece
+              {about.title}
             </h2>
-            <p className="text-muted text-base leading-relaxed mb-4">
-              Dellano Sousa é advogado criminalista com atuação nacional, dedicado à análise
-              técnica e contestação de provas digitais em processos penais.
-              Coordenador Nacional das Prerrogativas Digitais — ABRACRIM e Vice-Presidente da Comissão de Direito Digital — ABRACRIM.
-            </p>
-            <p className="text-muted text-base leading-relaxed mb-8">
-              Combina o rigor jurídico do processo penal com o conhecimento técnico em computação
-              forense para construir defesas sólidas, identificar irregularidades probatórias e
-              proteger os direitos fundamentais dos clientes.
-            </p>
+            {about.paragraphs.map((p, i) => (
+              <p
+                key={i}
+                className={
+                  i === about.paragraphs.length - 1
+                    ? 'text-muted text-base leading-relaxed mb-8'
+                    : 'text-muted text-base leading-relaxed mb-4'
+                }
+              >
+                {p}
+              </p>
+            ))}
 
             <div className="flex flex-wrap gap-2 mb-8">
-              {credentials.map((c) => (
+              {about.credentials.map((c) => (
                 <Badge key={c} variant="default">
                   {c}
                 </Badge>
@@ -58,7 +53,7 @@ export function AboutPreview() {
             </div>
 
             <Button href="/sobre" variant="outline">
-              Ver perfil completo
+              {about.ctaLabel}
             </Button>
           </AnimatedSection>
         </div>

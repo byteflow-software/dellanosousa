@@ -4,8 +4,10 @@ import { motion } from 'framer-motion'
 import type { Transition } from 'framer-motion'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
+import { home } from '@/content'
 
 const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL || 'https://wa.me/message/PWFG7DRODCD6I1'
+const { hero } = home
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 32 },
@@ -30,32 +32,30 @@ export function Hero() {
               {...fadeUp(0.1)}
               className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4"
             >
-              Escritório de Advocacia Criminal
+              {hero.eyebrow}
             </motion.p>
 
             <motion.h1
               {...fadeUp(0.2)}
               className="font-serif font-semibold text-primary text-3xl md:text-5xl lg:text-6xl leading-tight mb-6"
             >
-              Defesa criminal estratégica com atuação especializada em{' '}
-              <em className="not-italic text-accent">provas digitais</em>
+              {hero.titlePrefix}{' '}
+              <em className="not-italic text-accent">{hero.titleEmphasis}</em>
             </motion.h1>
 
             <motion.p
               {...fadeUp(0.35)}
               className="font-sans text-muted text-base md:text-lg leading-relaxed mb-8 max-w-xl"
             >
-              Atuação jurídica especializada em evidências digitais, investigação defensiva e
-              construção de teses técnicas para proteção da liberdade, da reputação e do
-              patrimônio.
+              {hero.description}
             </motion.p>
 
             <motion.div {...fadeUp(0.5)} className="flex flex-wrap gap-4">
               <Button href="/contato" variant="outline" size="lg">
-                Agendar consulta
+                {hero.ctaSecondaryLabel}
               </Button>
               <Button href={WHATSAPP_URL} external variant="primary" size="lg">
-                Atendimento urgente
+                {hero.ctaPrimaryLabel}
               </Button>
             </motion.div>
           </div>
@@ -69,8 +69,8 @@ export function Hero() {
             <div className="relative w-72 h-80 md:w-96 md:h-[480px] lg:w-[420px] lg:h-[520px]">
               <div className="absolute inset-0 rounded-2xl overflow-hidden border border-primary/10 shadow-2xl bg-gradient-to-br from-secondary to-primary">
                 <Image
-                  src="/images/dellano/dellano-hero.jpeg"
-                  alt="Dellano Sousa — Advogado Criminal e Especialista em Provas Digitais"
+                  src={hero.image.src}
+                  alt={hero.image.alt}
                   fill
                   className="object-cover object-top"
                   priority

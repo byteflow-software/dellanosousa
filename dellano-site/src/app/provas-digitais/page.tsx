@@ -6,97 +6,14 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { ComparisonTable } from '@/components/provas-digitais/ComparisonTable'
 import { CustodyFlowchart } from '@/components/provas-digitais/CustodyFlowchart'
+import { meta, pages } from '@/content'
+
+const { provasDigitais: pd } = pages
 
 export const metadata: Metadata = {
-  title: 'Provas Digitais',
-  description:
-    'Especialização em evidências digitais, cadeia de custódia, análise forense e contestação de provas tecnológicas em processos penais.',
+  title: meta.provasDigitais.title,
+  description: meta.provasDigitais.description,
 }
-
-const evidenceTypes = [
-  { title: 'Dispositivos Móveis', desc: 'Extração e análise de smartphones, tablets e wearables' },
-  { title: 'Interceptações', desc: 'Telefônicas, telemáticas e análise de registros de comunicação' },
-  { title: 'Mensagens e Apps', desc: 'WhatsApp, Telegram, Signal, e-mails e redes sociais' },
-  { title: 'Armazenamento em Nuvem', desc: 'Google Drive, iCloud, OneDrive e serviços similares' },
-  { title: 'Documentos Digitais', desc: 'PDFs, planilhas, contratos e registros eletrônicos' },
-  { title: 'Metadados e Logs', desc: 'Registros de acesso, geolocalização e trilhas digitais' },
-]
-
-const deliverables = [
-  'Parecer técnico-jurídico sobre validade das provas',
-  'Análise crítica de laudos periciais oficiais',
-  'Elaboração de quesitos periciais especializados',
-  'Relatório de investigação defensiva digital',
-  'Documentação de cadeia de custódia',
-  'Apoio técnico em audiências e sustentações',
-]
-
-const custodySteps = [
-  {
-    step: '1',
-    title: 'Reconhecimento',
-    article: 'Art. 158-B, I, CPP',
-    description: 'Identificação e classificação da evidência digital com descrição precisa do dispositivo ou dado.',
-  },
-  {
-    step: '2',
-    title: 'Isolamento',
-    article: 'Art. 158-B, II, CPP',
-    description: 'Preservação do estado original por meio de técnicas antiescrita e bloqueio de conexões externas.',
-  },
-  {
-    step: '3',
-    title: 'Fixação',
-    article: 'Art. 158-B, III, CPP',
-    description: 'Registro fotográfico, descritivo e por hash criptográfico (MD5, SHA-256) do material apreendido.',
-  },
-  {
-    step: '4',
-    title: 'Coleta',
-    article: 'Art. 158-B, IV, CPP',
-    description: 'Aquisição forense bit a bit por profissional habilitado, com documentação de ferramenta e metodologia.',
-  },
-  {
-    step: '5',
-    title: 'Acondicionamento e transporte',
-    article: 'Art. 158-B, V e VI, CPP',
-    description: 'Embalagem adequada com lacre numerado e cadeia documental de transferência entre custodiantes.',
-  },
-  {
-    step: '6',
-    title: 'Recebimento e processamento',
-    article: 'Art. 158-B, VII e VIII, CPP',
-    description: 'Conferência de lacres, nova verificação de hash e início do processamento pericial com registro em livro próprio.',
-  },
-  {
-    step: '7',
-    title: 'Armazenamento e descarte',
-    article: 'Arts. 158-B, IX, X e 158-F, CPP',
-    description: 'Guarda em ambiente controlado até decisão judicial definitiva sobre descarte, devolução ou destruição.',
-  },
-]
-
-const norms = [
-  {
-    title: 'Código de Processo Penal',
-    refs: [
-      'Art. 158-A — definição de cadeia de custódia',
-      'Art. 158-B — 10 etapas da cadeia de custódia',
-      'Art. 158-C — responsável pela coleta',
-      'Arts. 158-D a 158-F — acondicionamento, custódia e descarte',
-    ],
-  },
-  {
-    title: 'Normas técnicas internacionais',
-    refs: [
-      'ISO/IEC 27037:2012 — identificação, coleta e preservação',
-      'ISO/IEC 27041:2015 — garantia de adequação do método investigativo',
-      'ISO/IEC 27042:2015 — análise e interpretação de evidências digitais',
-      'ISO/IEC 27043:2015 — princípios e processos de investigação',
-      'NIST SP 800-86 — Guia de Integração de Forense em Resposta a Incidentes',
-    ],
-  },
-]
 
 export default function ProvasDigitaisPage() {
   return (
@@ -104,14 +21,12 @@ export default function ProvasDigitaisPage() {
       <section className="py-20 md:py-28 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <Badge variant="light" className="mb-6">Especialidade Principal</Badge>
+            <Badge variant="light" className="mb-6">{pd.hero.badge}</Badge>
             <h1 className="font-serif font-semibold text-white text-3xl md:text-5xl lg:text-6xl leading-tight mb-6">
-              Provas Digitais
+              {pd.hero.title}
             </h1>
             <p className="text-white/70 text-base md:text-lg leading-relaxed">
-              Análise técnica e jurídica especializada em evidências digitais para defesa criminal.
-              Identificamos irregularidades, contestamos laudos e produzimos pareceres que fazem a
-              diferença no resultado do processo.
+              {pd.hero.description}
             </p>
           </div>
         </div>
@@ -122,23 +37,20 @@ export default function ProvasDigitaisPage() {
           <AnimatedSection>
             <div className="max-w-3xl mb-16">
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
-                O que são provas digitais?
+                {pd.intro.title}
               </h2>
               <p className="text-muted text-base leading-relaxed">
-                Provas digitais são evidências em formato eletrônico — mensagens, arquivos, registros
-                de acesso, metadados, extrações de dispositivos — usadas para sustentar teses no
-                processo penal. Sua validade jurídica depende diretamente dos procedimentos técnicos
-                adotados na coleta, preservação e apresentação.
+                {pd.intro.description}
               </p>
             </div>
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
             <h2 className="font-serif font-semibold text-primary text-2xl mb-8">
-              Tipos de evidência digital
+              {pd.evidenceTypesTitle}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {evidenceTypes.map((e) => (
+              {pd.evidenceTypes.map((e) => (
                 <div key={e.title} className="p-5 rounded-lg border border-primary/10 bg-background">
                   <h3 className="font-sans font-semibold text-primary text-sm mb-1">{e.title}</h3>
                   <p className="text-muted text-xs leading-relaxed">{e.desc}</p>
@@ -153,13 +65,12 @@ export default function ProvasDigitaisPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="max-w-3xl mb-8">
-              <Badge variant="accent" className="mb-4">Comparativo</Badge>
+              <Badge variant="accent" className="mb-4">{pd.comparison.badge}</Badge>
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
-                Tipos de evidência digital e sua força probatória
+                {pd.comparison.title}
               </h2>
               <p className="text-muted text-base leading-relaxed">
-                Nem toda evidência digital tem o mesmo peso jurídico. A validade de cada tipo depende
-                diretamente dos procedimentos de coleta, preservação e apresentação.
+                {pd.comparison.description}
               </p>
             </div>
             <ComparisonTable />
@@ -171,7 +82,7 @@ export default function ProvasDigitaisPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <h2 className="font-serif font-semibold text-white text-2xl md:text-4xl mb-8">
-              Riscos que comprometem a prova digital
+              {pd.risksTitle}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {risks.map((risk) => (
@@ -189,20 +100,18 @@ export default function ProvasDigitaisPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="max-w-3xl mb-12">
-              <Badge variant="accent" className="mb-4">Arts. 158-A a 158-F do CPP</Badge>
+              <Badge variant="accent" className="mb-4">{pd.custody.badge}</Badge>
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
-                Cadeia de custódia da prova digital
+                {pd.custody.title}
               </h2>
               <p className="text-muted text-base leading-relaxed">
-                A Lei nº 13.964/2019 (Pacote Anticrime) instituiu no Código de Processo Penal as dez etapas
-                obrigatórias da cadeia de custódia. Qualquer ruptura documental pode comprometer a
-                confiabilidade da prova e ser objeto de impugnação técnica pela defesa.
+                {pd.custody.description}
               </p>
             </div>
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
-            <CustodyFlowchart steps={custodySteps} />
+            <CustodyFlowchart steps={pd.custody.steps} />
           </AnimatedSection>
         </div>
       </section>
@@ -212,11 +121,10 @@ export default function ProvasDigitaisPage() {
           <AnimatedSection>
             <div className="max-w-3xl mb-10">
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
-                Ferramentas forenses de referência
+                {pd.tools.title}
               </h2>
               <p className="text-muted text-base leading-relaxed">
-                Trabalhamos com ferramentas padrão de mercado e analisamos laudos produzidos com estas
-                soluções, identificando limitações conhecidas e eventuais desvios metodológicos.
+                {pd.tools.description}
               </p>
             </div>
           </AnimatedSection>
@@ -240,18 +148,17 @@ export default function ProvasDigitaisPage() {
           <AnimatedSection>
             <div className="max-w-3xl mb-10">
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-4">
-                Base normativa aplicável
+                {pd.norms.title}
               </h2>
               <p className="text-muted text-base leading-relaxed">
-                A análise técnica observa tanto a legislação processual brasileira quanto as normas
-                técnicas internacionais reconhecidas para perícia forense digital.
+                {pd.norms.description}
               </p>
             </div>
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {norms.map((n) => (
+              {pd.norms.groups.map((n) => (
                 <div key={n.title} className="p-6 rounded-lg border border-primary/10 bg-background">
                   <h3 className="font-sans font-semibold text-primary text-sm mb-3">{n.title}</h3>
                   <ul className="space-y-2">
@@ -274,27 +181,21 @@ export default function ProvasDigitaisPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <AnimatedSection>
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-6">
-                Como atuamos
+                {pd.howWeWork.title}
               </h2>
               <div className="space-y-4 text-muted text-sm leading-relaxed">
-                <p>
-                  O escritório realiza análise técnica independente de todas as evidências digitais
-                  do processo, identificando irregularidades na cadeia de custódia, erros metodológicos
-                  nos laudos periciais e dados descontextualizados pela acusação.
-                </p>
-                <p>
-                  Trabalhamos com ferramentas forenses profissionais e metodologia reconhecida
-                  internacionalmente para produzir pareceres com solidez técnica e força jurídica.
-                </p>
+                {pd.howWeWork.paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
               </div>
             </AnimatedSection>
 
             <AnimatedSection delay={0.1}>
               <h2 className="font-serif font-semibold text-primary text-2xl md:text-4xl mb-6">
-                O que entregamos
+                {pd.deliverables.title}
               </h2>
               <ul className="space-y-3">
-                {deliverables.map((d) => (
+                {pd.deliverables.items.map((d) => (
                   <li key={d} className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0" aria-hidden="true" />
                     <span className="text-primary text-sm leading-relaxed">{d}</span>
@@ -306,7 +207,7 @@ export default function ProvasDigitaisPage() {
 
           <AnimatedSection delay={0.2} className="mt-12 text-center">
             <Button href="/contato" variant="primary" size="lg">
-              Solicitar análise técnica
+              {pd.finalCtaLabel}
             </Button>
           </AnimatedSection>
         </div>

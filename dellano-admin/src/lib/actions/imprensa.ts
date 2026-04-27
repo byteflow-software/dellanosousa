@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { SiteKey } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import type { ActionResult } from '@/types'
@@ -14,6 +15,7 @@ const ImprensaSchema = z.object({
   url: z.string().url('URL inválida').optional().or(z.literal('')),
   description: z.string().optional().or(z.literal('')),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 type Input = z.infer<typeof ImprensaSchema>

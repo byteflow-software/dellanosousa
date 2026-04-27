@@ -34,6 +34,15 @@ enum FaqCategory {
   HONORARIOS
 }
 
+enum SiteKey {
+  PRINCIPAL
+  MARCA
+  PERITO
+  PROVA_DIGITAL
+  CRIMINAL
+  CRIMINAL_CE
+}
+
 // ─── Models ──────────────────────────────────────────────────────────────────
 
 model AdminUser {
@@ -61,6 +70,7 @@ model Artigo {
   author      String          @default("Dellano Sousa")
   seoTitle    String?
   seoDesc     String?
+  sites       SiteKey[]       @default([PRINCIPAL, MARCA, PERITO, PROVA_DIGITAL, CRIMINAL, CRIMINAL_CE])
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
@@ -98,6 +108,7 @@ model Publicacao {
   date      String
   status    ContentStatus  @default(PUBLISHED)
   order     Int            @default(0)
+  sites     SiteKey[]      @default([PRINCIPAL, MARCA, PERITO, PROVA_DIGITAL, CRIMINAL, CRIMINAL_CE])
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 
@@ -112,6 +123,7 @@ model Imprensa {
   url         String?
   description String?
   status      ContentStatus @default(PUBLISHED)
+  sites       SiteKey[]     @default([PRINCIPAL, MARCA, PERITO, PROVA_DIGITAL, CRIMINAL, CRIMINAL_CE])
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
@@ -128,6 +140,7 @@ model Evento {
   role        String?
   description String?
   status      ContentStatus @default(PUBLISHED)
+  sites       SiteKey[]     @default([PRINCIPAL, MARCA, PERITO, PROVA_DIGITAL, CRIMINAL, CRIMINAL_CE])
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
@@ -146,8 +159,10 @@ model MembroEquipe {
   expertise String[]
   order     Int      @default(0)
   active    Boolean  @default(true)
+  sites     SiteKey[] @default([PRINCIPAL, MARCA, PERITO, PROVA_DIGITAL, CRIMINAL, CRIMINAL_CE])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
 }
 
 model FaqItem {
@@ -157,6 +172,7 @@ model FaqItem {
   answer    String
   order     Int         @default(0)
   active    Boolean     @default(true)
+  sites     SiteKey[]   @default([PRINCIPAL, MARCA, PERITO, PROVA_DIGITAL, CRIMINAL, CRIMINAL_CE])
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 
@@ -165,6 +181,7 @@ model FaqItem {
 
 model SobrePage {
   id          String   @id @default(cuid())
+  siteKey     SiteKey  @unique @default(PRINCIPAL)
   bioText     String
   credentials String[]
   lectures    String[]
@@ -173,11 +190,15 @@ model SobrePage {
 
 model PageSeo {
   id          String   @id @default(cuid())
-  pageKey     String   @unique
+  siteKey     SiteKey  @default(PRINCIPAL)
+  pageKey     String
   title       String
   description String
   ogTitle     String?
   ogDesc      String?
   noIndex     Boolean  @default(false)
   updatedAt   DateTime @updatedAt
+
+  @@unique([siteKey, pageKey])
+  @@index([siteKey])
 }

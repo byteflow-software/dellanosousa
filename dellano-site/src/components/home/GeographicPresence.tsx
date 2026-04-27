@@ -1,5 +1,6 @@
 import { MapPin } from 'lucide-react'
 import { cities } from '@/data/cities'
+import { home } from '@/content'
 
 export function GeographicPresence() {
   return (
@@ -7,7 +8,7 @@ export function GeographicPresence() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
           <p className="font-sans text-sm font-semibold text-muted uppercase tracking-widest mr-4">
-            Presença nacional
+            {home.geographicPresence.label}
           </p>
           {cities.map((city, i) => (
             <span key={city.name} className="flex items-center gap-1 text-sm text-muted font-sans">

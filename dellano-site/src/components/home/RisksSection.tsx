@@ -1,6 +1,9 @@
 import { ImageOff, SmartphoneNfc, CloudOff, FileWarning, AlertTriangle } from 'lucide-react'
 import { risks } from '@/data/risks'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { home } from '@/content'
+
+const { risks: risksCopy } = home
 
 const iconMap: Record<string, React.ElementType> = {
   ImageOff,
@@ -17,14 +20,13 @@ export function RisksSection() {
         <AnimatedSection>
           <div className="mb-12 text-center">
             <p className="font-sans text-sm font-semibold text-gold uppercase tracking-widest mb-4">
-              Atenção
+              {risksCopy.eyebrow}
             </p>
             <h2 className="font-serif font-semibold text-white text-2xl md:text-4xl leading-tight max-w-2xl mx-auto">
-              Sua prova pode ser decisiva. Ou pode ser descartada.
+              {risksCopy.title}
             </h2>
             <p className="text-white/60 text-base mt-4 max-w-xl mx-auto">
-              Irregularidades na obtenção e apresentação de evidências digitais comprometem todo o
-              processo. Conheça os principais riscos.
+              {risksCopy.description}
             </p>
           </div>
         </AnimatedSection>
