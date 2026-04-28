@@ -7,7 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import type { Imprensa } from '@prisma/client'
+import { SiteKey } from '@prisma/client'
 import { createImprensa, updateImprensa, deleteImprensa } from '@/lib/actions/imprensa'
+import { SitePicker } from '@/components/admin/SitePicker'
+import { ALL_SITES } from '@/lib/sites'
 
 const schema = z.object({
   outlet: z.string().min(1, 'Veículo obrigatório'),
@@ -16,6 +19,7 @@ const schema = z.object({
   url: z.string().optional(),
   description: z.string().optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 type FormData = z.infer<typeof schema>
@@ -31,7 +35,7 @@ export function ImprensaForm({ item, id, isEdit }: Props) {
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       outlet: item?.outlet ?? '',
@@ -40,8 +44,11 @@ export function ImprensaForm({ item, id, isEdit }: Props) {
       url: item?.url ?? '',
       description: item?.description ?? '',
       status: item?.status ?? 'PUBLISHED',
+      sites: item?.sites ?? ALL_SITES,
     },
   })
+
+  const sites = watch('sites') ?? ALL_SITES
 
   async function onSubmit(data: FormData) {
     setSaving(true)
@@ -102,6 +109,12 @@ export function ImprensaForm({ item, id, isEdit }: Props) {
           </select>
         </div>
       </div>
+
+      <SitePicker
+        value={sites}
+        onChange={(next) => setValue('sites', next, { shouldValidate: true })}
+        hint="O item aparecerá apenas nos sites selecionados"
+      />
 
       <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.5rem' }}>
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary"><Save size={14} />{saving ? 'Salvando…' : 'Salvar'}</button>

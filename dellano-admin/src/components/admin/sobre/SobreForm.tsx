@@ -5,9 +5,11 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, AlertCircle, CheckCircle } from 'lucide-react'
+import { SiteKey } from '@prisma/client'
 import { saveSobre } from '@/lib/actions/sobre'
 
 const schema = z.object({
+  siteKey: z.nativeEnum(SiteKey),
   bioText: z.string().min(20, 'Biografia obrigatória'),
   credentials: z.string().min(1, 'Credenciais obrigatórias'),
   lectures: z.string(),
@@ -16,10 +18,11 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 interface Props {
+  siteKey: SiteKey
   initial?: { bioText: string; credentials: string[]; lectures: string[] }
 }
 
-export function SobreForm({ initial }: Props) {
+export function SobreForm({ siteKey, initial }: Props) {
   const [serverError, setServerError] = useState('')
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -27,6 +30,7 @@ export function SobreForm({ initial }: Props) {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
+      siteKey,
       bioText: initial?.bioText ?? '',
       credentials: initial?.credentials?.join('\n') ?? '',
       lectures: initial?.lectures?.join('\n') ?? '',
@@ -48,6 +52,8 @@ export function SobreForm({ initial }: Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="admin-form">
       {serverError && <div className="admin-alert admin-alert-error"><AlertCircle size={15} />{serverError}</div>}
       {saved && <div className="admin-alert admin-alert-success"><CheckCircle size={15} />Salvo com sucesso!</div>}
+
+      <input type="hidden" {...register('siteKey')} />
 
       <div className="admin-form-group">
         <label className="admin-form-label">Biografia / Texto principal *</label>

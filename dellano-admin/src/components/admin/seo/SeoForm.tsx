@@ -6,9 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, AlertCircle, CheckCircle } from 'lucide-react'
 import type { PageSeo } from '@prisma/client'
+import { SiteKey } from '@prisma/client'
 import { saveSeo } from '@/lib/actions/seo'
 
 const schema = z.object({
+  siteKey: z.nativeEnum(SiteKey),
   pageKey: z.string(),
   title: z.string().min(5).max(70),
   description: z.string().min(10).max(160),
@@ -18,6 +20,7 @@ const schema = z.object({
 })
 
 interface FormData {
+  siteKey: SiteKey
   pageKey: string
   title: string
   description: string
@@ -39,6 +42,7 @@ export function SeoForm({ page, pageLabel }: Props) {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
+      siteKey: page.siteKey,
       pageKey: page.pageKey,
       title: page.title,
       description: page.description,
@@ -67,6 +71,7 @@ export function SeoForm({ page, pageLabel }: Props) {
       {serverError && <div className="admin-alert admin-alert-error"><AlertCircle size={15} />{serverError}</div>}
       {saved && <div className="admin-alert admin-alert-success"><CheckCircle size={15} />Salvo!</div>}
 
+      <input type="hidden" {...register('siteKey')} />
       <input type="hidden" {...register('pageKey')} />
 
       <div

@@ -6,10 +6,13 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle, Eye, X } from 'lucide-react'
+import { SiteKey } from '@prisma/client'
 import { slugify } from '@/lib/utils'
 import { createArtigo, updateArtigo, deleteArtigo } from '@/lib/actions/artigos'
 import { RichTextEditor } from '@/components/admin/editor/RichTextEditor'
 import { ImageUploader } from '@/components/admin/upload/ImageUploader'
+import { SitePicker } from '@/components/admin/SitePicker'
+import { ALL_SITES } from '@/lib/sites'
 import { ArtigoPreview } from './ArtigoPreview'
 
 const schema = z.object({
@@ -26,6 +29,7 @@ const schema = z.object({
   author: z.string(),
   seoTitle: z.string().max(70).optional(),
   seoDesc: z.string().max(160).optional(),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 interface FormData {
@@ -42,6 +46,7 @@ interface FormData {
   author: string
   seoTitle?: string
   seoDesc?: string
+  sites: SiteKey[]
 }
 
 interface CategoriaOption { id: string; name: string }
@@ -61,6 +66,7 @@ interface ArtigoFormData {
   author: string
   seoTitle: string | null
   seoDesc: string | null
+  sites?: SiteKey[]
   tags: TagOption[]
 }
 
@@ -98,8 +104,11 @@ export function ArtigoForm({ artigo, id, isEdit, categorias, tagsDisponiveis }: 
       author: artigo?.author || 'Dellano Sousa',
       seoTitle: artigo?.seoTitle ?? '',
       seoDesc: artigo?.seoDesc ?? '',
+      sites: artigo?.sites ?? ALL_SITES,
     },
   })
+
+  const sites = watch('sites') ?? ALL_SITES
 
   const title = watch('title')
   const coverImage = watch('coverImage')
@@ -338,6 +347,12 @@ export function ArtigoForm({ artigo, id, isEdit, categorias, tagsDisponiveis }: 
         <input {...register('featured')} type="checkbox" className="admin-form-checkbox" />
         <span className="admin-form-checkbox-label">Artigo em destaque</span>
       </label>
+
+      <SitePicker
+        value={sites}
+        onChange={(next) => setValue('sites', next, { shouldValidate: true })}
+        hint="O artigo aparecerá apenas nos sites selecionados"
+      />
 
       <div className="admin-form-section-title">SEO</div>
       <div className="admin-form-grid">

@@ -7,7 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import type { Publicacao } from '@prisma/client'
+import { SiteKey } from '@prisma/client'
 import { createPublicacao, updatePublicacao, deletePublicacao } from '@/lib/actions/publicacoes'
+import { SitePicker } from '@/components/admin/SitePicker'
+import { ALL_SITES } from '@/lib/sites'
 
 const schema = z.object({
   title: z.string().min(3, 'Título obrigatório'),
@@ -17,6 +20,7 @@ const schema = z.object({
   date: z.string().min(4, 'Data obrigatória'),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
   order: z.number().int(),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 interface FormData {
@@ -27,6 +31,7 @@ interface FormData {
   date: string
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   order: number
+  sites: SiteKey[]
 }
 
 interface Props {
@@ -40,7 +45,7 @@ export function PublicacaoForm({ publicacao, id, isEdit }: Props) {
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: publicacao?.title ?? '',
@@ -50,8 +55,11 @@ export function PublicacaoForm({ publicacao, id, isEdit }: Props) {
       date: publicacao?.date ?? '',
       status: publicacao?.status ?? 'PUBLISHED',
       order: publicacao?.order ?? 0,
+      sites: publicacao?.sites ?? ALL_SITES,
     },
   })
+
+  const sites = watch('sites') ?? ALL_SITES
 
   async function onSubmit(data: FormData) {
     setSaving(true)
@@ -121,6 +129,12 @@ export function PublicacaoForm({ publicacao, id, isEdit }: Props) {
           <input {...register('order')} type="number" className="admin-form-input" min={0} />
         </div>
       </div>
+
+      <SitePicker
+        value={sites}
+        onChange={(next) => setValue('sites', next, { shouldValidate: true })}
+        hint="A publicação aparecerá apenas nos sites selecionados"
+      />
 
       <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.5rem' }}>
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary">

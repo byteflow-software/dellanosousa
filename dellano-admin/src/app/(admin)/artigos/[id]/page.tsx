@@ -41,6 +41,7 @@ export default async function EditArtigoPage({ params }: { params: Promise<{ id:
             author: artigo.author,
             seoTitle: artigo.seoTitle,
             seoDesc: artigo.seoDesc,
+            sites: artigo.sites,
             tags: artigo.tags.map((t) => ({ id: t.id, name: t.name })),
           }}
           id={id}

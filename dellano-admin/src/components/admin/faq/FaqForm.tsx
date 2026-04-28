@@ -7,7 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import type { FaqItem } from '@prisma/client'
+import { SiteKey } from '@prisma/client'
 import { createFaq, updateFaq, deleteFaq } from '@/lib/actions/faq'
+import { SitePicker } from '@/components/admin/SitePicker'
+import { ALL_SITES } from '@/lib/sites'
 
 const schema = z.object({
   category: z.enum(['GERAL', 'PROVAS_DIGITAIS', 'INVESTIGACAO', 'HONORARIOS']),
@@ -15,6 +18,7 @@ const schema = z.object({
   answer: z.string().min(10, 'Resposta obrigatória'),
   order: z.number().int(),
   active: z.boolean(),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 interface FormData {
@@ -23,6 +27,7 @@ interface FormData {
   answer: string
   order: number
   active: boolean
+  sites: SiteKey[]
 }
 
 interface Props {
@@ -36,7 +41,7 @@ export function FaqForm({ item, id, isEdit }: Props) {
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       category: item?.category ?? 'GERAL',
@@ -44,8 +49,11 @@ export function FaqForm({ item, id, isEdit }: Props) {
       answer: item?.answer ?? '',
       order: item?.order ?? 0,
       active: item?.active ?? true,
+      sites: item?.sites ?? ALL_SITES,
     },
   })
+
+  const sites = watch('sites') ?? ALL_SITES
 
   async function onSubmit(data: FormData) {
     setSaving(true)
@@ -101,6 +109,12 @@ export function FaqForm({ item, id, isEdit }: Props) {
         <input {...register('active')} type="checkbox" className="admin-form-checkbox" />
         <span className="admin-form-checkbox-label">Pergunta ativa (visível no site)</span>
       </label>
+
+      <SitePicker
+        value={sites}
+        onChange={(next) => setValue('sites', next, { shouldValidate: true })}
+        hint="A pergunta aparecerá apenas nos sites selecionados"
+      />
 
       <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.5rem' }}>
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary"><Save size={14} />{saving ? 'Salvando…' : 'Salvar'}</button>

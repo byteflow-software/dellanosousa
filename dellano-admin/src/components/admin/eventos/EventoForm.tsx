@@ -7,7 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Save, Trash2, AlertCircle } from 'lucide-react'
 import type { Evento } from '@prisma/client'
+import { SiteKey } from '@prisma/client'
 import { createEvento, updateEvento, deleteEvento } from '@/lib/actions/eventos'
+import { SitePicker } from '@/components/admin/SitePicker'
+import { ALL_SITES } from '@/lib/sites'
 
 const schema = z.object({
   title: z.string().min(3, 'Título obrigatório'),
@@ -18,6 +21,7 @@ const schema = z.object({
   role: z.string().optional(),
   description: z.string().optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
+  sites: z.array(z.nativeEnum(SiteKey)).min(1, 'Selecione ao menos um site'),
 })
 
 type FormData = z.infer<typeof schema>
@@ -33,7 +37,7 @@ export function EventoForm({ evento, id, isEdit }: Props) {
   const [serverError, setServerError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: evento?.title ?? '',
@@ -44,8 +48,11 @@ export function EventoForm({ evento, id, isEdit }: Props) {
       role: evento?.role ?? '',
       description: evento?.description ?? '',
       status: evento?.status ?? 'PUBLISHED',
+      sites: evento?.sites ?? ALL_SITES,
     },
   })
+
+  const sites = watch('sites') ?? ALL_SITES
 
   async function onSubmit(data: FormData) {
     setSaving(true)
@@ -122,6 +129,12 @@ export function EventoForm({ evento, id, isEdit }: Props) {
           <textarea {...register('description')} className="admin-form-textarea" rows={3} placeholder="Breve descrição do evento…" />
         </div>
       </div>
+
+      <SitePicker
+        value={sites}
+        onChange={(next) => setValue('sites', next, { shouldValidate: true })}
+        hint="O evento aparecerá apenas nos sites selecionados"
+      />
 
       <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.5rem' }}>
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary"><Save size={14} />{saving ? 'Salvando…' : 'Salvar'}</button>
